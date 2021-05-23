@@ -9,13 +9,14 @@ import {
   RankingScreen,
   ProfileScreen,
   SettingsScreen,
+  PairDeviceScreen,
 } from '../../screens';
 
 const Tab = createBottomTabNavigator();
 
 const iconsForTabs = {
   home: 'home',
-  aim: 'aim',
+  pairdevice: 'aim',
   ranking: 'trophy',
   profile: 'user',
   settings: 'setting',
@@ -41,7 +42,7 @@ const TabNavigation = () => (
     }}
   >
     <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Aim" component={AimScreen} />
+    <Tab.Screen name="PairDevice" component={PairDeviceScreen} />
     <Tab.Screen name="Ranking" component={RankingScreen} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
     <Tab.Screen name="Settings" component={SettingsScreen} />

@@ -6,6 +6,9 @@ import { TextInput } from './TextInput';
 import { ScreenContainer } from './ScreenContainer';
 import { Title } from './Title';
 import { ProfilePic } from './ProfilePic';
+import { Separator } from './Separator';
+import { ResultText } from './ResultText';
+import { GunCard } from './GunCard';
 
 export {
   ActivityCard,
@@ -16,4 +19,7 @@ export {
   ScreenContainer,
   Title,
   ProfilePic,
+  Separator,
+  ResultText,
+  GunCard,
 };

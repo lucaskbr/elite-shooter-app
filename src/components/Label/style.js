@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 const Label = styled.Text`
-  font-weight: bold;
+  font-family: 'Exo2_800ExtraBold';
 `;
 
 const S = {

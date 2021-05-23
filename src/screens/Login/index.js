@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { Image } from 'react-native';
+
 import {
   ScreenContainer,
   Button,
   TextInput,
   InputGroup,
   Label,
+  Separator,
 } from '../../components';
-import logoPath from '../../../assets/logo.svg';
+
+import logoPath from '../../../assets/logo.png';
+import { S } from './style';
 
 const LoginScreen = (props) => {
   const { navigation } = props;
@@ -16,22 +19,26 @@ const LoginScreen = (props) => {
   // call the route to get user info and set in state
 
   return (
-    <ScreenContainer>
-      <Image source={logoPath} height={50} />
-      <InputGroup>
-        <Label text="e-mail:" />
-        <TextInput type="text" placeholder="teste@email.com" />
-      </InputGroup>
-      <InputGroup>
-        <Label text="senha:" />
-        <TextInput type="password" />
-      </InputGroup>
-      <Button
-        text="Login"
-        onPress={() =>
-          navigate('Home', { names: ['Brent', 'Satya', 'Michaś'] })
-        }
-      />
+    <ScreenContainer paddingHorizontal={15}>
+      <S.Login>
+        <S.Logo source={logoPath} />
+        <InputGroup>
+          <Label text="e-mail:" />
+          <TextInput type="text" placeholder="teste@email.com" />
+        </InputGroup>
+        <Separator height={10} />
+        <InputGroup>
+          <Label text="senha:" />
+          <TextInput type="password" />
+        </InputGroup>
+        <Separator height={20} />
+        <Button
+          text="Login"
+          onPress={() =>
+            navigate('Home', { names: ['Brent', 'Satya', 'Michaś'] })
+          }
+        />
+      </S.Login>
     </ScreenContainer>
   );
 };

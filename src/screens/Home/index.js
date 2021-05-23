@@ -6,6 +6,7 @@ import {
   ActivityCard,
   Title,
   ProfilePic,
+  Separator,
 } from '../../components';
 
 import userPicPath from '../../../assets/dash.png';
@@ -73,14 +74,7 @@ const HomeScreen = () => (
           <Title text="Atividades recentes" />
         </View>
       }
-      ItemSeparatorComponent={() => (
-        <View
-          style={{
-            height: 10,
-            width: '100%',
-          }}
-        />
-      )}
+      ItemSeparatorComponent={() => <Separator height={10} />}
       data={activityList}
       keyExtractor={(item, index) => `${item.id}${index}`}
       renderItem={({ item }) => (

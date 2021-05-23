@@ -1,8 +1,7 @@
 import styled from 'styled-components/native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-const ScreenContainer = styled.SafeAreaView`
-  height: 100%;
+const Separator = styled.View`
+  height: ${(props) => props.height && props.height};
   width: 100%;
   background: #ffffff;
   padding-right: ${(props) =>
@@ -16,7 +15,7 @@ const ScreenContainer = styled.SafeAreaView`
 `;
 
 const S = {
-  ScreenContainer,
+  Separator,
 };
 
 export { S };

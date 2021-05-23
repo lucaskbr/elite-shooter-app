@@ -1,6 +1,8 @@
-import * as React from "react";
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as React from 'react';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+
+import { Text, View } from 'react-native';
 
 import {
   Exo2_100Thin,
@@ -21,13 +23,13 @@ import {
   Exo2_700Bold_Italic,
   Exo2_800ExtraBold_Italic,
   Exo2_900Black_Italic,
-} from "@expo-google-fonts/exo-2";
-import { Navigations } from "./src/navigations";
+} from '@expo-google-fonts/exo-2';
+import { Navigations } from './src/navigations';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    antoutline: require("@ant-design/icons-react-native/fonts/antoutline.ttf"),
-    antfill: require("@ant-design/icons-react-native/fonts/antfill.ttf"),
+    antoutline: require('@ant-design/icons-react-native/fonts/antoutline.ttf'),
+    antfill: require('@ant-design/icons-react-native/fonts/antfill.ttf'),
     Exo2_100Thin,
     Exo2_200ExtraLight,
     Exo2_300Light,
@@ -54,6 +56,7 @@ export default function App() {
 
   return (
     <>
+      <View style={{ height: 30 }} />
       <Navigations />
     </>
   );
