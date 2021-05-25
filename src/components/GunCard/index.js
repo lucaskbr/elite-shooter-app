@@ -2,16 +2,15 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import { S } from './style';
-import { ResultText } from '../ResultText';
 
 const GunCard = (props) => {
   const { modality, date, place, ...rest } = props;
 
   return (
     <S.GunCard {...rest}>
-      <ResultText label="" result="Taurus XXXX" />
-      <ResultText label="" result="XXXX" />
-      <ResultText label="" result="0000" />
+      <S.Model>Taurus XXXX</S.Model>
+      <S.Serie>PJH8800</S.Serie>
+      <S.Points>000000</S.Points>
     </S.GunCard>
   );
 };

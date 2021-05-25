@@ -10,8 +10,24 @@ const GunCard = styled.TouchableOpacity`
   border-radius: 4px;
 `;
 
+
+const Model = styled.Text`
+  font-family: 'Exo2_700Bold';
+`;
+
+const Serie = styled.Text`
+  font-family: 'Exo2_300Light';
+`;
+
+const Points = styled.Text`
+  font-family: 'Exo2_300Light';
+`;
+
 const S = {
   GunCard,
+  Model,
+  Serie,
+  Points
 };
 
 export { S };
