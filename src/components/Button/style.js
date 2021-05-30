@@ -15,7 +15,6 @@ const Button = styled.TouchableOpacity`
   background: ${(props) => handleTypeBtnBackground(props.type)};
   border: 1px solid transparent;
   padding: 10px 0;
-  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;

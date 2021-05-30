@@ -6,6 +6,8 @@ import { SettingsScreen } from './Settings';
 import { LoginScreen } from './Login';
 import { PairDeviceScreen } from './PairDevice';
 import { ListGunsToUseScreen } from './Guns/ListGunsToUse';
+import { RankingAllScreen, RankingMonthlyScreen, RankingWeeklyScreen, RankingYearlyScreen } from './Ranking';
+
 
 export {
   AimScreen,
@@ -16,4 +18,8 @@ export {
   LoginScreen,
   PairDeviceScreen,
   ListGunsToUseScreen,
+  RankingAllScreen,
+  RankingMonthlyScreen,
+  RankingWeeklyScreen,
+  RankingYearlyScreen
 };

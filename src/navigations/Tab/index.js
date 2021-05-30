@@ -3,14 +3,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { IconOutline } from '@ant-design/icons-react-native';
 
+import { RankingTab } from '../RankingTab';
+
 import {
   HomeScreen,
-  AimScreen,
-  RankingScreen,
   ProfileScreen,
   SettingsScreen,
   PairDeviceScreen,
 } from '../../screens';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +44,7 @@ const TabNavigation = () => (
   >
     <Tab.Screen name="Home" component={HomeScreen} />
     <Tab.Screen name="PairDevice" component={PairDeviceScreen} />
-    <Tab.Screen name="Ranking" component={RankingScreen} />
+    <Tab.Screen name="Ranking" component={RankingTab} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
     <Tab.Screen name="Settings" component={SettingsScreen} />
   </Tab.Navigator>

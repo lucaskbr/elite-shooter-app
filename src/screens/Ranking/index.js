@@ -1,10 +1,6 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
+import { RankingAllScreen } from './All';
+import { RankingMonthlyScreen } from './Monthly';
+import { RankingWeeklyScreen } from './Weekly';
+import { RankingYearlyScreen } from './Yearly';
 
-const RankingScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>RankingScreen!</Text>
-  </View>
-);
-
-export { RankingScreen };
+export { RankingAllScreen, RankingMonthlyScreen, RankingWeeklyScreen, RankingYearlyScreen };

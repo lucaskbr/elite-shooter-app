@@ -9,6 +9,7 @@ import { ProfilePic } from './ProfilePic';
 import { Separator } from './Separator';
 import { ResultText } from './ResultText';
 import { GunCard } from './GunCard';
+import { RankingList } from './RankingList';
 
 export {
   ActivityCard,
@@ -22,4 +23,5 @@ export {
   Separator,
   ResultText,
   GunCard,
+  RankingList
 };
