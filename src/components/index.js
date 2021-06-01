@@ -10,6 +10,10 @@ import { Separator } from './Separator';
 import { ResultText } from './ResultText';
 import { GunCard } from './GunCard';
 import { RankingList } from './RankingList';
+import { IsLoading } from './IsLoading';
+import { PieChart, VerticalBarChart } from './Charts';
+import { ChartCard } from './ChartCard';
+
 
 export {
   ActivityCard,
@@ -23,5 +27,9 @@ export {
   Separator,
   ResultText,
   GunCard,
-  RankingList
+  RankingList,
+  IsLoading,
+  PieChart,
+  VerticalBarChart,
+  ChartCard
 };

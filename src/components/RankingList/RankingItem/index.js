@@ -1,40 +1,35 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Text } from 'react-native';
 
-import { S } from './style';
 import { ProfilePic } from '../../ProfilePic';
 
-
-import userPicPath from '../../../../assets/dash.png';
+import { S } from './style';
 
 const RankingItem = (props) => {
 
-  const { img, name, points, position } = props;
+  const { data } = props;
+  const { avatar, name, points, position, index } = data;
 
   return (
-    <S.RankingItem>
+    <S.RankingItem itsMe={index === 0} >
       <S.ProfilePic>
-        <ProfilePic height={50} source={userPicPath} />
+        <ProfilePic height={50} source={avatar && { uri: avatar}} />
       </S.ProfilePic>
-      <S.Name>
-        Helewise
+      <S.Name itsMe={index === 0}>
+        {name}
       </S.Name>
-      <S.Points>
-        3500000
+      <S.Points itsMe={index === 0}>
+        {points}
       </S.Points>
-      <S.Position>
-        #07
+      <S.Position itsMe={index === 0}>
+        {`#${position}`}
       </S.Position>
     </S.RankingItem>
   );
 };
 
 RankingItem.propTypes = {
-  img: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  points: PropTypes.string.isRequired,
-  position:  PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 RankingItem.defaultProps = {};

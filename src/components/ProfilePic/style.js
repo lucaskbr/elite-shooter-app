@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 const ProfilePic = styled.Image`
-  border: transparent;
+  border: 1px solid #CACACA;
   border-radius: 50;
   height: ${(props) => props.height};
   width: ${(props) => props.height};

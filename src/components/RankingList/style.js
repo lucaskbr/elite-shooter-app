@@ -6,6 +6,7 @@ const RankingList = styled.FlatList`
   border: 1px solid #D8D7D7;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
+  padding: 0;
 `;
 
 

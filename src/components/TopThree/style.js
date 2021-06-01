@@ -1,8 +1,7 @@
 import styled from 'styled-components/native';
 
 const TopThree = styled.View`
-  padding-top: 30px;
-  background: #00264D;
+  padding-top: 50px;
 `;
 
 const FirstRow = styled.View`
@@ -24,8 +23,7 @@ const SecondRow = styled.View`
 const S = {
   TopThree,
   FirstRow,
-  SecondRow,
-  ThirdRow
+  SecondRow
 };
 
 export { S };

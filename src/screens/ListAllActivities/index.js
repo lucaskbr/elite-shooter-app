@@ -1,52 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FlatList, View, Text } from 'react-native';
 
 import {
   ScreenContainer,
   ActivityCard,
   Title,
-  ProfilePic,
   Separator,
   IsLoading,
-  ChartCard,
-  VerticalBarChart,
 } from '../../components';
+import { FilterModal } from './FilterModal';
 
-import { S } from './style';
 
-const HomeScreen = (props) => {
-
-  const { navigation } = props;
+const ListAllActivitiesScreen = () => {
 
   const [activities, setActivities] = useState([]);
-  const [user, setUser] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/activities/lasts").then((res) => res.json()),
-      fetch("/api/users").then((res) => res.json())
-    ]).then((values) => {
-      setActivities(values[0]);
-      setUser(values[1]);
-      setIsLoading(false);
-    })
+      fetch("/api/activities").then((res) => res.json()).then(json => {
+        setActivities(json);
+        setIsLoading(false);
+      })
+    ]);
   }, [])
 
   return (
     <ScreenContainer paddingHorizontal={10}>
       <IsLoading condition={isLoading}>
+      
 
-        <S.ProfileInfo>
-          <ProfilePic source={user.avatar && {uri: user.avatar}} />
-          <S.Username>{user.name}</S.Username>
-        </S.ProfileInfo>
+      <FilterModal
+        onChange={(data) => {
+          setIsModalVisible(false)
+        }}
+        isVisible={isModalVisible}
+      /> 
 
-        <ChartCard height={200}>
+        {/* <ChartCard height={200}>
           <VerticalBarChart />
-        </ChartCard>
+        </ChartCard> */}
+
+
 
         <Separator height={20} />
+
 
         <FlatList
           contentContainerStyle={{ padding: 1 }}
@@ -61,10 +60,8 @@ const HomeScreen = (props) => {
                 justifyContent: 'space-between'
               }}
             >
-              <Title text="Atividades recentes" />
-              <Text onPress={() => navigation.navigate('ListAllActivities')}>
-                Ver todas
-              </Text>
+              <Title text="Todas as atividades" />
+              <Text onPress={() => setIsModalVisible(true)}>Filtrar</Text>
             </View>
           }
           ItemSeparatorComponent={() => <Separator height={10} />}
@@ -92,4 +89,4 @@ const HomeScreen = (props) => {
   );
 }
 
-export { HomeScreen };
+export { ListAllActivitiesScreen };

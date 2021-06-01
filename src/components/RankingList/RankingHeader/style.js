@@ -1,10 +1,14 @@
 import styled from 'styled-components/native';
 
 const RankingHeader = styled.View`
-  padding: 10px 5px 10px 5px;
+  padding: 20px 5px 20px 5px;
   width: 100%;
   flex-direction: row;
   justify-content: space-around;
+  background: #fff;
+  border: 1px solid transparent ;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
 `;
 
 const ProfilePic = styled.View`

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { RankingAllScreen, RankingMonthlyScreen, RankingWeeklyScreen, RankingYearlyScreen } from '../../screens';
+import { RankingScreen } from '../../screens';
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -17,23 +18,27 @@ const RankingTab = () => {
     >
       <Tab.Screen
         name="RankingAll"
-        component={RankingAllScreen}
+        component={RankingScreen}
         options={{ tabBarLabel: 'Geral' }}
+        initialParams={{ id: 'all' }}
       />
       <Tab.Screen
         name="RankingYearly"
-        component={RankingYearlyScreen}
+        component={RankingScreen}
         options={{ tabBarLabel: 'Anual' }}
+        initialParams={{ id: 'yearly' }}
       />
       <Tab.Screen
         name="RankingMonthly"
-        component={RankingMonthlyScreen}
+        component={RankingScreen}
         options={{ tabBarLabel: 'Mensal' }}
+        initialParams={{ id: 'monthly' }}
       />
       <Tab.Screen
         name="RankingWeekly"
-        component={RankingWeeklyScreen}
+        component={RankingScreen}
         options={{ tabBarLabel: 'Semanal' }}
+        initialParams={{ id: 'weekly' }}
       />
     </Tab.Navigator>
   );

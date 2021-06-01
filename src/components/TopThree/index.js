@@ -8,21 +8,24 @@ import { TopThreeItem } from './TopThreeItem';
 
 const TopThree = (props) => {
 
-  return <S.TopThree>
-    <S.FirstRow>
+  const { data } = props;
 
-      <TopThreeItem isFirst />
-    </S.FirstRow>
+  return (
+    <S.TopThree>
+      <S.FirstRow>
+        <TopThreeItem isFirst data={data[0]} />
+      </S.FirstRow>
 
-    <S.SecondRow>
-      <TopThreeItem />
-      <TopThreeItem />
-    </S.SecondRow>
-
-  </S.TopThree>;
+      <S.SecondRow>
+        <TopThreeItem data={data[1]} />
+        <TopThreeItem data={data[2]} />
+      </S.SecondRow>
+    </S.TopThree>
+  );
 };
 
 TopThree.propTypes = {
+  data: PropTypes.object.isRequired
 };
 
 TopThree.defaultProps = {};

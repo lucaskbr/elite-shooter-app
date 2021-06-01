@@ -7,10 +7,12 @@ const TopThreeItem = styled.View`
 
 const Crown = styled.Image`
   position: absolute;
-  top: -35px;
-  left: -20px;
-  transform: rotate(-12deg);
+  top: -40px;
+  left: -160px;
+  transform: rotate(-15deg);
   z-index: 1;
+  resize-mode: contain;
+  height: 70px;
 `;
 
 

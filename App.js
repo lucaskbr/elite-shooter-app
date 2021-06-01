@@ -2,8 +2,6 @@ import * as React from 'react';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
-import { Text, View } from 'react-native';
-
 import {
   Exo2_100Thin,
   Exo2_200ExtraLight,
@@ -25,6 +23,34 @@ import {
   Exo2_900Black_Italic,
 } from '@expo-google-fonts/exo-2';
 import { Navigations } from './src/navigations';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+
+
+import { createServer } from "miragejs"
+import { homeMock } from './mocks/home';
+import { rankingAllMock } from './mocks/rankingAll';
+import { rankingYearlyMock } from './mocks/rankingYearly';
+import { rankingMonthlyMock } from './mocks/rankingMonthly';
+import { rankingWeeklyMock } from './mocks/rankingWeekly';
+import { allActivitiesMock } from './mocks/allActivities';
+
+if (window.server) {
+  server.shutdown()
+}
+
+window.server = createServer({
+  routes() {
+    this.get("/api/activities/lasts", () => homeMock.activities),
+    this.get("/api/activities", () => allActivitiesMock, { timing: '1000' })
+    this.get("/api/users", () => homeMock.user),
+    this.get("/api/ranking/all", () => rankingAllMock, { timing: '200' })
+    this.get("/api/ranking/yearly", () => rankingYearlyMock, { timing: '400' })
+    this.get("/api/ranking/monthly", () => rankingMonthlyMock, { timing: '800' })
+    this.get("/api/ranking/weekly", () => rankingWeeklyMock, { timing: '1000' })
+  }
+})
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -55,8 +81,8 @@ export default function App() {
   }
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }}>
       <Navigations />
-    </>
+    </SafeAreaView>
   );
 }

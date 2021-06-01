@@ -6,6 +6,7 @@ const RankingItem = styled.View`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  background: ${props => props.itsMe ? '#FF0066' : '#FFF'};
 `;
 
 const ProfilePic = styled.View`
@@ -19,6 +20,7 @@ const Name = styled.Text`
   font-size: 16px;
   font-family: 'Exo2_700Bold_Italic';
   text-transform: capitalize;
+  color: ${props => props.itsMe ? '#FFF' : '#000'};
 `;
 
 const Points = styled.Text`
@@ -26,7 +28,7 @@ const Points = styled.Text`
   width: 25%;
   font-size: 16px;
   font-family: 'Exo2_700Bold';
-  color: #FF0066;
+  color: ${props => props.itsMe ? '#FFF' : '#FF0066'};
 `;
 
 const Position = styled.Text`
@@ -34,7 +36,7 @@ const Position = styled.Text`
   width: 25%;
   font-size: 16px;
   font-family: 'Exo2_600SemiBold_Italic';
-  color: #CACACA;
+  color: ${props => props.itsMe ? '#FFF' : '#CACACA'};
 `;
 
 const S = {

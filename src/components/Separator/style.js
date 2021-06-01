@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 const Separator = styled.View`
-  height: ${(props) => props.height && props.height};
+  height: ${(props) => props.height ? props.height : 0};
   width: 100%;
   background: #ffffff;
   padding-right: ${(props) =>

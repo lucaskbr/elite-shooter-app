@@ -3,9 +3,10 @@ import { View, Text } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { AimScreen, ListGunsToUseScreen, LoginScreen } from '../../screens';
+import { AimScreen, ListAllActivitiesScreen, ListGunsToUseScreen, LoginScreen } from '../../screens';
 
 import { TabNavigation } from '../Tab';
+import { Teste } from '../../screens/Teste';
 
 const Stack = createStackNavigator();
 
@@ -17,10 +18,12 @@ const StackNavigation = () => (
       title: '',
     }}
   >
+        {/* <Stack.Screen name="Teste" component={Teste} /> */}
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Home" component={TabNavigation} />
     <Stack.Screen name="Aim" component={AimScreen} />
     <Stack.Screen name="ListGunsToUse" component={ListGunsToUseScreen} />
+    <Stack.Screen name="ListAllActivities" component={ListAllActivitiesScreen} />
   </Stack.Navigator>
 );
 
