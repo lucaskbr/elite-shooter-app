@@ -8,9 +8,7 @@ const ProfileInfo = styled.View`
 `;
 
 const Username = styled.Text`
-  margin-left: 15px;
-  font-size: 22px;
-  font-family: 'Exo2_700Bold_Italic';
+
 `;
 
 const ShowAllActivities = styled.Text`

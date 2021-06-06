@@ -35,6 +35,7 @@ import { rankingYearlyMock } from './mocks/rankingYearly';
 import { rankingMonthlyMock } from './mocks/rankingMonthly';
 import { rankingWeeklyMock } from './mocks/rankingWeekly';
 import { allActivitiesMock } from './mocks/allActivities';
+import { listAllGunsToUse } from './mocks/listAllGunsToUse';
 
 if (window.server) {
   server.shutdown()
@@ -49,8 +50,12 @@ window.server = createServer({
     this.get("/api/ranking/yearly", () => rankingYearlyMock, { timing: '400' })
     this.get("/api/ranking/monthly", () => rankingMonthlyMock, { timing: '800' })
     this.get("/api/ranking/weekly", () => rankingWeeklyMock, { timing: '1000' })
+    this.get("/api/guns/users", () => listAllGunsToUse.myGuns, { timing: '1000' })
+    this.get("/api/guns/places", () => listAllGunsToUse.placeGuns, { timing: '1000' })
   }
 })
+
+// enableScreens();
 
 export default function App() {
   const [fontsLoaded] = useFonts({

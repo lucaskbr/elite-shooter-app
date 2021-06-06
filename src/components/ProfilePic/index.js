@@ -14,7 +14,7 @@ ProfilePic.propTypes = {
 };
 
 ProfilePic.defaultProps = {
-  height: '80px',
+  height: 80,
 };
 
 export { ProfilePic };

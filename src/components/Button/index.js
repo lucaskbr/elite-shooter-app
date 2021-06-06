@@ -8,7 +8,7 @@ const Button = (props) => {
 
   return (
     <S.Button type={type} {...rest}>
-      <S.ButtonText>{text}</S.ButtonText>
+      <S.ButtonText type={type}>{text}</S.ButtonText>
     </S.Button>
   );
 };

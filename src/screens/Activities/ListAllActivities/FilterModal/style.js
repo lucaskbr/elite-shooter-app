@@ -28,7 +28,7 @@ const Title = styled.Text`
 const SelectContainer = styled.View`
   border: 1px solid #CACACA;
   width: 100%;
-  height: 40;
+  height: 40px;
 `;
 
 const SelectLabel = styled.Text`

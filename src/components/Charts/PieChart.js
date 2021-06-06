@@ -5,7 +5,7 @@ const PieChart = (props) => {
   return (
     <HighchartsReactNative
           styles={{
-            height: 400,
+            height: '100%',
             width: '100%',
             backgroundColor: '#fff',
             justifyContent: 'center',
@@ -31,7 +31,7 @@ const PieChart = (props) => {
             },
             series: [
               {
-                name: 'Regiões com mais acerto',
+                name: 'Regiões com mais acertos',
                 data: [
                   {
                     name: '9',

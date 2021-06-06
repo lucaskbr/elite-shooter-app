@@ -5,7 +5,7 @@ import Modal from 'react-native-modal';
 import CheckBox from '@react-native-community/checkbox';
 import { Picker } from '@react-native-picker/picker';
 
-import { Button } from '../../../components';
+import { Button } from '../../../../components';
 
 import { S } from './style';
 

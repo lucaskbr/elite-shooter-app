@@ -4,9 +4,10 @@ import { ProfileScreen } from './Profile';
 import { SettingsScreen } from './Settings';
 import { LoginScreen } from './Login';
 import { PairDeviceScreen } from './PairDevice';
-import { ListGunsToUseScreen } from './Guns/ListGunsToUse';
+import { ListGunsToUseScreen, AddGunScreen } from './Guns';
 import { RankingScreen } from './Ranking';
-import { ListAllActivitiesScreen } from './ListAllActivities';
+import { ActivityDetailScreen, ListAllActivitiesScreen } from './Activities';
+import { ModalityScreen } from './Modality';
 
 export {
   AimScreen,
@@ -17,5 +18,8 @@ export {
   LoginScreen,
   PairDeviceScreen,
   ListGunsToUseScreen,
-  ListAllActivitiesScreen
+  AddGunScreen,
+  ActivityDetailScreen,
+  ListAllActivitiesScreen,
+  ModalityScreen
 };

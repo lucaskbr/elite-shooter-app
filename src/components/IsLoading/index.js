@@ -11,7 +11,7 @@ const IsLoading = (props) => {
     { condition && 
     <Spinner
       visible={true}
-      size={80}
+      size="large"
       color="#FF0066"
       overlayColor="#FFF"
       textContent={'Buscando informações'}

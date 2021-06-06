@@ -46,7 +46,7 @@ const TabNavigation = () => (
     <Tab.Screen name="PairDevice" component={PairDeviceScreen} />
     <Tab.Screen name="Ranking" component={RankingTab} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
-    <Tab.Screen name="Settings" component={SettingsScreen} />
+    {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
   </Tab.Navigator>
 );
 

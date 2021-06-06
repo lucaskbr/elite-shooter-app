@@ -9,7 +9,7 @@ const Login = styled.View`
 `;
 
 const Logo = styled.Image`
-  height: 40;
+  height: 40px;
   width: 100%;
   margin-bottom: 30px;
 `;

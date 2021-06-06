@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import { S } from './style';
 
 const ChartCard = (props) => {
-  const { children, ...rest } = props;
+  const { children, title, subtitle, ...rest } = props;
 
   return (
     <S.ChartCard {...rest}>
       <S.ChartContainer>
         <S.TextContainer>
           <S.Title>
-            Disparos: Acertos x Erros
+            {title}
           </S.Title>
           <S.Subtitle>
-            Ultimos 7 treinos
+            {subtitle}
           </S.Subtitle>
         </S.TextContainer>
         {children}
@@ -25,7 +25,7 @@ const ChartCard = (props) => {
 
 ChartCard.propTypes = {
   children: PropTypes.node.isRequired,
-  height: PropTypes.number,
+  height: PropTypes.number.isRequired,
 };
 
 ChartCard.defaultProps = {};

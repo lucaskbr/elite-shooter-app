@@ -7,7 +7,7 @@ import {
   Title,
   Separator,
   IsLoading,
-} from '../../components';
+} from '../../../components';
 import { FilterModal } from './FilterModal';
 
 

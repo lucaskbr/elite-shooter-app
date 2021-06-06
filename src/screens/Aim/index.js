@@ -16,7 +16,7 @@ const AimScreen = () => (
       <S.ShotsTitle>Disparos</S.ShotsTitle>
       <S.ShotsCount>#19</S.ShotsCount>
       <Separator height={10} />
-      <S.Target resizeMode="contain" source={targetPath} res />
+      <S.Target resizeMode="contain" source={targetPath} />
     </S.TargetInfo>
     <S.Results>
       <Title text="Dados do treino" />

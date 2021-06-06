@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-const handleTypeBtnBackground = (type) => {
+const handleBtnBackground = (type) => {
   if (type === 'primary') {
     return '#ff0066';
   }
@@ -10,10 +10,30 @@ const handleTypeBtnBackground = (type) => {
   }
 };
 
+const handleBtnColor = (type) => {
+  if (type === 'primary') {
+    return '#fff';
+  }
+
+  if (type === 'invisible') {
+    return '#C4C4C4';
+  }
+};
+
+const handleBtnBorder = (type) => {
+  if (type === 'primary') {
+    return 'transparent';
+  }
+
+  if (type === 'invisible') {
+    return '#C4C4C4';
+  }
+};
+
 const Button = styled.TouchableOpacity`
   width: 100%;
-  background: ${(props) => handleTypeBtnBackground(props.type)};
-  border: 1px solid transparent;
+  background: ${(props) => handleBtnBackground(props.type)};
+  border: 1px solid ${(props) => handleBtnBorder(props.type)};
   padding: 10px 0;
   display: flex;
   justify-content: center;
@@ -24,7 +44,7 @@ const Button = styled.TouchableOpacity`
 const ButtonText = styled.Text`
   font-size: 16px;
   text-align: center;
-  color: #fff;
+  color: ${(props) => handleBtnColor(props.type)};
   font-family: 'Exo2_700Bold';
 `;
 

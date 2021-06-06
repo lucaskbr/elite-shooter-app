@@ -15,24 +15,24 @@ const PairDeviceScreen = (props) => {
   const { navigation } = props;
   const { navigate } = navigation;
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await BarCodeScanner.requestPermissionsAsync();
+  //     setHasPermission(status === 'granted');
+  //   })();
+  // }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
+  // const handleBarCodeScanned = ({ type, data }) => {
+  //   setScanned(true);
+  //   alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  // };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+  // if (hasPermission === null) {
+  //   return <Text>Requesting for camera permission</Text>;
+  // }
+  // if (hasPermission === false) {
+  //   return <Text>No access to camera</Text>;
+  // }
 
   return (
     <ScreenContainer paddingHorizontal={10}>
@@ -76,21 +76,5 @@ const PairDeviceScreen = (props) => {
     </ScreenContainer>
   );
 };
-
-/* @hide const styles = StyleSheet.create({ ... }); */
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: '#000',
-  },
-  barCodeView: {
-    width: '100%',
-    height: '50%',
-    marginBottom: 40,
-  },
-});
-/* @end */
 
 export { PairDeviceScreen };

@@ -13,7 +13,8 @@ import { RankingList } from './RankingList';
 import { IsLoading } from './IsLoading';
 import { PieChart, VerticalBarChart } from './Charts';
 import { ChartCard } from './ChartCard';
-
+import { ChartSlide } from './ChartSlide';
+import { Username } from './Username';
 
 export {
   ActivityCard,
@@ -31,5 +32,7 @@ export {
   IsLoading,
   PieChart,
   VerticalBarChart,
-  ChartCard
+  ChartCard,
+  ChartSlide,
+  Username
 };

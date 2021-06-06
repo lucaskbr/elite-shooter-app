@@ -10,6 +10,8 @@ import {
   IsLoading,
   ChartCard,
   VerticalBarChart,
+  ChartSlide,
+  Username,
 } from '../../components';
 
 import { S } from './style';
@@ -21,6 +23,8 @@ const HomeScreen = (props) => {
   const [activities, setActivities] = useState([]);
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
+
 
   useEffect(() => {
     Promise.all([
@@ -37,14 +41,14 @@ const HomeScreen = (props) => {
     <ScreenContainer paddingHorizontal={10}>
       <IsLoading condition={isLoading}>
 
-        <S.ProfileInfo>
+
+
+      <S.ProfileInfo>
           <ProfilePic source={user.avatar && {uri: user.avatar}} />
-          <S.Username>{user.name}</S.Username>
+          <Username text={user.name || ''} />
         </S.ProfileInfo>
 
-        <ChartCard height={200}>
-          <VerticalBarChart />
-        </ChartCard>
+        <ChartSlide />
 
         <Separator height={20} />
 
@@ -83,6 +87,7 @@ const HomeScreen = (props) => {
               modality={item.modality}
               date={item.date}
               place={item.place}
+              onPress={() => navigation.navigate('ActivityDetail')}
             />
           )}
         />

@@ -3,7 +3,14 @@ import * as React from 'react';
 
 import { S } from './style';
 
-const TextInput = () => <S.TextInput />;
+const TextInput = (props) => {
+
+  const { ...rest } = props;
+
+  return (
+    <S.TextInput {...rest} />
+  )
+};
 
 // TextInput.propTypes = {};
 
