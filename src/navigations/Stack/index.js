@@ -46,8 +46,8 @@ const StackNavigation = (props) => {
         component={ResourcesTab}
       />
       <Stack.Screen
-        name="ShootingRangeDetails"
-        component={Admin.ShootingRangeDetailsScreen}
+        name="ShootingRangesDetails"
+        component={Admin.ShootingRangesDetailsScreen}
       />
     </>
   );

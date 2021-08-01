@@ -14,12 +14,13 @@ import {
 
 import { HeaderList, TopActionButton } from '@containers';
 import { sensorEquipmentsEndpoints } from '@services/eliteShooterApi/endpoints/sensorEquipments';
+import { ParamsContext } from '@contexts/params/ParamsContext';
 
 
 const ResourcesSensorEquipmentsScreen = (props) => {
 
-  const { route, navigation } = props;
-  // const { placeId } = route.params;
+  const { currentPlace } = useContext(ParamsContext);
+  console.log(currentPlace)
 
   const [sensorEquipments, setSensorEquipments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

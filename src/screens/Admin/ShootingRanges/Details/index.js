@@ -16,7 +16,7 @@ import {
 
 import { S } from './style';
 
-const ShootingRangeDetailsScreen = (props) => {
+const ShootingRangesDetailsScreen = (props) => {
   const { route, navigation } = props;
   const { goBack } = navigation;
 
@@ -30,7 +30,6 @@ const ShootingRangeDetailsScreen = (props) => {
       try {
         const { data } = await shootingRangesEndpoints.findById(id);
         setShootingRange(data);
-        console.log(data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -72,4 +71,4 @@ const ShootingRangeDetailsScreen = (props) => {
   );
 };
 
-export { ShootingRangeDetailsScreen };
+export { ShootingRangesDetailsScreen };

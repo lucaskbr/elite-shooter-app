@@ -16,13 +16,11 @@ import {
   Username,
 } from '@components';
 
-import { PlacesProvider, PlacesContext } from '@contexts/places/PlacesContext';
+import { PlacesContext } from '@contexts/places/PlacesContext';
+import { ParamsContext } from '@contexts/params/ParamsContext';
 
-import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
-import { placesEndpoint } from '@services/eliteShooterApi/endpoints/placesEndpoint';
-import { S } from './style';
-import { Button } from '../../../components';
 import { TopActionButton } from '@containers';
+
 
 const HomeScreen = (props) => {
   const { route, navigation } = props;
@@ -31,9 +29,14 @@ const HomeScreen = (props) => {
   const { isLoading, shootingRanges, handleShootingRanges } =
     useContext(PlacesContext);
 
+  const { setCurrentPlace } = useContext(ParamsContext);
+
   useFocusEffect(
     React.useCallback(() => {
       handleShootingRanges({ placeId });
+
+      return () => setCurrentPlace(placeId)
+
     }, []),
   );
 
@@ -49,9 +52,8 @@ const HomeScreen = (props) => {
         type="success"
         onPress={() => 
           navigation.navigate('Resources',
-          {
-            screen: 'ResourceGuns',
-            params: { placeId }
+          { 
+            placeId
           }
         )}
       />
@@ -89,7 +91,7 @@ const HomeScreen = (props) => {
           <ShootingRangeCard
             shootingRange={item}
             onPress={() =>
-              navigation.navigate('ShootingRangeDetails', {
+              navigation.navigate('ShootingRangesDetails', {
                 id: item._id,
               })
             }

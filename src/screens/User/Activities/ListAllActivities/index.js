@@ -49,7 +49,6 @@ const ListAllActivitiesScreen = (props) => {
 
   useEffect(() => {
     (async () => {
-      console.log('changed');
       await fetchShootingActivities();
     })();
   }, [queryParams]);
@@ -63,7 +62,6 @@ const ListAllActivitiesScreen = (props) => {
       <FilterModal
         onChange={(data) => {
           data && setQueryParams(data);
-          console.log(data);
           setIsModalVisible(false);
         }}
         isVisible={isModalVisible}

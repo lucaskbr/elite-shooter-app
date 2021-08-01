@@ -6,6 +6,7 @@ import { Admin } from '@screens/Admin';
 const Tab = createMaterialTopTabNavigator();
 
 const HandleScreesToShow = () => {
+
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -25,6 +26,9 @@ const HandleScreesToShow = () => {
         options={{
           title: 'Armas'
         }}
+        // initialParams={{
+        //   placeId
+        // }}
         component={Admin.ResourcesGunsScreen}
       />
       <Tab.Screen
@@ -32,6 +36,9 @@ const HandleScreesToShow = () => {
         options={{
           title: 'baias de tiro'
         }}
+        // initialParams={{
+        //   placeId
+        // }}
         component={Admin.ResourcesShootingRangesScreen}
       />
       <Tab.Screen
@@ -39,14 +46,19 @@ const HandleScreesToShow = () => {
         options={{
           title: 'sensores'
         }}
+        // initialParams={{
+        //   placeId
+        // }}
         component={Admin.ResourcesSensorEquipmentsScreen}
       />
     </Tab.Navigator>
   );
 };
 
-const ResourcesTab = () => (
-  <HandleScreesToShow />
-);
+const ResourcesTab = (props) => {
+  return (
+    <HandleScreesToShow props={props} />
+  )
+};
 
 export { ResourcesTab };

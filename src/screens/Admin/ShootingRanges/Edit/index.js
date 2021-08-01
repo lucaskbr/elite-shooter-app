@@ -18,7 +18,7 @@ import { Picker } from '@react-native-picker/picker';
 
 import { S } from './style';
 
-const AddGunScreen = (props) => {
+const ShootingRangesEditScreen = (props) => {
   const { navigation } = props;
   const { goBack } = navigation;
 
@@ -68,4 +68,4 @@ const AddGunScreen = (props) => {
   );
 };
 
-export { AddGunScreen };
+export { ShootingRangesEditScreen };

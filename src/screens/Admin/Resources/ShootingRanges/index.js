@@ -14,14 +14,13 @@ import {
 
 import { HeaderList, TopActionButton } from '@containers';
 import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
+import { ParamsContext } from '@contexts/params/ParamsContext';
 
 
 const ResourcesShootingRangesScreen = (props) => {
 
-  const { route, navigation } = props;
-  // const { placeId } = route.params;
-
-  // console.log(placeId)
+  const { currentPlace } = useContext(ParamsContext);
+  console.log(currentPlace)
 
   const [shootingRanges, setShootingRanges] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +28,7 @@ const ResourcesShootingRangesScreen = (props) => {
   const fetchApi = async () => {
     try {
       setIsLoading(true);
-      const { data } = await shootingRangesEndpoints.findAll({ placeId });
+      const { data } = await shootingRangesEndpoints.findAll({ });
       setShootingRanges(data);
     } catch (err) {
       console.log(err)

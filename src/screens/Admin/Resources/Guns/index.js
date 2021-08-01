@@ -13,13 +13,16 @@ import {
 import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints';
 
 import { HeaderList, TopActionButton } from '@containers';
+import { ParamsContext } from '@contexts/params/ParamsContext';
 
 
 const ResourcesGunsScreen = (props) => {
 
-  const { route, navigation } = props;
-  console.log(route)
+  const { currentPlace } = useContext(ParamsContext);
+  console.log(currentPlace)
   // const { placeId } = route.params;
+
+  // console.log(route.params)
 
   const [guns, setGuns] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
