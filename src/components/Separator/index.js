@@ -4,7 +4,14 @@ import PropTypes from 'prop-types';
 import { S } from './style';
 
 const Separator = (props) => {
-  const { children, height, backgroundColor, marginVertical, paddingVertical, paddingHorizontal } = props;
+  const {
+    children,
+    height,
+    backgroundColor,
+    marginVertical,
+    paddingVertical,
+    paddingHorizontal,
+  } = props;
 
   return (
     <S.Separator
@@ -29,6 +36,5 @@ Separator.propTypes = {
 };
 
 Separator.defaultProps = {};
-
 
 export { Separator };

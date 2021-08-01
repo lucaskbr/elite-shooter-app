@@ -1,4 +1,4 @@
-import { ActivityCard } from './ActivityCard';
+import { ActivityCard, GunCard, SensorEquipmentCard, ShootingRangeCard } from './Cards';
 import { Button } from './Button';
 import { InputGroup } from './InputGroup';
 import { Label } from './Label';
@@ -8,13 +8,13 @@ import { Title } from './Title';
 import { ProfilePic } from './ProfilePic';
 import { Separator } from './Separator';
 import { ResultText } from './ResultText';
-import { GunCard } from './GunCard';
 import { RankingList } from './RankingList';
 import { IsLoading } from './IsLoading';
 import { PieChart, VerticalBarChart } from './Charts';
 import { ChartCard } from './ChartCard';
 import { ChartSlide } from './ChartSlide';
 import { Username } from './Username';
+import { InputError } from './InputError';
 
 export {
   ActivityCard,
@@ -34,5 +34,8 @@ export {
   VerticalBarChart,
   ChartCard,
   ChartSlide,
-  Username
+  Username,
+  InputError,
+  ShootingRangeCard,
+  SensorEquipmentCard
 };

@@ -23,7 +23,7 @@ const SecondRow = styled.View`
 const S = {
   TopThree,
   FirstRow,
-  SecondRow
+  SecondRow,
 };
 
 export { S };

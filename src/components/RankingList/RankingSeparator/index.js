@@ -2,12 +2,6 @@ import * as React from 'react';
 
 import { S } from './style';
 
-
-const RankingSeparator = (props) => {
-  return (
-    <S.RankingSeparator />
-  );
-};
-
+const RankingSeparator = (props) => <S.RankingSeparator />;
 
 export { RankingSeparator };

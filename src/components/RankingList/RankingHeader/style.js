@@ -6,7 +6,7 @@ const RankingHeader = styled.View`
   flex-direction: row;
   justify-content: space-around;
   background: #fff;
-  border: 1px solid transparent ;
+  border: 1px solid transparent;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
 `;
@@ -41,7 +41,7 @@ const S = {
   ProfilePic,
   Name,
   Points,
-  Position
+  Position,
 };
 
 export { S };

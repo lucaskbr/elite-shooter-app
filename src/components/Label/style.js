@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
 
 const Label = styled.Text`
-  font-family: 'Exo2_800ExtraBold';
+  font-family: 'Poppins_700Bold';
   margin-bottom: 2px;
+  text-transform: capitalize;
 `;
 
 const S = {

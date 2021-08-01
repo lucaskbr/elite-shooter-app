@@ -18,14 +18,14 @@ const RankingList = (props) => {
       // stickyHeaderIndices={[0]}
       ItemSeparatorComponent={() => <RankingSeparator />}
       renderItem={({ item, index }) => (
-        <RankingItem data={{...item, index}} />
+        <RankingItem data={{ ...item, index }} />
       )}
     />
   );
 };
 
 RankingList.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
 };
 
 RankingList.defaultProps = {};

@@ -1,41 +1,79 @@
-import * as React from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext } from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {
-  AimScreen,
-  ListAllActivitiesScreen,
-  ListGunsToUseScreen,
-  LoginScreen,
-  ActivityDetailScreen,
-  AddGunScreen,
-  ModalityScreen
-} from '../../screens';
+import { User } from '@screens/User';
 
+import { Shared } from '@screens/Shared';
+
+import { IsLoading } from '@components';
+
+import { AuthContext } from '@contexts/auth/authContext';
+import { Admin } from '@screens/Admin';
 import { TabNavigation } from '../Tab';
-import { Teste } from '../../screens/Teste';
+import { ResourcesTab } from '../ResourcesTab';
 
 const Stack = createStackNavigator();
 
-const StackNavigation = () => (
-  <Stack.Navigator
-    headerMode="none"
-    mode="card"
-    screenOptions={{
-      title: '',
-    }}
-  >
-        {/* <Stack.Screen name="Teste" component={Teste} /> */}
-    <Stack.Screen name="Login" component={LoginScreen} />
-    <Stack.Screen name="Home" component={TabNavigation} />
-    <Stack.Screen name="Aim" component={AimScreen} />
-    <Stack.Screen name="ListGunsToUse" component={ListGunsToUseScreen} />
-    <Stack.Screen name="AddGun" component={AddGunScreen} />
-    <Stack.Screen name="ListAllActivities" component={ListAllActivitiesScreen} />
-    <Stack.Screen name="ActivityDetail" component={ActivityDetailScreen} />
-    <Stack.Screen name="Modality" component={ModalityScreen} />
-  </Stack.Navigator>
-);
+const StackNavigation = (props) => {
+  const { authenticated, isAdmin, loading } = useContext(AuthContext);
+
+  const authRoutes = () => (isAdmin ? adminRoutes() : userRoutes());
+
+  const userRoutes = () => (
+    <>
+      <Stack.Screen name="Home" component={TabNavigation} />
+      <Stack.Screen name="Aim" component={User.AimScreen} />
+      <Stack.Screen name="ListGunsToUse" component={User.ListGunsToUseScreen} />
+      <Stack.Screen name="AddGun" component={User.AddGunScreen} />
+      <Stack.Screen
+        name="ListAllActivities"
+        component={User.ListAllActivitiesScreen}
+      />
+      <Stack.Screen
+        name="ActivityDetail"
+        component={User.ActivityDetailScreen}
+      />
+      <Stack.Screen name="Modality" component={User.ModalityScreen} />
+    </>
+  );
+
+  const adminRoutes = () => (
+    <>
+      <Stack.Screen name="Home" component={TabNavigation} />
+      <Stack.Screen
+        name="Resources"
+        component={ResourcesTab}
+      />
+      <Stack.Screen
+        name="ShootingRangeDetails"
+        component={Admin.ShootingRangeDetailsScreen}
+      />
+    </>
+  );
+
+  const loginRoute = () => (
+    <>
+      <Stack.Screen name="Login" component={Shared.LoginScreen} />
+      <Stack.Screen name="SingUp" component={User.SignUpScreen} />
+    </>
+  );
+
+  if (loading) {
+    return <IsLoading />;
+  }
+
+  return (
+    <Stack.Navigator
+      headerMode="none"
+      mode="card"
+      screenOptions={{
+        title: '',
+      }}
+    >
+      {authenticated ? authRoutes() : loginRoute()}
+    </Stack.Navigator>
+  );
+};
 
 export { StackNavigation };

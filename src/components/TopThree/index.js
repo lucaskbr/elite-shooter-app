@@ -4,10 +4,7 @@ import PropTypes from 'prop-types';
 import { S } from './style';
 import { TopThreeItem } from './TopThreeItem';
 
-
-
 const TopThree = (props) => {
-
   const { data } = props;
 
   return (
@@ -25,7 +22,7 @@ const TopThree = (props) => {
 };
 
 TopThree.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
 };
 
 TopThree.defaultProps = {};

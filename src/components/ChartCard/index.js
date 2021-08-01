@@ -10,12 +10,8 @@ const ChartCard = (props) => {
     <S.ChartCard {...rest}>
       <S.ChartContainer>
         <S.TextContainer>
-          <S.Title>
-            {title}
-          </S.Title>
-          <S.Subtitle>
-            {subtitle}
-          </S.Subtitle>
+          <S.Title>{title}</S.Title>
+          <S.Subtitle>{subtitle}</S.Subtitle>
         </S.TextContainer>
         {children}
       </S.ChartContainer>

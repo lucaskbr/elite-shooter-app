@@ -5,6 +5,10 @@ const handleBtnBackground = (type) => {
     return '#ff0066';
   }
 
+  if (type === 'success') {
+    return '#00D1B2';
+  }
+
   if (type === 'invisible') {
     return 'transparent';
   }
@@ -15,13 +19,21 @@ const handleBtnColor = (type) => {
     return '#fff';
   }
 
+  if (type === 'success') {
+    return '#fff';
+  }
+
   if (type === 'invisible') {
-    return '#C4C4C4';
+    return '#222';
   }
 };
 
 const handleBtnBorder = (type) => {
   if (type === 'primary') {
+    return 'transparent';
+  }
+
+  if (type === 'success') {
     return 'transparent';
   }
 

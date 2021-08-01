@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { StatusBar} from 'react-native';
+import { StatusBar } from 'react-native';
 
 import { S } from './style';
 
@@ -22,7 +22,7 @@ const ScreenContainer = (props) => {
       paddingHorizontal={paddingHorizontal}
       {...rest}
     >
-      <StatusBar backgroundColor={statusBarColor} barStyle={statusBarStyle} /> 
+      <StatusBar backgroundColor={statusBarColor} barStyle={statusBarStyle} />
       {children}
     </S.ScreenContainer>
   );
@@ -41,7 +41,7 @@ ScreenContainer.defaultProps = {
   paddingVertical: 0,
   paddingHorizontal: 0,
   statusBarColor: '#FFF',
-  barStyle: 'default'
+  barStyle: 'default',
 };
 
 ScreenContainer.defaultProps = {};

@@ -4,7 +4,7 @@ const Username = styled.Text`
   margin-left: 15px;
   font-size: 25px;
   font-family: 'Exo2_900Black_Italic';
-  color: #F14668;
+  color: #f14668;
 `;
 
 const S = {

@@ -1,29 +1,23 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import Spinner from 'react-native-loading-spinner-overlay';
+import { ScreenContainer } from '@components/ScreenContainer';
 
-const IsLoading = (props) => {
-  const { condition, children } = props;
-
-  return <>
-    { !condition && children }
-    { condition && 
+const IsLoading = () => (
+  <ScreenContainer
+    paddingVertical={15}
+    paddingHorizontal={15}
+    style={{ justifyContent: 'center' }}
+  >
     <Spinner
-      visible={true}
+      visible
       size="large"
       color="#FF0066"
       overlayColor="#FFF"
-      textContent={'Buscando informações'}
+      textContent="Buscando informações"
       textStyle={{ color: '#FF0066' }}
     />
-    }
-  </>;
-};
-
-IsLoading.propTypes = {
-  children: PropTypes.node.isRequired,
-  condition: PropTypes.bool.isRequired
-};
+  </ScreenContainer>
+);
 
 export { IsLoading };

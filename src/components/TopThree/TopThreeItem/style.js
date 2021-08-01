@@ -15,9 +15,8 @@ const Crown = styled.Image`
   height: 70px;
 `;
 
-
 const Name = styled.Text`
-  color: #FF0066;
+  color: #ff0066;
   font-size: 16px;
   font-family: 'Exo2_800ExtraBold';
   text-align: center;
@@ -28,12 +27,10 @@ const Name = styled.Text`
   padding: 2px 10px;
 `;
 
-
-
 const S = {
   TopThreeItem,
   Crown,
-  Name
+  Name,
 };
 
 export { S };

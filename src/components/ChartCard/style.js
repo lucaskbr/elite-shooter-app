@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 const ChartCard = styled.View`
   background: #ffffff;
   width: 100%;
-  height: ${props => props.height && `${props.height}px`};
+  height: ${(props) => props.height && `${props.height}px`};
   align-items: flex-start;
   elevation: 2;
   border: 1px solid transparent;
@@ -17,8 +17,7 @@ const ChartContainer = styled.View`
   flex: 1;
 `;
 
-const TextContainer = styled.View`
-`;
+const TextContainer = styled.View``;
 
 const Title = styled.Text`
   font-family: 'Exo2_700Bold';
@@ -33,7 +32,7 @@ const S = {
   ChartContainer,
   TextContainer,
   Title,
-  Subtitle
+  Subtitle,
 };
 
 export { S };

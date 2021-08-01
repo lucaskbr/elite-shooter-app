@@ -16,7 +16,8 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'prettier'],
+  
+  plugins: ['react', 'prettier', 'module-resolver'],
   rules: {
     'prettier/prettier': 'error',
     'react/jsx-filename-extension': [
@@ -33,5 +34,19 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-console': 'off',
     'import/no-extraneous-dependencies': 'off',
+    "module-resolver/use-alias": 2
   },
+  settings: {
+    'import/resolver': {
+      'babel-module': {
+        alias: {
+          "@components": "./src/components",
+          "@assets": "./assets",
+          "@services": "./src/services",
+          "@screens": "./src/screens",
+          "@contexts": "./src/contexts",
+        },
+      }
+    }
+  }
 };
