@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, View, Text } from 'react-native';
 
@@ -20,30 +20,74 @@ import { PlacesContext } from '@contexts/places/PlacesContext';
 import { ParamsContext } from '@contexts/params/ParamsContext';
 
 import { TopActionButton } from '@containers';
+import { operations, shootingRangesOnline, socket } from '../../../services/socketio';
 
 
 const HomeScreen = (props) => {
   const { route, navigation } = props;
   const { placeId } = route.params;
 
-  const { isLoading, shootingRanges, handleShootingRanges } =
-    useContext(PlacesContext);
+  const { isLoading, shootingRanges, handleShootingRanges } = useContext(PlacesContext);
 
   const { setCurrentPlace } = useContext(ParamsContext);
 
+  const [onlineShootingRanges, setOnlineShootingRanges] = useState(new Set());
+
+  // const onlineShootingRanges = new Set();
+
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       handleShootingRanges({ placeId });
-
-      return () => setCurrentPlace(placeId)
-
+      setCurrentPlace(placeId)
     }, []),
   );
+
+  useEffect(() => {
+    const shootingRangesIds = shootingRanges.map(shootingRange => shootingRange._id) || [];
+    operations.emitDashboardStart(shootingRangesIds);
+
+  }, []);
+
+  // useEffect(() => {
+  //   operations.listenShootingRangeActive((err, data) => {
+  //     if (err) return
+
+  //     setOnlineShootingRanges(data);
+  //   });
+  // }, [socket]);
+
+
+  const addOnlineShootingRanges = id =>{
+    setOnlineShootingRanges(previousState => new Set([...previousState, id]))
+  }
+
+  const removeOnlineShootingRanges = id =>{
+    setOnlineShootingRanges(previousState => new Set([...previousState].filter(x => x !== id)))
+  }
+
+
+  operations.listenShootingRangeActive((err, shootingRangeId) => {
+    if (err) return
+
+    console.log(shootingRangeId)
+    addOnlineShootingRanges(shootingRangeId);
+  });
+
+
+  operations.listenDisconnect((err, shootingRangeId) => {
+    if (err) return
+    console.log('disconnect');
+    removeOnlineShootingRanges(shootingRangeId);
+  });
+
+
 
   if (isLoading || !shootingRanges) {
     return <IsLoading />;
   }
 
+
+  console.log()
   return (
     <ScreenContainer paddingHorizontal={10}>
       <TopActionButton
@@ -90,6 +134,7 @@ const HomeScreen = (props) => {
         renderItem={({ item }) => (
           <ShootingRangeCard
             shootingRange={item}
+            isOnline={onlineShootingRanges.has(item._id)}
             onPress={() =>
               navigation.navigate('ShootingRangesDetails', {
                 id: item._id,
@@ -98,6 +143,12 @@ const HomeScreen = (props) => {
           />
         )}
       />
+      <Separator height={20} />
+      {/* {
+        onlineShootingRanges.map(e => (
+          <Text>{e}</Text>
+        ))
+      } */}
     </ScreenContainer>
   );
 };

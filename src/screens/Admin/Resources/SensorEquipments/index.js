@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, View, Text } from 'react-native';
+
+import { ParamsContext } from '@contexts/params/ParamsContext';
+
+import { HeaderList, TopActionButton } from '@containers';
 
 import {
   ScreenContainer,
@@ -8,27 +12,27 @@ import {
   Separator,
   GunCard,
   IsLoading,
-  SensorEquipmentCard
+  SensorEquipmentCard,
+  EmptyList
 } from '@components';
 
-
-import { HeaderList, TopActionButton } from '@containers';
 import { sensorEquipmentsEndpoints } from '@services/eliteShooterApi/endpoints/sensorEquipments';
-import { ParamsContext } from '@contexts/params/ParamsContext';
-
 
 const ResourcesSensorEquipmentsScreen = (props) => {
 
+  const { navigation } = props;
+
   const { currentPlace } = useContext(ParamsContext);
-  console.log(currentPlace)
 
   const [sensorEquipments, setSensorEquipments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchApi = async () => {
+  const getAllSensorEquipments = async () => {
     try {
       setIsLoading(true);
-      const { data } = await sensorEquipmentsEndpoints .findAll();
+      const { data } = await sensorEquipmentsEndpoints.findAll({
+        placeId: currentPlace
+      });
       setSensorEquipments(data);
     } catch (err) {
       console.log(err)
@@ -38,8 +42,8 @@ const ResourcesSensorEquipmentsScreen = (props) => {
   }
 
   useFocusEffect(
-    React.useCallback(() => {
-      fetchApi();
+    useCallback(() => {
+      currentPlace && getAllSensorEquipments();
     }, []),
   );
 
@@ -54,15 +58,16 @@ const ResourcesSensorEquipmentsScreen = (props) => {
         title="Cadastrar novo sensor"
         buttonText="Cadastrar"
         type="success"
-        // onPress={() => navigation.navigate('Resources', { placeId })}
+        onPress={() => navigation.navigate('SensorEquipmentsAdd', { placeId: currentPlace })}
       />
       <FlatList
         contentContainerStyle={{ padding: 1 }}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={<HeaderList title="Armas do local" />}
+        ListHeaderComponent={<HeaderList title="Sensores do local" />}
         data={sensorEquipments}
         keyExtractor={(item, index) => `${item.id}${index}`}
         ItemSeparatorComponent={() => <Separator height={10} />}
+        ListEmptyComponent={(<EmptyList>Nenhum sensor encontrado</EmptyList>)}
         renderItem={({ item }) => (
           <SensorEquipmentCard
            // onPress={() => navigation.navigate('Modality')}

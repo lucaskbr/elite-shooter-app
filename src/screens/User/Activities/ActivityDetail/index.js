@@ -33,7 +33,6 @@ const ActivityDetailScreen = (props) => {
           .catch((e) => {}),
       ])
         .then((values) => {
-          console.log(values)
           setActivity(values[0]);
           setIsLoading(false);
         })

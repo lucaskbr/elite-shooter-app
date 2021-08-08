@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList } from 'react-native';
+
+import { ParamsContext } from '@contexts/params/ParamsContext';
+
+import { HeaderList, TopActionButton } from '@containers';
 
 import {
   ScreenContainer,
@@ -8,27 +12,24 @@ import {
   Separator,
   GunCard,
   IsLoading,
-  ShootingRangeCard
+  ShootingRangeCard,
+  EmptyList
 } from '@components';
 
-
-import { HeaderList, TopActionButton } from '@containers';
 import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
-import { ParamsContext } from '@contexts/params/ParamsContext';
-
 
 const ResourcesShootingRangesScreen = (props) => {
 
+  const { navigation } = props;
   const { currentPlace } = useContext(ParamsContext);
-  console.log(currentPlace)
 
   const [shootingRanges, setShootingRanges] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchApi = async () => {
+  const getAllShootingRanges = async () => {
     try {
       setIsLoading(true);
-      const { data } = await shootingRangesEndpoints.findAll({ });
+      const { data } = await shootingRangesEndpoints.findAll({ placeId: currentPlace });
       setShootingRanges(data);
     } catch (err) {
       console.log(err)
@@ -38,8 +39,8 @@ const ResourcesShootingRangesScreen = (props) => {
   }
 
   useFocusEffect(
-    React.useCallback(() => {
-      fetchApi();
+    useCallback(() => {
+      getAllShootingRanges();
     }, []),
   );
 
@@ -53,7 +54,7 @@ const ResourcesShootingRangesScreen = (props) => {
         title="Cadastrar nova baia"
         buttonText="Cadastrar"
         type="success"
-        // onPress={() => navigation.navigate('Resources', { placeId })}
+        onPress={() => navigation.navigate('ShootingRangesAdd', { placeId: currentPlace })}
       />
       <FlatList
         contentContainerStyle={{ padding: 1 }}
@@ -62,9 +63,9 @@ const ResourcesShootingRangesScreen = (props) => {
         data={shootingRanges}
         keyExtractor={(item, index) => `${item.id}${index}`}
         ItemSeparatorComponent={() => <Separator height={10} />}
+        ListEmptyComponent={(<EmptyList>Nenhuma baia de tiro encontrada</EmptyList>)}
         renderItem={({ item }) => (
           <ShootingRangeCard
-           // onPress={() => navigation.navigate('Modality')}
             shootingRange={item}
           />
         )}

@@ -3,7 +3,9 @@ import { Text, View, useWindowDimensions } from 'react-native';
 
 import Carousel from 'react-native-snap-carousel';
 
-import { ChartCard, PieChart, VerticalBarChart } from '@components';
+import { ChartCard } from '../Cards/ChartCard';
+import { PieChart } from './PieChart';
+import { VerticalBarChart } from './VerticalBarChart';
 
 const ChartSlide = () => {
   const windowWidth = useWindowDimensions().width;

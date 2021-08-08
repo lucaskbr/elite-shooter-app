@@ -7,7 +7,6 @@ const ParamsProvider = ({ children }) => {
 
   const [currentPlace, setCurrentPlace] = useState(null)
 
-
   return (
     <ParamsContext.Provider value={{ currentPlace, setCurrentPlace }}>
       {children}

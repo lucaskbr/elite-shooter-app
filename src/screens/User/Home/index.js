@@ -55,7 +55,7 @@ const HomeScreen = (props) => {
         <Username text={user.name || ''} />
       </S.ProfileInfo>
 
-      <ChartSlide />
+      {/* <ChartSlide /> */}
 
       <Separator height={20} />
 

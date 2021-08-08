@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { StackActions } from '@react-navigation/native';
 
 import {
   Button,
@@ -12,9 +13,47 @@ import targetPath from '@assets/target.png';
 import { TipModal } from './TipModal';
 
 import { S } from './style';
+import { Alert } from 'react-native';
+import { handleShotResult } from '../../../services/socketio';
 
-const AimScreen = () => {
+const AimScreen = (props) => {
+
+  const { navigation } = props;
+
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSessionActive, setIsSessionActive] = useState(true);
+
+  useEffect(() => navigation.addListener('beforeRemove', (e) => {
+        if (!isSessionActive) {
+          return;
+        }
+
+        // Prevent default behavior of leaving the screen
+        e.preventDefault();
+
+        // Prompt the user before leaving the screen
+        Alert.alert(
+          'Deseja encerrar a sessão de tiro?',
+          `Se você encerrar a sessão de tiro agora não será possível retomar o estado que ela está agora. O registro ficará salvo para consultas futuras`,
+          [
+            { text: "Não encerrar", style: 'cancel', onPress: () => {} },
+            {
+              text: 'Encerrar',
+              style: 'destructive',
+              // If the user confirmed, then we dispatch the action we blocked earlier
+              // This will continue the action that had triggered the removal of the screen
+              onPress: () => {
+                navigation.dispatch(e.data.action)
+                navigation.dispatch(StackActions.popToTop())
+              },
+            },
+          ]
+        );
+      }),
+    [navigation, isSessionActive]
+  );
+  
+  handleShotResult()
 
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={15}>

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { S } from './style';
 
 const ShootingRangeCard = (props) => {
-  const { shootingRange, ...rest } = props;
+  const { shootingRange, isOnline, ...rest } = props;
   const { code, type } = shootingRange;
 
   return (
@@ -14,7 +14,8 @@ const ShootingRangeCard = (props) => {
       <View>
         <S.Place>{type || ''}</S.Place>
       </View>
-      {Math.floor(Math.random() * 10) % 2 === 0 ? <S.Online>Online</S.Online> :  <S.Offline>Offline</S.Offline>}
+      {/* {Math.floor(Math.random() * 10) % 2 === 0 ? <S.Online>Online</S.Online> :  <S.Offline>Offline</S.Offline>} */}
+      {isOnline ? <S.Online>Online</S.Online> : <S.Offline>Offline</S.Offline>}
       
     </S.ShootingRangeCard>
   );

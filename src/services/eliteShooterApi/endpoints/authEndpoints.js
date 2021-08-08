@@ -1,6 +1,6 @@
 import { eliteShooterAPI } from '@services/eliteShooterApi/api';
 
-const authEndpoint = {
+const authEndpoints = {
   signin: ({ username, password }) =>
     eliteShooterAPI.post('/auth/signin', {
       username,
@@ -8,4 +8,4 @@ const authEndpoint = {
     }),
 };
 
-export { authEndpoint };
+export { authEndpoints };

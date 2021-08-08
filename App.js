@@ -54,7 +54,7 @@ import { KeyboardAvoidingView, LogBox } from 'react-native';
 
 import { Navigations } from './src/navigations';
 
-// import { socket } from './src/services/socketio'
+import { socket } from './src/services/socketio'
 
 
 LogBox.ignoreAllLogs(); // Ignore all log notifications

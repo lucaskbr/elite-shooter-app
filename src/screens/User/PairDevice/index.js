@@ -24,7 +24,6 @@ const PairDeviceScreen = (props) => {
   useEffect(() => {
     (async () => {
       await cameraPermissionReq();
-      setScanned(false);
     })();
   }, []);
 

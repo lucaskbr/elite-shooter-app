@@ -28,7 +28,7 @@ const GunCard = (props) => {
   };
 
   return (
-    <S.GunCard {...rest}>
+    <S.GunCard delayLongPress={1500} {...rest}>
       <S.GunImageWrapper>
         <S.GunImage resizeMode="contain" source={handleImgToDisplay(type)} />
       </S.GunImageWrapper>

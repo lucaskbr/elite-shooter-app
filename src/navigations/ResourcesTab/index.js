@@ -9,6 +9,7 @@ const HandleScreesToShow = () => {
 
   return (
     <Tab.Navigator
+      backBehavior="order"
       tabBarOptions={{
         activeTintColor: '#003366',
         inactiveTintColor: '#CACACA',

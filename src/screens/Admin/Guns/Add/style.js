@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-const AddShootingRange = styled.View`
+const AddGun = styled.View`
   flex: 1;
   display: flex;
   justify-content: center;
@@ -13,7 +13,7 @@ const SelectContainer = styled.View`
 `;
 
 const S = {
-  AddShootingRange,
+  AddGun,
   SelectContainer,
 };
 

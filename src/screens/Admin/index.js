@@ -8,6 +8,8 @@ import {
 import { ResourcesGunsScreen } from './Resources/Guns';
 import { ResourcesSensorEquipmentsScreen } from './Resources/SensorEquipments';
 import { ResourcesShootingRangesScreen } from './Resources/ShootingRanges';
+import { SensorEquipmentsAddScreen } from './SensorEquipments';
+import { GunsAddScreen } from './Guns';
 
 const Admin = {
   HomeScreen,
@@ -18,7 +20,8 @@ const Admin = {
   ResourcesGunsScreen,
   ResourcesShootingRangesScreen,
   ResourcesSensorEquipmentsScreen,
-  
+  SensorEquipmentsAddScreen,
+  GunsAddScreen
 };
 
 export { Admin };

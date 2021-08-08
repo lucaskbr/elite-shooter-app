@@ -49,6 +49,18 @@ const StackNavigation = (props) => {
         name="ShootingRangesDetails"
         component={Admin.ShootingRangesDetailsScreen}
       />
+      <Stack.Screen
+        name="ShootingRangesAdd"
+        component={Admin.ShootingRangesAddScreen}
+      />
+      <Stack.Screen
+        name="SensorEquipmentsAdd"
+        component={Admin.SensorEquipmentsAddScreen}
+      />
+            <Stack.Screen
+        name="GunsAdd"
+        component={Admin.GunsAddScreen}
+      />
     </>
   );
 
