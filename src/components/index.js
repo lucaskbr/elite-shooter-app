@@ -4,6 +4,7 @@ import { InputGroup } from './InputGroup';
 import { Label } from './Label';
 import { TextInput } from './TextInput';
 import { ScreenContainer } from './ScreenContainer';
+import { TopThree } from './TopThree';
 import { Title } from './Title';
 import { ProfilePic } from './ProfilePic';
 import { Separator } from './Separator';
@@ -35,6 +36,7 @@ export {
   ChartCard,
   ChartSlide,
   Username,
+  TopThree,
   InputError,
   ShootingRangeCard,
   SensorEquipmentCard,

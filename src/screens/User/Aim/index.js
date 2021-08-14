@@ -14,14 +14,20 @@ import { TipModal } from './TipModal';
 
 import { S } from './style';
 import { Alert } from 'react-native';
-import { handleShotResult } from '../../../services/socketio';
+import { operations } from '../../../services/socketio';
 
 const AimScreen = (props) => {
+  const { route, navigation } = props;
+  const { params } = route;
 
-  const { navigation } = props;
+  console.log(params)
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSessionActive, setIsSessionActive] = useState(true);
+
+  useEffect(() => {
+    operations.emitShootingActivityStart(params)
+  }, [])
 
   useEffect(() => navigation.addListener('beforeRemove', (e) => {
         if (!isSessionActive) {
@@ -52,8 +58,6 @@ const AimScreen = (props) => {
       }),
     [navigation, isSessionActive]
   );
-  
-  handleShotResult()
 
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={15}>

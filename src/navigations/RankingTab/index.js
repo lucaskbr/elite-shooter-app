@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { RankingScreen } from '@screens/User';
+import { Shared } from '@screens/Shared';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,25 +20,25 @@ const RankingTab = () => (
   >
     <Tab.Screen
       name="RankingAll"
-      component={RankingScreen}
+      component={Shared.RankingScreen}
       options={{ tabBarLabel: 'Geral' }}
       initialParams={{ id: 'all' }}
     />
     <Tab.Screen
       name="RankingYearly"
-      component={RankingScreen}
+      component={Shared.RankingScreen}
       options={{ tabBarLabel: 'Anual' }}
       initialParams={{ id: 'yearly' }}
     />
     <Tab.Screen
       name="RankingMonthly"
-      component={RankingScreen}
+      component={Shared.RankingScreen}
       options={{ tabBarLabel: 'Mensal' }}
       initialParams={{ id: 'monthly' }}
     />
     <Tab.Screen
       name="RankingWeekly"
-      component={RankingScreen}
+      component={Shared.RankingScreen}
       options={{ tabBarLabel: 'Semanal' }}
       initialParams={{ id: 'weekly' }}
     />

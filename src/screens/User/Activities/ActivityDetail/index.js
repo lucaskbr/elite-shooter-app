@@ -16,7 +16,7 @@ import {
 import { S } from './style';
 
 const ActivityDetailScreen = (props) => {
-  const [activity, setActivity] = useState();
+  const [activity, setActivity] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const { route, navigation } = props;
@@ -33,6 +33,7 @@ const ActivityDetailScreen = (props) => {
           .catch((e) => {}),
       ])
         .then((values) => {
+          console.log(values)
           setActivity(values[0]);
           setIsLoading(false);
         })
@@ -41,7 +42,7 @@ const ActivityDetailScreen = (props) => {
   }, []);
 
   if (isLoading) {
-    return <IsLoading condition={isLoading} />;
+    return <></>
   }
 
   return (
@@ -69,7 +70,7 @@ const ActivityDetailScreen = (props) => {
 
       <Separator height={1} backgroundColor="#DCDCE6" marginVertical={20} />
 
-      <ChartSlide />
+      {/* <ChartSlide /> */}
 
       <Separator height={1} marginVertical={20} />
 

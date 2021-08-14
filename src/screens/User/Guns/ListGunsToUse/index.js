@@ -15,7 +15,8 @@ import {
 import { gunsEndpoints } from '../../../../services/eliteShooterApi/endpoints/gunsEndpoints';
 
 const ListGunsToUseScreen = (props) => {
-  const { navigation } = props;
+  const { route, navigation } = props;
+  const { params } = route;
 
   const [myGuns, setMyGuns] = useState([]);
   const [placeGuns, setPlaceGuns] = useState([]);
@@ -89,7 +90,7 @@ const ListGunsToUseScreen = (props) => {
           ItemSeparatorComponent={() => <Separator height={10} />}
           renderItem={({ item }) => (
             <GunCard
-              onPress={() => navigation.navigate('Modality')}
+              onPress={() => navigation.navigate('Modality', { ...params, gunId: item._id })}
               gun={item}
             />
           )}
@@ -115,7 +116,7 @@ const ListGunsToUseScreen = (props) => {
           ItemSeparatorComponent={() => <Separator height={10} />}
           renderItem={({ item }) => (
             <GunCard
-              onPress={() => navigation.navigate('Modality')}
+              onPress={() => navigation.navigate('Modality', { ...params, gunId: item._id })}
               gun={item}
             />
           )}

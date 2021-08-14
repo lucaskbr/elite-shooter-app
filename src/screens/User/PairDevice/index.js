@@ -30,7 +30,7 @@ const PairDeviceScreen = (props) => {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    navigate('ListGunsToUse');
+    navigate('ListGunsToUse', { placeId: 'placeID', shootingRangeId: 'shootingRangeId' });
   };
 
   const handleMessageRequestPermission = (hasPermission) => {
@@ -64,7 +64,8 @@ const PairDeviceScreen = (props) => {
           <Button
             text="Scanear agora"
             // onPress={() => setShouldScan((prevState) => !prevState)}
-            onPress={() => navigate('ListGunsToUse')}
+            // TODO: Remove this
+            onPress={() => navigate('ListGunsToUse', { placeId: 'placeID', shootingRangeId: 'shootingRangeId' })}
           />
         </ViewContainer>
       )}

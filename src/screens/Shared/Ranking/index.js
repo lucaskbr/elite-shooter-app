@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { IsLoading, ScreenContainer } from '@components';
-import { RankingList } from '@components/RankingList';
-import { TopThree } from '@components/TopThree';
+import { TopThree, ScreenContainer, RankingList } from '@components';
 
 import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 
 const RankingScreen = (props) => {
-  const { route } = props;
-  const { id } = route.params;
+  // const { route } = props;
+  // const { id } = route.params;
 
   const isFocused = useIsFocused();
 
@@ -31,14 +29,16 @@ const RankingScreen = (props) => {
     }, []),
   );
 
-  return isFocused ? (
+  if (isLoading || isFocused) {
+    return <></>
+  }
+
+  return (
     <ScreenContainer backgroundColor="#00264D" statusBarColor="#00264D">
-      <IsLoading condition={isLoading}>
-        <TopThree data={topThree} />
-        <RankingList data={ranking} />
-      </IsLoading>
+      <TopThree data={topThree} />
+      <RankingList data={ranking} />
     </ScreenContainer>
-  ) : null;
+  )
 };
 
 export { RankingScreen };

@@ -32,10 +32,17 @@ socket.on('connect_error', (err) => {
 
 
 
+
 const emitDashboardStart = (shootingRanges) => {
   console.log('dashboardStart')
   console.log(shootingRanges)
   socket.emit('dashboard:start', shootingRanges);
+}
+
+const emitShootingActivityStart = (shootingActivity) => {
+  console.log('shootingActivityStart')
+  console.log(shootingActivity)
+  socket.emit('shootingActivity:start', shootingActivity);
 }
 
 const listenShootingRangeActive = (callback) => {
@@ -50,6 +57,7 @@ const listenDisconnect = (callback) => {
 
 const operations = {
   emitDashboardStart,
+  emitShootingActivityStart,
   listenShootingRangeActive,
   listenDisconnect
 }
