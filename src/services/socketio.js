@@ -45,6 +45,16 @@ const emitShootingActivityStart = (shootingActivity) => {
   socket.emit('shootingActivity:start', shootingActivity);
 }
 
+const emitShootingActivityEnd = () => {
+  console.log('shootingActivityEnd')
+  socket.emit('shootingActivity:end', { });
+}
+
+const listenShootingActivityStarted = (callback) => {
+  console.log('shootingActivityStarted')
+  socket.on('shootingActivity:started', ({ shootingActivityId }) => callback(null, shootingActivityId))
+}
+
 const listenShootingRangeActive = (callback) => {
   console.log('listenShootingRangeActive')
   socket.on('shootingRange:active', ({ shootingRangeId }) => callback(null, shootingRangeId))
@@ -58,6 +68,8 @@ const listenDisconnect = (callback) => {
 const operations = {
   emitDashboardStart,
   emitShootingActivityStart,
+  emitShootingActivityEnd,
+  listenShootingActivityStarted,
   listenShootingRangeActive,
   listenDisconnect
 }

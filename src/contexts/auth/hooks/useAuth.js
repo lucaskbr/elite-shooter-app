@@ -4,12 +4,12 @@ import { eliteShooterAPI } from '@services/eliteShooterApi/api';
 
 import { authEndpoints } from '@services/eliteShooterApi/endpoints/authEndpoints';
 import { Alert, Keyboard } from 'react-native';
-import { socket } from '../../../services/socketio';
 
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState('');
 
   async function handleLogin(params) {
     Keyboard.dismiss();
@@ -18,13 +18,14 @@ export default function useAuth() {
     try {
       console.log(params)
       const { data } = await authEndpoints.signin({ username, password });
-      const { token, role } = data;
+      const { _id, token, role } = data;
 
       eliteShooterAPI.defaults.headers.Authorization = `Bearer ${token}`;
-      setAuthenticated(true);
+      setUserId(_id);
       setIsAdmin(role === 'admin');
+      setAuthenticated(true);
     } catch (err) {
-      Alert.alert('Ocorreu um erro ao realizar o login', [{ text: 'OK' }]);
+      Alert.alert('Ocorreu um erro ao realizar o login', '', [{ text: 'OK' }]);
     }
     setLoading(false);
   }
@@ -34,5 +35,5 @@ export default function useAuth() {
     eliteShooterAPI.defaults.headers.Authorization = undefined;
   }
 
-  return { authenticated, isAdmin, loading, handleLogin, handleLogout };
+  return { authenticated, isAdmin, userId, loading, handleLogin, handleLogout };
 }

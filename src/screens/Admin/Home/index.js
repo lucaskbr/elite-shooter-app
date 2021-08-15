@@ -38,7 +38,7 @@ const HomeScreen = (props) => {
   useFocusEffect(
     useCallback(() => {
       handleShootingRanges({ placeId });
-      setCurrentPlace(placeId)
+      setCurrentPlace(placeId);
     }, []),
   );
 

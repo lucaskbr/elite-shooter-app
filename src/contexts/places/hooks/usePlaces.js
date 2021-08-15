@@ -17,7 +17,9 @@ export default function usePlaces() {
   async function handlePlaces(params) {
     try {
       setIsLoading(true);
+      console.log('handleplaces')
       const { data } = await placesEndpoint.findAll({});
+      console.log(data)
       setPlaces(data);
     } catch (err) {
       console.log(err);

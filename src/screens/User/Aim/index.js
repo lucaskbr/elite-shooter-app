@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StackActions } from '@react-navigation/native';
 
 import {
@@ -16,17 +16,21 @@ import { S } from './style';
 import { Alert } from 'react-native';
 import { operations } from '../../../services/socketio';
 
+import { AuthContext } from '@contexts/auth/authContext';
+
 const AimScreen = (props) => {
   const { route, navigation } = props;
   const { params } = route;
 
-  console.log(params)
+
+  const { userId } = useContext(AuthContext);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSessionActive, setIsSessionActive] = useState(true);
+  const [shootingActivityId, setShootingActivityId] = useState('');
 
   useEffect(() => {
-    operations.emitShootingActivityStart(params)
+    operations.emitShootingActivityStart({ ...params, ownerId: userId })
   }, [])
 
   useEffect(() => navigation.addListener('beforeRemove', (e) => {
@@ -49,8 +53,9 @@ const AimScreen = (props) => {
               // If the user confirmed, then we dispatch the action we blocked earlier
               // This will continue the action that had triggered the removal of the screen
               onPress: () => {
-                navigation.dispatch(e.data.action)
-                navigation.dispatch(StackActions.popToTop())
+                operations.emitShootingActivityEnd();
+                navigation.dispatch(e.data.action);
+                navigation.dispatch(StackActions.popToTop());
               },
             },
           ]
@@ -58,6 +63,16 @@ const AimScreen = (props) => {
       }),
     [navigation, isSessionActive]
   );
+
+
+  operations.listenShootingActivityStarted((err, shootingActivityId) => {
+    if (err) return;
+
+    console.log(shootingActivityId)
+    setShootingActivityId(shootingActivityId);
+  });
+
+
 
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={15}>

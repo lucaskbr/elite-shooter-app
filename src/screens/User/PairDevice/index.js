@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import { IconOutline } from '@ant-design/icons-react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Button, ScreenContainer, Separator } from '@components';
 import { ViewContainer } from '../../../containers';
@@ -14,23 +15,30 @@ const PairDeviceScreen = (props) => {
   const [shouldScan, setShouldScan] = useState(false);
 
   const { navigation } = props;
-  const { navigate } = navigation;
 
   const cameraPermissionReq = async () => {
     const { status } = await BarCodeScanner.requestPermissionsAsync();
     setHasPermission(status === 'granted');
   };
 
-  useEffect(() => {
-    (async () => {
-      await cameraPermissionReq();
-    })();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        await cameraPermissionReq();
+        setScanned(false);
+      })()
+    }, [])
+  );
 
-  const handleBarCodeScanned = ({ type, data }) => {
+
+  const handleBarCodeScanned = ({ type, data: json }) => {
     setScanned(true);
     // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    navigate('ListGunsToUse', { placeId: 'placeID', shootingRangeId: 'shootingRangeId' });
+    const data = JSON.parse(json)
+    // { placeId: 'placeID', shootingRangeId: 'shootingRangeId' }
+
+    navigation.navigate('ListGunsToUse', data);
+    setShouldScan(false);
   };
 
   const handleMessageRequestPermission = (hasPermission) => {
@@ -63,9 +71,9 @@ const PairDeviceScreen = (props) => {
           <IconOutline name="qrcode" size={300} />
           <Button
             text="Scanear agora"
-            // onPress={() => setShouldScan((prevState) => !prevState)}
+            onPress={() => setShouldScan((prevState) => !prevState)}
             // TODO: Remove this
-            onPress={() => navigate('ListGunsToUse', { placeId: 'placeID', shootingRangeId: 'shootingRangeId' })}
+            // onPress={() => navigate('ListGunsToUse', { placeId: 'placeID', shootingRangeId: 'shootingRangeId' })}
           />
         </ViewContainer>
       )}
