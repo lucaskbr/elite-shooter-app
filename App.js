@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
+import Toast from 'react-native-toast-message';
+
 import { AuthProvider } from '@contexts/auth/authContext';
 import { ParamsProvider } from '@contexts/params/ParamsContext';
 
@@ -115,6 +117,7 @@ export default function App() {
             <Navigations />
           </ParamsProvider>
         </AuthProvider>
+        <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 }

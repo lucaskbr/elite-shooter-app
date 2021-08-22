@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 
 // need http
-const socket = io.connect('http://192.168.18.71:3000', {
+const socket = io.connect('http://192.168.18.73:3000', {
   transports: ['websocket'],
 });
 
@@ -55,6 +55,11 @@ const listenShootingActivityStarted = (callback) => {
   socket.on('shootingActivity:started', ({ shootingActivityId }) => callback(null, shootingActivityId))
 }
 
+const listenShootingActivityShotResult = (callback) => {
+  console.log('shootingActivityShotResult')
+  socket.on('shootingActivity:shot:result', ({ value }) => callback(null, value))
+}
+
 const listenShootingRangeActive = (callback) => {
   console.log('listenShootingRangeActive')
   socket.on('shootingRange:active', ({ shootingRangeId }) => callback(null, shootingRangeId))
@@ -70,9 +75,9 @@ const operations = {
   emitShootingActivityStart,
   emitShootingActivityEnd,
   listenShootingActivityStarted,
+  listenShootingActivityShotResult,
   listenShootingRangeActive,
   listenDisconnect
 }
-
 
 export { socket, operations };

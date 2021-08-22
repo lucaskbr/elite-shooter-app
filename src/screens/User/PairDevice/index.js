@@ -71,9 +71,9 @@ const PairDeviceScreen = (props) => {
           <IconOutline name="qrcode" size={300} />
           <Button
             text="Scanear agora"
-            onPress={() => setShouldScan((prevState) => !prevState)}
+            // onPress={() => setShouldScan((prevState) => !prevState)}
             // TODO: Remove this
-            // onPress={() => navigate('ListGunsToUse', { placeId: 'placeID', shootingRangeId: 'shootingRangeId' })}
+            onPress={() => navigation.navigate('ListGunsToUse', { placeId: '6122a10c6e321d6b7b518e37', shootingRangeId: '6122a10c6e321d6b7b518e57' })}
           />
         </ViewContainer>
       )}
