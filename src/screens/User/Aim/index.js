@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StackActions } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import { Alert } from 'react-native';
 
+import { AuthContext } from '@contexts/auth/authContext';
+
+import { operations } from '@services/socketio';
+
+import targetPath from '@assets/target.png';
 
 import {
   Button,
@@ -11,14 +17,9 @@ import {
   Title,
 } from '@components';
 
-import targetPath from '@assets/target.png';
-import { TipModal } from './TipModal';
-
 import { S } from './style';
-import { Alert } from 'react-native';
-import { operations } from '../../../services/socketio';
 
-import { AuthContext } from '@contexts/auth/authContext';
+import { TipModal } from './TipModal';
 
 const AimScreen = (props) => {
   const { route, navigation } = props;

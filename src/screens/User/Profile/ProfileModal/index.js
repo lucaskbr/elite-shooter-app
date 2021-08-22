@@ -1,13 +1,13 @@
-import React from 'react';
-
-import { Button, InputGroup, Label, TextInput } from '@components';
+import React, { useEffect, useState } from 'react';
 
 import Modal from 'react-native-modal';
+
+import { Button, InputGroup, Label, TextInput } from '@components';
 
 import { S } from './style';
 
 const ProfileModal = (props) => {
-  const { isVisible, onChange } = props;
+  const { user, isVisible, onChange } = props;
 
   return (
     <Modal isVisible={isVisible} onBackdropPress={() => onChange && onChange()}>
@@ -16,19 +16,19 @@ const ProfileModal = (props) => {
         <S.InputsContainer>
           <InputGroup>
             <Label text="e-mail:" />
-            <TextInput value="meu_email@email.com" />
+            <TextInput value={user.email} />
           </InputGroup>
           <InputGroup>
             <Label text="username:" />
-            <TextInput value="username" />
+            <TextInput value={user.username} />
           </InputGroup>
           <InputGroup>
             <Label text="nome:" />
-            <TextInput value="Lucas" />
+            <TextInput value={user.firstname} />
           </InputGroup>
           <InputGroup>
             <Label text="sobrenome:" />
-            <TextInput value="Reis" />
+            <TextInput value={user.lastname} />
           </InputGroup>
         </S.InputsContainer>
         <Button text="Salvar" onPress={() => onChange && onChange()} />

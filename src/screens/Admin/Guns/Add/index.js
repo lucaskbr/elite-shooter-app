@@ -1,4 +1,11 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
+import { Picker } from '@react-native-picker/picker';
+
+import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints';
+
+import { PickerStyle } from '@containers/PickerStyle';
 
 import {
   ScreenContainer,
@@ -12,16 +19,7 @@ import {
   InputError
 } from '@components';
 
-import { Picker } from '@react-native-picker/picker';
-
 import { S } from './style';
-
-import { useForm, Controller } from 'react-hook-form';
-import { gunsEndpoints } from '../../../../services/eliteShooterApi/endpoints/gunsEndpoints';
-import { useState } from 'react/cjs/react.development';
-import { Alert } from 'react-native';
-import { PickerStyle } from '../../../../containers/PickerStyle';
-
 
 const GunsAddScreen = (props) => {
   const { navigation, route } = props;

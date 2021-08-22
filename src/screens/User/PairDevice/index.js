@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-
 import { IconOutline } from '@ant-design/icons-react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
+import { ViewContainer } from '@containers';
+
 import { Button, ScreenContainer, Separator } from '@components';
-import { ViewContainer } from '../../../containers';
+
 import { S } from './style';
 
 const PairDeviceScreen = (props) => {

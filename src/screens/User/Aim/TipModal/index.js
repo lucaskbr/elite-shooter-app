@@ -1,12 +1,11 @@
 import React from 'react';
-
-import { Button, InputGroup, Label, TextInput } from '@components';
+import Modal from 'react-native-modal';
 
 import tip1Path from '@assets/tip-01.jpeg';
 import tip2Path from '@assets/tip-02.jpeg';
 import tip3Path from '@assets/tip-03.jpeg';
 
-import Modal from 'react-native-modal';
+import { Button, InputGroup, Label, TextInput } from '@components';
 
 import { S } from './style';
 

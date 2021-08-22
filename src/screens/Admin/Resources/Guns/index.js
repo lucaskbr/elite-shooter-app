@@ -4,6 +4,8 @@ import { FlatList, Alert } from 'react-native';
 
 import { ParamsContext } from '@contexts/params/ParamsContext';
 
+import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints';
+
 import { HeaderList, TopActionButton } from '@containers';
 
 import {
@@ -14,8 +16,6 @@ import {
   IsLoading,
   EmptyList
 } from '@components';
-
-import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints';
 
 const ResourcesGunsScreen = (props) => {
 

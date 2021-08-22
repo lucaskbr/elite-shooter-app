@@ -4,6 +4,8 @@ import { FlatList, View, Text } from 'react-native';
 
 import { ParamsContext } from '@contexts/params/ParamsContext';
 
+import { sensorEquipmentsEndpoints } from '@services/eliteShooterApi/endpoints/sensorEquipments';
+
 import { HeaderList, TopActionButton } from '@containers';
 
 import {
@@ -15,8 +17,6 @@ import {
   SensorEquipmentCard,
   EmptyList
 } from '@components';
-
-import { sensorEquipmentsEndpoints } from '@services/eliteShooterApi/endpoints/sensorEquipments';
 
 const ResourcesSensorEquipmentsScreen = (props) => {
 

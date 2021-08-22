@@ -1,5 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { Alert, FlatList, View } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
+import { Picker } from '@react-native-picker/picker';
+
+import { ParamsContext } from '@contexts/params/ParamsContext';
+
+import { sensorEquipmentsEndpoints } from '@services/eliteShooterApi/endpoints/sensorEquipments';
+
+import { PickerStyle } from '@containers/PickerStyle';
 
 import {
   ScreenContainer,
@@ -12,14 +20,7 @@ import {
   Button,
 } from '@components';
 
-import { Picker } from '@react-native-picker/picker';
-
-import { ParamsContext } from '@contexts/params/ParamsContext';
-
 import { S } from './style';
-import { PickerStyle } from '@containers/PickerStyle';
-import { useForm, Controller } from 'react-hook-form';
-import { sensorEquipmentsEndpoints } from '@services/eliteShooterApi/endpoints/sensorEquipments';
 
 const SensorEquipmentsAddScreen = (props) => {
   const { navigation } = props;

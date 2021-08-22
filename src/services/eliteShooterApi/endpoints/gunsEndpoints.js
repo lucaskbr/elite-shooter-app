@@ -1,9 +1,15 @@
 import { eliteShooterAPI } from '@services/eliteShooterApi/api';
 
 const gunsEndpoints = {
-  findAll: ({ placeId }) => eliteShooterAPI.get('/guns', {
+  findAll: ({ brand, model, type, caliber, weight, placeId, ownerId, }) => eliteShooterAPI.get('/guns', {
     params: {
-      placeId
+      brand,
+      model,
+      type,
+      caliber,
+      weight,
+      placeId,
+      ownerId,
     }
   }),
 

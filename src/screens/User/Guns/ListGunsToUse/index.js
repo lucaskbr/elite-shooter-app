@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, View } from 'react-native';
 
+import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints';
+
 import {
   ScreenContainer,
   Title,
@@ -8,11 +10,7 @@ import {
   GunCard,
   IsLoading,
 } from '@components';
-import {
-  eliteShooterAPI,
-  eliteShooterURI,
-} from '@services/eliteShooterApi/api';
-import { gunsEndpoints } from '../../../../services/eliteShooterApi/endpoints/gunsEndpoints';
+
 
 const ListGunsToUseScreen = (props) => {
   const { route, navigation } = props;

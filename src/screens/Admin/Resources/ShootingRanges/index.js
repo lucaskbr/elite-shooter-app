@@ -4,6 +4,8 @@ import { FlatList } from 'react-native';
 
 import { ParamsContext } from '@contexts/params/ParamsContext';
 
+import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
+
 import { HeaderList, TopActionButton } from '@containers';
 
 import {
@@ -15,8 +17,6 @@ import {
   ShootingRangeCard,
   EmptyList
 } from '@components';
-
-import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
 
 const ResourcesShootingRangesScreen = (props) => {
 

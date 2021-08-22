@@ -1,6 +1,10 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
+import { AuthContext } from '@contexts/auth/authContext';
+
+import logoPath from '@assets/logo.png';
+
 import {
   ScreenContainer,
   Button,
@@ -10,10 +14,6 @@ import {
   Separator,
   InputError,
 } from '@components';
-
-import logoPath from '@assets/logo.png';
-
-import { AuthContext } from '@contexts/auth/authContext';
 
 import { S } from './style';
 

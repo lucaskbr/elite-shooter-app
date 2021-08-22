@@ -2,6 +2,13 @@ import React, { useState, useEffect, useContext, useCallback, useMemo } from 're
 import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, View, Text } from 'react-native';
 
+import { PlacesContext } from '@contexts/places/PlacesContext';
+import { ParamsContext } from '@contexts/params/ParamsContext';
+
+import { operations, shootingRangesOnline, socket } from '@services/socketio';
+
+import { TopActionButton } from '@containers';
+
 import {
   ScreenContainer,
   ActivityCard,
@@ -15,13 +22,6 @@ import {
   ShootingRangeCard,
   Username,
 } from '@components';
-
-import { PlacesContext } from '@contexts/places/PlacesContext';
-import { ParamsContext } from '@contexts/params/ParamsContext';
-
-import { TopActionButton } from '@containers';
-import { operations, shootingRangesOnline, socket } from '../../../services/socketio';
-
 
 const HomeScreen = (props) => {
   const { route, navigation } = props;

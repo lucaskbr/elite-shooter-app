@@ -1,8 +1,7 @@
 import React from 'react';
+import Modal from 'react-native-modal';
 
 import { Button, InputGroup, Label, TextInput } from '@components';
-
-import Modal from 'react-native-modal';
 
 import { S } from './style';
 

@@ -4,6 +4,7 @@ import { ScreenContainer } from '@components';
 
 import controllerPath from '@assets/controller.png';
 import medalPath from '@assets/medal.png';
+
 import { S } from './style';
 
 const ModalityScreen = (props) => {

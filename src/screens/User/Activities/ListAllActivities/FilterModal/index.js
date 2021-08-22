@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Text, TouchableHighlight } from 'react-native';
-
 import Modal from 'react-native-modal';
 import CheckBox from '@react-native-community/checkbox';
 import { Picker } from '@react-native-picker/picker';

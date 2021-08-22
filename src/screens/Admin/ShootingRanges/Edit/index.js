@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FlatList, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 import {
   ScreenContainer,
@@ -11,8 +12,6 @@ import {
   Label,
   Button,
 } from '@components';
-
-import { Picker } from '@react-native-picker/picker';
 
 // import userPicPath from '../../../assets/dash.png';
 

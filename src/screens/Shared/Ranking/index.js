@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { TopThree, ScreenContainer, RankingList } from '@components';
-
 import { useIsFocused, useFocusEffect } from '@react-navigation/native';
+
+import { TopThree, ScreenContainer, RankingList } from '@components';
 
 const RankingScreen = (props) => {
   // const { route } = props;

@@ -1,5 +1,15 @@
 import React, { useCallback, useContext, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { Alert, FlatList, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { useForm, Controller } from 'react-hook-form';
+
+import { ParamsContext } from '@contexts/params/ParamsContext';
+
+import { sensorEquipmentsEndpoints } from '@services/eliteShooterApi/endpoints/sensorEquipments';
+import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
+
+import { PickerStyle } from '@containers/PickerStyle';
 
 import {
   ScreenContainer,
@@ -12,15 +22,11 @@ import {
   Button,
 } from '@components';
 
-import { Picker } from '@react-native-picker/picker';
 
-import { useForm, Controller } from 'react-hook-form';
+
+
 import { S } from './style';
-import { sensorEquipmentsEndpoints } from '@services/eliteShooterApi/endpoints/sensorEquipments';
-import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
-import { ParamsContext } from '@contexts/params/ParamsContext';
-import { useFocusEffect } from '@react-navigation/native';
-import { PickerStyle } from '@containers/PickerStyle';
+
 
 
 const ShootingRangesAddScreen = (props) => {
