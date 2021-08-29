@@ -8,6 +8,7 @@ const ProfilePic = styled.Image`
   width: ${(props) => `${props.height}px`};
   margin: 0;
   padding: 0;
+  background: #fff;
 `;
 
 const S = {

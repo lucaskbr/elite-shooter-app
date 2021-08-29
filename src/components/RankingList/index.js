@@ -8,7 +8,7 @@ import { RankingHeader } from './RankingHeader';
 import { RankingSeparator } from './RankingSeparator';
 
 const RankingList = (props) => {
-  const { data } = props;
+  const { userInFocus, data } = props;
 
   return (
     <S.RankingList
@@ -18,7 +18,7 @@ const RankingList = (props) => {
       // stickyHeaderIndices={[0]}
       ItemSeparatorComponent={() => <RankingSeparator />}
       renderItem={({ item, index }) => (
-        <RankingItem data={{ ...item, index }} />
+        <RankingItem userInFocus={userInFocus} data={{ ...item, index }} />
       )}
     />
   );

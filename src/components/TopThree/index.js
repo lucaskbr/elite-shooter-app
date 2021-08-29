@@ -22,7 +22,7 @@ const TopThree = (props) => {
 };
 
 TopThree.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
 };
 
 TopThree.defaultProps = {};

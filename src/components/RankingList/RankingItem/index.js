@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { ProfilePic } from '@components/ProfilePic';
@@ -6,17 +6,19 @@ import { ProfilePic } from '@components/ProfilePic';
 import { S } from './style';
 
 const RankingItem = (props) => {
-  const { data } = props;
-  const { avatar, name, points, position, index } = data;
+  const { userInFocus, data } = props;
+  const { user, score, position, index = 1 } = data;
+
+  const shouldFocus = userInFocus._id === user._id
 
   return (
-    <S.RankingItem itsMe={index === 0}>
+    <S.RankingItem itsMe={shouldFocus}>
       <S.ProfilePic>
-        <ProfilePic height={50} source={avatar && { uri: avatar }} />
+        <ProfilePic username={user.username} />
       </S.ProfilePic>
-      <S.Name itsMe={index === 0}>{name}</S.Name>
-      <S.Points itsMe={index === 0}>{points}</S.Points>
-      <S.Position itsMe={index === 0}>{`#${position}`}</S.Position>
+      <S.Name itsMe={shouldFocus}>{user.username}</S.Name>
+      <S.Points itsMe={shouldFocus}>{score}</S.Points>
+      <S.Position itsMe={shouldFocus}>{`#${position}`}</S.Position>
     </S.RankingItem>
   );
 };

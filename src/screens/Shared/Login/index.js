@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import { AuthContext } from '@contexts/auth/authContext';
@@ -29,7 +29,7 @@ const LoginScreen = (props) => {
     formState: { errors },
   } = useForm();
 
-  const { handleLogin } = React.useContext(AuthContext);
+  const { handleLogin } = useContext(AuthContext);
 
   const onSubmit = (data) => handleLogin(data);
 

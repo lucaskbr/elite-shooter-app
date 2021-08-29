@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 
 import { ProfilePic } from '@components/ProfilePic';
 
-import userPicPath from '@assets/dash.png';
 import crownPath from '@assets/crown.png';
 import { S } from './style';
 
 const TopThreeItem = (props) => {
   const { isFirst, data } = props;
-  const { name, avatar } = data;
+  const { user } = data;
+  const { username } = user;
 
   return (
     <S.TopThreeItem>
       {isFirst && <S.Crown source={crownPath} />}
-      <ProfilePic source={avatar && { uri: avatar }} />
-      <S.Name>{name}</S.Name>
+      <ProfilePic username={username} />
+      <S.Name>{username}</S.Name>
     </S.TopThreeItem>
   );
 };

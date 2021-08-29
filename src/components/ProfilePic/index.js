@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { S } from './style';
 
 const ProfilePic = (props) => {
-  const { height, width, ...rest } = props;
+  const { username, height, width, ...rest } = props;
 
-  return <S.ProfilePic height={height} {...rest} />;
+  return <S.ProfilePic height={height} source={{ uri: `https://robohash.org/${username}?set=set2` }} {...rest} />;
 };
 
 ProfilePic.propTypes = {

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { FlatList, View, Text } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { AuthContext } from '@contexts/auth/authContext';
 
@@ -54,21 +55,29 @@ const HomeScreen = (props) => {
     }
   }
 
-  useEffect(() => {
-    (async () => {
-      Promise.all([
-        findUserById(),
-        findLastActivities()
-      ])
-        .then((values) => {
-          setUser(values[0]);
-          setUsername(values[0].username);
-          setActivities(values[1]);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        Promise.all([
+          findUserById(),
+          findLastActivities()
+        ])
+          .then((values) => {
+            setUser(values[0]);
+            setUsername(values[0].username);
+            setActivities(values[1]);
+  
+            setIsLoading(false);
+          })
+          .catch(() => setIsLoading(false));
+      })();
+    }, [])
+  );
 
-          setIsLoading(false);
-        })
-        .catch(() => setIsLoading(false));
-    })();
+
+
+  useEffect(() => {
+
   }, []);
 
   if (isLoading || !user) {
@@ -78,7 +87,7 @@ const HomeScreen = (props) => {
   return (
     <ScreenContainer paddingHorizontal={10}>
       <S.ProfileInfo>
-        <ProfilePic source={{ uri: `https://robohash.org/${username}?set=set2` }} />
+        <ProfilePic username={username} />
         <Username text={user.name || ''} />
       </S.ProfileInfo>
 

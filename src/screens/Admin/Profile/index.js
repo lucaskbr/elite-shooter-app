@@ -51,7 +51,7 @@ const ProfileScreen = (props) => {
             alignItems: 'center',
           }}
         >
-          <ProfilePic source={{ uri: `https://robohash.org/?set=set2&170` }} />
+          <ProfilePic username={'admin'} />
           <Username text="username" />
         </View>
 

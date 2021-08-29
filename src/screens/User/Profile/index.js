@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, View } from 'react-native';
 
 import { AuthContext } from '@contexts/auth/authContext';
@@ -17,14 +18,13 @@ import {
 } from '@components';
 
 import { ProfileModal } from './ProfileModal';
+import Toast from 'react-native-toast-message';
 
 const ProfileScreen = (props) => {
   const { navigation } = props;
   const { navigate } = navigation;
 
   const { userId } = useContext(AuthContext);
-
-  // console.log(userId)
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,24 +52,24 @@ const ProfileScreen = (props) => {
     }
   }
 
-  useEffect(() => {
-
-    console.log(userId)
-
-    Promise.all([
-      findUserById(),
-      findUserGuns(),
-    ]).then(
-      (values) => {
-        console.log(values)
-        setUser(values[0]);
-        setUsername(values[0].username);
-        setMyGuns(values[1]);
-        setIsLoading(false);
-      },
-    );
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        Promise.all([
+          findUserById(),
+          findUserGuns(),
+        ]).then(
+          (values) => {
+            console.log(values)
+            setUser(values[0]);
+            setUsername(values[0].username);
+            setMyGuns(values[1]);
+            setIsLoading(false);
+          },
+        );
+      })();
+    }, [])
+  );
 
   if (isLoading) {
     return <></>
@@ -97,7 +97,7 @@ const ProfileScreen = (props) => {
             alignItems: 'center',
           }}
         >
-          <ProfilePic source={{ uri: `https://robohash.org/${username}?set=set2` }} />
+          <ProfilePic username={username} />
           <Username text={username} />
         </View>
 
@@ -152,10 +152,27 @@ const ProfileScreen = (props) => {
         <ProfileModal
           onChange={(data) => {
             setIsModalVisible(false);
+
+            if (data) {
+              if (data.status === 'success') {
+                Toast.show({
+                  text1: 'Perfil atualizado ✅',
+                  text2: 'Seus dados agora estão atualizados'
+                });
+              } else {
+                Toast.show({
+                  type: 'error',
+                  text1: 'Ocorreu um erro ❌',
+                  text2: 'Não foi possível atualizar seus dados'
+                });
+              }
+            }
+
           }}
           isVisible={isModalVisible}
           user={user}
         />
+        <Toast ref={(ref) => Toast.setRef(ref)} />
       </View>
     </ScreenContainer>
   );
