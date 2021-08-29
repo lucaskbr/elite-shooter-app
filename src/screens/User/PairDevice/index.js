@@ -74,7 +74,7 @@ const PairDeviceScreen = (props) => {
             text="Scanear agora"
             // onPress={() => setShouldScan((prevState) => !prevState)}
             // TODO: Remove this
-            onPress={() => navigation.navigate('ListGunsToUse', { placeId: '6122a10c6e321d6b7b518e37', shootingRangeId: '6122a10c6e321d6b7b518e57' })}
+            onPress={() => navigation.navigate('ListGunsToUse', { placeId: '612a9ffae80a7b4a67f4a8de', shootingRangeId: '612a9ffae80a7b4a67f4a8fe' })}
           />
         </ViewContainer>
       )}

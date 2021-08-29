@@ -11,6 +11,13 @@ socket.on('connect', () => {
   console.log(socket.connected)
 });
 
+socket.io.on("reconnection_attempt", () => {
+  console.log('reconnection_attempt')
+});
+
+socket.io.on("reconnect", () => {
+  console.log('reconnect')
+});
 
 socket.on('connect_error', (err) => {
   // revert to classic upgrade
@@ -18,55 +25,56 @@ socket.on('connect_error', (err) => {
   console.log(err);
 });
 
-// console.log('aaaaaaaaaaaa');
-
-// const handleShotResult = () => {
-//   socket.on('SHOT_RESULT', (args) => {
-//     console.log(args)
-//   })
-// }
-
-
-// socket.emit('shootActivity:start', { placeId: '1', sensorEquipmentId: '1' })
-// socket.emit('shootActivity:shot', {  })
-
-
-
+socket.on("disconnect", (reason) => {
+  console.log(reason)
+});
 
 const emitDashboardStart = (shootingRanges) => {
-  console.log('dashboardStart')
+  console.log('dashboard:start')
   console.log(shootingRanges)
   socket.emit('dashboard:start', shootingRanges);
 }
 
 const emitShootingActivityStart = (shootingActivity) => {
-  console.log('shootingActivityStart')
+  console.log('shootingActivity:start')
   console.log(shootingActivity)
   socket.emit('shootingActivity:start', shootingActivity);
 }
 
-const emitShootingActivityEnd = () => {
+const emitShootingActivityEnd = ({ shootingActivityId }) => {
   console.log('shootingActivityEnd')
-  socket.emit('shootingActivity:end', { });
+  console.log(shootingActivityId)
+  socket.emit('shootingActivity:end', { shootingActivityId });
 }
 
-const listenShootingActivityStarted = (callback) => {
-  console.log('shootingActivityStarted')
+const subscribeShootingActivityStarted = (callback) => {
+  if (!socket) {
+    console.log('subscribe error', socket)
+  }
+
+  console.log('shootingActivity:started')
   socket.on('shootingActivity:started', ({ shootingActivityId }) => callback(null, shootingActivityId))
 }
 
-const listenShootingActivityShotResult = (callback) => {
-  console.log('shootingActivityShotResult')
+const subscribeShootingActivityShotResult = (callback) => {
+  if (!socket) {
+    console.log('subscribe error', socket)
+  }
+
+  console.log('shootingActivity:shot:result')
   socket.on('shootingActivity:shot:result', ({ value }) => callback(null, value))
 }
 
-const listenShootingRangeActive = (callback) => {
-  console.log('listenShootingRangeActive')
+const subscribeShootingRangeActive = (callback) => {
+  if (!socket) {
+    console.log('subscribe error', socket)
+  }
+  console.log('shootingRange:active')
   socket.on('shootingRange:active', ({ shootingRangeId }) => callback(null, shootingRangeId))
 }
 
-const listenDisconnect = (callback) => {
-  console.log('listenDisconnect')
+const subscribeDisconnect = (callback) => {
+  console.log('subscribeDisconnect')
   socket.on('socket:disconnect', ({ shootingRangeId }) => callback(null, shootingRangeId))
 }
 
@@ -74,10 +82,10 @@ const operations = {
   emitDashboardStart,
   emitShootingActivityStart,
   emitShootingActivityEnd,
-  listenShootingActivityStarted,
-  listenShootingActivityShotResult,
-  listenShootingRangeActive,
-  listenDisconnect
+  subscribeShootingActivityStarted,
+  subscribeShootingActivityShotResult,
+  subscribeShootingRangeActive,
+  subscribeDisconnect,
 }
 
 export { socket, operations };

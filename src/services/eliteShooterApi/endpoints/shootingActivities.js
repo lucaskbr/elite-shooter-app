@@ -1,9 +1,31 @@
 import { eliteShooterAPI } from '@services/eliteShooterApi/api';
 
 const shootingActivitiesEndpoint = {
-  findAll: ({ ownerId, modality, year, month, populate, limit }) => eliteShooterAPI.get('/shooting-activities', {
+  findAll: ({
+    score,
+    isActive,
+    gunId,
+    modality,
+    placeId,
+    ownerId,
+    shootingRangeId,
+    year,
+    month,
+    limit,
+    populate,
+  }) => eliteShooterAPI.get('/shooting-activities', {
       params: {
-        ownerId, modality, year, month, populate, limit
+        score,
+        isActive,
+        gunId,
+        modality,
+        placeId,
+        ownerId,
+        shootingRangeId,
+        year,
+        month,
+        limit,
+        populate,
       }
     }),
 

@@ -49,7 +49,7 @@ const HomeScreen = (props) => {
   }, []);
 
   // useEffect(() => {
-  //   operations.listenShootingRangeActive((err, data) => {
+  //   operations.subscribeShootingRangeActive((err, data) => {
   //     if (err) return
 
   //     setOnlineShootingRanges(data);
@@ -66,7 +66,7 @@ const HomeScreen = (props) => {
   }
 
 
-  operations.listenShootingRangeActive((err, shootingRangeId) => {
+  operations.subscribeShootingRangeActive((err, shootingRangeId) => {
     if (err) return
 
     console.log(shootingRangeId)
@@ -74,7 +74,7 @@ const HomeScreen = (props) => {
   });
 
 
-  operations.listenDisconnect((err, shootingRangeId) => {
+  operations.subscribeDisconnect((err, shootingRangeId) => {
     if (err) return
     console.log('disconnect');
     removeOnlineShootingRanges(shootingRangeId);
