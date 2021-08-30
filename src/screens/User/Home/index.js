@@ -18,9 +18,10 @@ import {
   VerticalBarChart,
   ChartSlide,
   Username,
+  ProfileInfo
 } from '@components';
 
-import { S } from './style';
+import { chartsEndpoints } from '../../../services/eliteShooterApi/endpoints/chartsEndpoints';
 
 const HomeScreen = (props) => {
   const { navigation } = props;
@@ -31,54 +32,40 @@ const HomeScreen = (props) => {
   const [user, setUser] = useState({});
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-
-  const findUserById = async () => {
-    try {
-      const { data } = await usersEndpoints.findById({ id: userId });
-      console.log(data)
-      return data;
-    } catch (err) {
-      console.log(err)
-      return {};
-    }
-  }
-
-  const findLastActivities = async () => {
-    try {
-      const { data } = await shootingActivitiesEndpoint.findAll({
-        limit: 7,
-        populate: ['place'],
-      });
-      return data;
-    } catch (err) {
-      return [];
-    }
-  }
+  const [shotsDiference, setShotsDiference] = useState([]);
+  const [accurateRegions, setAccurateRegions] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
         Promise.all([
-          findUserById(),
-          findLastActivities()
+          usersEndpoints.findById({ id: userId }),
+          shootingActivitiesEndpoint.findAll({
+            limit: 7,
+            populate: ['place'],
+          }),
+          chartsEndpoints.shotsDiference({
+            ownerId: userId,
+            limit: 7
+          }),
+          chartsEndpoints.accurateRegions({
+            ownerId: userId,
+            limit: 7
+          }),
         ])
           .then((values) => {
-            setUser(values[0]);
-            setUsername(values[0].username);
-            setActivities(values[1]);
-  
+            setUser(values[0].data);
+            setUsername(values[0].data.username);
+            setActivities(values[1].data);
+            setShotsDiference(values[2].data);
+            setAccurateRegions(values[3].data);
             setIsLoading(false);
+            // console.log(values[2].data)
           })
           .catch(() => setIsLoading(false));
       })();
     }, [])
   );
-
-
-
-  useEffect(() => {
-
-  }, []);
 
   if (isLoading || !user) {
     return <IsLoading />;
@@ -86,12 +73,9 @@ const HomeScreen = (props) => {
 
   return (
     <ScreenContainer paddingHorizontal={10}>
-      <S.ProfileInfo>
-        <ProfilePic username={username} />
-        <Username text={user.name || ''} />
-      </S.ProfileInfo>
+      <ProfileInfo username={username} />
 
-      {/* <ChartSlide /> */}
+      <ChartSlide shotsDiference={shotsDiference} accurateRegions={accurateRegions} />
 
       <Separator height={20} />
 

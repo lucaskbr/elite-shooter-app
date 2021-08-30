@@ -7,7 +7,10 @@ import { ChartCard } from '../Cards/ChartCard';
 import { PieChart } from './PieChart';
 import { VerticalBarChart } from './VerticalBarChart';
 
-const ChartSlide = () => {
+const ChartSlide = (props) => {
+
+  const { shotsDiference, accurateRegions } = props;
+
   const windowWidth = useWindowDimensions().width;
 
   const [index, setIndex] = useState(0);
@@ -16,7 +19,7 @@ const ChartSlide = () => {
     if (index == 0) {
       return (
         <ChartCard height={200} title="Regiões com mais acertos">
-          <PieChart />
+          <PieChart data={accurateRegions} />
         </ChartCard>
       );
     }
@@ -28,7 +31,7 @@ const ChartSlide = () => {
           title="Disparos: Acertos x Erros"
           subtitle="Treino"
         >
-          <VerticalBarChart />
+          <VerticalBarChart data={shotsDiference} />
         </ChartCard>
       );
     }

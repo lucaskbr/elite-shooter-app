@@ -16,6 +16,7 @@ import { ChartCard } from './Cards/ChartCard';
 import { Username } from './Username';
 import { InputError } from './InputError';
 import { EmptyList } from './EmptyList';
+import { ProfileInfo } from './ProfileInfo';
 
 export {
   ActivityCard,
@@ -40,5 +41,6 @@ export {
   InputError,
   ShootingRangeCard,
   SensorEquipmentCard,
-  EmptyList
+  EmptyList,
+  ProfileInfo
 };

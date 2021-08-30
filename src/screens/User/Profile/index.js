@@ -15,6 +15,7 @@ import {
   Separator,
   Title,
   Username,
+  ProfileInfo,
 } from '@components';
 
 import { ProfileModal } from './ProfileModal';
@@ -80,26 +81,12 @@ const ProfileScreen = (props) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#fff',
-          paddingHorizontal: 15,
-          paddingVertical: 15,
-          justifyContent: 'center',
-          alignItems: 'center',
+          // backgroundColor: '#fff',
+          // justifyContent: 'center',
+          // alignItems: 'center',
         }}
       >
-        <View
-          style={{
-            paddingHorizontal: 15,
-            paddingVertical: 15,
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
-          <ProfilePic username={username} />
-          <Username text={username} />
-        </View>
+        <ProfileInfo username={username} />
 
         <Button
           text="Ver mais"
