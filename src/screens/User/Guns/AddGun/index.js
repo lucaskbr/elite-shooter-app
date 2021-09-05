@@ -1,6 +1,11 @@
-import * as React from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
+
+import { Controller, useForm } from 'react-hook-form';
+
+import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints';
+
+import { PickerStyle } from '@containers/PickerStyle';
 
 import {
   ScreenContainer,
@@ -14,52 +19,143 @@ import {
 } from '@components';
 
 import { S } from './style';
+import { Alert } from 'react-native';
 
 const AddGunScreen = (props) => {
   const { navigation } = props;
   const { goBack } = navigation;
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const [selectedType, setSelectedType] = useState('');
+
+  const handleErrorMsg = {
+    409: 'Arma já esta registrada',
+    default: 'Desculpe ocorreu um erro',
+  }
+
+  const createGun = async (gun) => {
+    try {
+     await gunsEndpoints.create(gun);
+     Alert.alert('A arma foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
+    } catch (err) {
+      console.log(err)
+      const { status } = err.response
+      
+      Alert.alert('Desculpe', handleErrorMsg[status],  [{ text: 'OK' }]);
+    }
+  }
+
+  const onSubmit = (data) => createGun(data);
 
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={10}>
       <S.AddGun>
         <Title text="Cadastrar nova arma" />
         <Separator height={20} />
-        <InputGroup>
-          <Label text="Marca:" />
-          <TextInput type="text" />
-        </InputGroup>
+        <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <InputGroup>
+                <Label text="Marca:" />
+                <TextInput
+                  type="text"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              </InputGroup>
+            )}
+            name="brand"
+            defaultValue="a"
+          />
+          {errors.brand && <InputError text="Erro" />}
         <Separator height={10} />
-        <InputGroup>
-          <Label text="Modelo:" />
-          <TextInput type="text" />
-        </InputGroup>
+        <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <InputGroup>
+                <Label text="Modelo:" />
+                <TextInput
+                  type="text"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              </InputGroup>
+            )}
+            name="model"
+            defaultValue="a"
+          />
+          {errors.model && <InputError text="Erro" />}
         <Separator height={10} />
-        <InputGroup>
-          <Label text="Número de serie:" />
-          <TextInput type="text" />
-        </InputGroup>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <InputGroup>
+              <Label text="Número de serie:" />
+              <TextInput
+                type="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            </InputGroup>
+          )}
+          name="numberOfSerie"
+          defaultValue="a"
+        />
+        {errors.numberOfSerie && <InputError text="Erro" />}
         <Separator height={10} />
-        <InputGroup>
-          <Label text="Tipo:" />
-          <S.SelectContainer>
-            <Picker
-              style={{
-                width: '100%',
-                zIndex: 1,
-                flex: 1,
-              }}
-              selectedValue="2021"
-            >
-              <Picker.Item label="Selecione um tipo" value="" />
-              <Picker.Item label="Revolver" value="Revolver" />
-              <Picker.Item label="Pistola" value="Pistola" />
-              <Picker.Item label="Espingarda" value="Espingarda" />
-              <Picker.Item label="Fuzil" value="Fuzil" />
-            </Picker>
-          </S.SelectContainer>
-        </InputGroup>
+        <Controller
+          control={control}
+          rules={{
+           required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <InputGroup>
+              <Label text="Tipo:" />
+              <S.SelectContainer>
+                <Picker
+                  style={PickerStyle}
+                  onBlur={onBlur}
+                  value={selectedType}
+                  selectedValue={selectedType}
+                  onValueChange={(itemValue) => {
+                    setSelectedType(itemValue)
+                    onChange(itemValue);
+                  }}
+                >
+                  <Picker.Item label="Selecione um tipo" value="" />
+                  <Picker.Item label="Revolver" value="revolver" />
+                  <Picker.Item label="Pistola" value="pistol" />
+                  <Picker.Item label="Espingarda" value="shotgun" />
+                  <Picker.Item label="Fuzil" value="rifle" />
+                </Picker>
+              </S.SelectContainer>
+            </InputGroup>
+          )}
+          name="type"
+          defaultValue="a"
+        />
+        {errors.type && <InputError text="Erro" />}
         <Separator height={20} />
-        <Button text="Cadastrar" onPress={() => goBack()} />
+        <Button type="success" text="Cadastrar" onPress={handleSubmit(onSubmit)} />
+        <Separator height={5} />
+        <Button text="Voltar" onPress={() => goBack()} />
       </S.AddGun>
     </ScreenContainer>
   );

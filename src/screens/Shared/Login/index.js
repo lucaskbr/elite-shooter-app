@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import { AuthContext } from '@contexts/auth/authContext';
@@ -20,19 +20,18 @@ import { S } from './style';
 const LoginScreen = (props) => {
   const { navigation } = props;
   const { navigate } = navigation;
-
   // call the route to get user info and set in state
 
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setFocus,
   } = useForm();
 
   const { handleLogin } = useContext(AuthContext);
 
   const onSubmit = (data) => handleLogin(data);
-
   // TODO: Remove default value from inputs
 
   return (
@@ -40,13 +39,18 @@ const LoginScreen = (props) => {
       <S.Login>
         <S.SignIn>
           <S.Logo source={logoPath} />
+{/* 
+          <TextInput
+
+                  autoFocus={true}
+                /> */}
 
           <Controller
             control={control}
             rules={{
               required: true,
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { onChange, onBlur, value, ref } }) => (
               <InputGroup>
                 <Label text="username:" />
                 <TextInput
@@ -55,11 +59,13 @@ const LoginScreen = (props) => {
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
+                  returnKeyType="next"
+                  onSubmitEditing={()=> setFocus("password")}
                 />
               </InputGroup>
             )}
             name="username"
-            defaultValue="xbeggar"
+            defaultValue="lucas"
           />
           {errors.username && (
             <InputError text="O campo username é obrigatório" />
@@ -70,7 +76,7 @@ const LoginScreen = (props) => {
             rules={{
               required: true,
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { onChange, onBlur, value, ref } }) => (
               <InputGroup>
                 <Label text="senha:" />
                 <TextInput
@@ -78,6 +84,7 @@ const LoginScreen = (props) => {
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
+                  ref={ref}
                 />
               </InputGroup>
             )}

@@ -6,7 +6,6 @@ import { PairDeviceScreen } from './PairDevice';
 import { ListGunsToUseScreen, AddGunScreen } from './Guns';
 import { ActivityDetailScreen, ListAllActivitiesScreen } from './Activities';
 import { ModalityScreen } from './Modality';
-import { SignUpScreen } from './SignUp';
 
 const User = {
   AimScreen,
@@ -19,7 +18,6 @@ const User = {
   ActivityDetailScreen,
   ListAllActivitiesScreen,
   ModalityScreen,
-  SignUpScreen,
 };
 
 export { User };

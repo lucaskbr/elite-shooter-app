@@ -9,7 +9,10 @@ import {
   Separator,
   GunCard,
   IsLoading,
+  EmptyList,
+  Button,
 } from '@components';
+import { placeGunsEndpoints } from '@services/eliteShooterApi/endpoints/placeGunsEndpoints';
 
 
 const ListGunsToUseScreen = (props) => {
@@ -20,47 +23,22 @@ const ListGunsToUseScreen = (props) => {
   const [placeGuns, setPlaceGuns] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
-  const getAllMyWeapons = async () => {
-    try {
-      const { data } = await gunsEndpoints.findAll({})
-      setMyGuns(data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const getAllClubWeapons = async () => {
-    try {
-
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-
   useEffect(() => {
     (async () => {
-      await getAllMyWeapons();
-      setIsLoading(false);
+      Promise.all([
+        gunsEndpoints.findAll({}),
+        placeGunsEndpoints.findById({ id: params.placeId })
+      ])
+      .then(((values) => {
+        console.log(values[0].data)
+        setMyGuns(values[0].data);
+        setPlaceGuns(values[1].data);
+        setIsLoading(false);
+      }))
     })();
   }, []);
 
-  // useEffect(() => {
-  //   Promise.all([
-  //     eliteShooterAPI.get('/guns', {
-  //       params: {
-  //         owner: '60e257799e2f55ae6e389793'
-  //       }
-  //     }).then(({ result } )=> result),
-  //     // fetch(`${eliteShooterURI}/guns?owner=60e257799e2f55ae6e389793`).then((res) => res.json()),
-  //     fetch("/api/guns/places").then((res) => res.json())
-  //   ]).then((values) => {
-  //     setMyGuns(values[0]);
-  //     setPlaceGuns(values[1]);
-  //     setIsLoading(false);
-  //   })
-  // }, [])
+  // TODO: Loading
 
   if (isLoading) {
     return <></>
@@ -70,7 +48,6 @@ const ListGunsToUseScreen = (props) => {
     <ScreenContainer paddingVertical={15} paddingHorizontal={10}>
       <View style={{ height: '50%', flexGrow: 0 }}>
         <FlatList
-          numColumns={2}
           contentContainerStyle={{ padding: 1, flexGrow: 0, margin: 0 }}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
@@ -84,7 +61,16 @@ const ListGunsToUseScreen = (props) => {
             </View>
           }
           data={myGuns}
-          keyExtractor={(item, index) => `${item.id}${index}`}
+          keyExtractor={(item, index) => `${item._id}${index}`}
+          ListEmptyComponent={(
+            <>
+              <EmptyList text="Você não tem nenhuma arma cadastrada" />
+              <Button
+                text="Cadastrar"
+                onPress={() => navigation.navigate('AddGun')}
+              />
+            </>
+          )}
           ItemSeparatorComponent={() => <Separator height={10} />}
           renderItem={({ item }) => (
             <GunCard
@@ -110,7 +96,8 @@ const ListGunsToUseScreen = (props) => {
             </View>
           }
           data={placeGuns}
-          keyExtractor={(item, index) => `${item.id}${index}`}
+          keyExtractor={(item, index) => `${item._id}${index}`}
+          ListEmptyComponent={(<EmptyList text="O clube não possui nenhuma arma cadastrada" />)}
           ItemSeparatorComponent={() => <Separator height={10} />}
           renderItem={({ item }) => (
             <GunCard

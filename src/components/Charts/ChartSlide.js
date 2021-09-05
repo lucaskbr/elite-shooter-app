@@ -53,6 +53,10 @@ const ChartSlide = (props) => {
     );
   };
 
+  if (!shotsDiference || !accurateRegions || !shotsDiference.hasData || !accurateRegions.hasData) {
+    return <></>
+  }
+
   return (
     <View
       style={{

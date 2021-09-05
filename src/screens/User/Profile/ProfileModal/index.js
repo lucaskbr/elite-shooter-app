@@ -3,11 +3,11 @@ import Modal from 'react-native-modal';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
-import { Button, InputGroup, Label, TextInput, InputError } from '@components';
+import { Button, Separator, InputGroup, Label, TextInput, InputError } from '@components';
 
 import { S } from './style';
 import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoints';
-import { Text } from 'react-native';
+import { KeyboardAvoidingView, Text } from 'react-native';
 
 const ProfileModal = (props) => {
   const { user, isVisible, onChange } = props;
@@ -35,6 +35,7 @@ const ProfileModal = (props) => {
   return (
     <Modal isVisible={isVisible} onBackdropPress={() => onChange && onChange()}>
       <S.ModalContainer>
+        <KeyboardAvoidingView behavior="height">
         <S.Title>Editar dados de perfil</S.Title>
         <S.InputsContainer>
         <Controller
@@ -123,8 +124,9 @@ const ProfileModal = (props) => {
           {errors.lastname && <InputError text="Erro" />}
         </S.InputsContainer>
         {/* <Button text="Salvar" onPress={() => onChange && onChange()} /> */}
+        <Separator height={15} />
         <Button text="Salvar" onPress={handleSubmit(onSubmit)} />
-
+        </KeyboardAvoidingView>
       </S.ModalContainer>
     </Modal>
   );

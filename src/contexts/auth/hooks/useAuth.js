@@ -32,6 +32,8 @@ export default function useAuth() {
 
   function handleLogout() {
     setAuthenticated(false);
+    setUserId(null);
+    setIsAdmin(null);
     eliteShooterAPI.defaults.headers.Authorization = undefined;
   }
 

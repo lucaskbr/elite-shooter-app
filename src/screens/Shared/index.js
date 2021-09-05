@@ -1,9 +1,11 @@
 import { LoginScreen } from './Login';
 import { RankingScreen } from './Ranking';
+import { SignUpScreen } from './SignUp';
 
 const Shared = {
   LoginScreen,
-  RankingScreen
+  RankingScreen,
+  SignUpScreen,
 };
 
 export { Shared };

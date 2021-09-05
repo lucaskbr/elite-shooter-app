@@ -1,13 +1,11 @@
-import * as React from 'react';
+import React, { forwardRef } from 'react';
 // import PropTypes from 'prop-types';
 
 import { S } from './style';
 
-const TextInput = (props) => {
-  const { ...rest } = props;
-
-  return <S.TextInput {...rest} />;
-};
+const TextInput = forwardRef((props, ref) => {
+  return <S.TextInput ref={ref} {...props} />;
+});
 
 // TextInput.propTypes = {};
 

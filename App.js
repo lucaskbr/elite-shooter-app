@@ -50,17 +50,11 @@ import {
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { KeyboardAvoidingView, LogBox } from 'react-native';
+import { LogBox } from 'react-native';
 
 import { Navigations } from './src/navigations';
 
-import { socket } from './src/services/socketio'
-
-
 LogBox.ignoreAllLogs(); // Ignore all log notifications
-
-
-
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -110,11 +104,11 @@ export default function App() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-        <AuthProvider>
-          <ParamsProvider>
-            <Navigations />
-          </ParamsProvider>
-        </AuthProvider>
+      <AuthProvider>
+        <ParamsProvider>
+          <Navigations />
+        </ParamsProvider>
+      </AuthProvider>
     </SafeAreaView>
   );
 }

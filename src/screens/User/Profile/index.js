@@ -11,11 +11,11 @@ import {
   Button,
   GunCard,
   ScreenContainer,
-  ProfilePic,
   Separator,
   Title,
   Username,
   ProfileInfo,
+  EmptyList,
 } from '@components';
 
 import { ProfileModal } from './ProfileModal';
@@ -25,7 +25,7 @@ const ProfileScreen = (props) => {
   const { navigation } = props;
   const { navigate } = navigation;
 
-  const { userId } = useContext(AuthContext);
+  const { userId, handleLogout } = useContext(AuthContext);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,38 +33,18 @@ const ProfileScreen = (props) => {
   const [user, setUser] = useState({});
   const [myGuns, setMyGuns] = useState([]);
 
-  const findUserById = async () => {
-    try {
-      const { data } = await usersEndpoints.findById({ id: userId });
-      return data;
-    } catch (err) {
-      console.log(err)
-      return {};
-    }
-  }
-
-  const findUserGuns = async () => {
-    try {
-      const { data } = await gunsEndpoints.findAll({ ownerId: userId });
-      return data;
-    } catch (err) {
-      console.log(err)
-      return [];
-    }
-  }
-
   useFocusEffect(
     useCallback(() => {
       (async () => {
         Promise.all([
-          findUserById(),
-          findUserGuns(),
+          usersEndpoints.findById({ id: userId }),
+          gunsEndpoints.findAll({ ownerId: userId }),
         ]).then(
           (values) => {
             console.log(values)
-            setUser(values[0]);
-            setUsername(values[0].username);
-            setMyGuns(values[1]);
+            setUser(values[0].data);
+            setUsername(values[0].data.username);
+            setMyGuns(values[1].data);
             setIsLoading(false);
           },
         );
@@ -81,12 +61,9 @@ const ProfileScreen = (props) => {
       <View
         style={{
           flex: 1,
-          // backgroundColor: '#fff',
-          // justifyContent: 'center',
-          // alignItems: 'center',
         }}
       >
-        <ProfileInfo username={username} />
+        <ProfileInfo username={username} logout={true} handleLogout={handleLogout} />
 
         <Button
           text="Ver mais"
@@ -111,6 +88,7 @@ const ProfileScreen = (props) => {
                 <Title text="Minhas armas" />
               </View>
             }
+            ListEmptyComponent={() => (<EmptyList text="Nenhuma arma encontrada" />)}
             ItemSeparatorComponent={() => <Separator height={10} />}
             ListFooterComponent={
               <View
@@ -120,7 +98,7 @@ const ProfileScreen = (props) => {
                 }}
               >
                 <Button
-                  text="Adicionar mais"
+                  text="Adicionar nova arma"
                   onPress={() => navigate('AddGun')}
                 />
               </View>

@@ -16,7 +16,7 @@ const RankingScreen = (props) => {
   const isFocused = useIsFocused();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [userInFocus, setUserInFocus] = useState([]);
+  const [userInFocus, setUserInFocus] = useState();
   const [topThree, setTopThree] = useState([]);
   const [ranking, setRanking] = useState([]);
 

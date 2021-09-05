@@ -16,6 +16,27 @@ const usersEndpoints = {
     username,
   }),
 
+  create: ({
+    firstname,
+    lastname,
+    username,
+    email,
+    confirmEmail,
+    password,
+    confirmPassword,
+    gender,
+  }) => eliteShooterAPI.post(`/users`, {
+    firstname,
+    lastname,
+    username,
+    email,
+    confirmEmail,
+    password,
+    confirmPassword,
+    gender
+  })
+
+
 };
 
 export { usersEndpoints };

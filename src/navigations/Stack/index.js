@@ -67,7 +67,7 @@ const StackNavigation = (props) => {
   const loginRoute = () => (
     <>
       <Stack.Screen name="Login" component={Shared.LoginScreen} />
-      <Stack.Screen name="SingUp" component={User.SignUpScreen} />
+      <Stack.Screen name="SingUp" component={Shared.SignUpScreen} />
     </>
   );
 

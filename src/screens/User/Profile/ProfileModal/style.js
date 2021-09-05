@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 
 const ModalContainer = styled.View`
-  flex: 0.6;
   background-color: #fff;
   border-radius: 10px;
   justify-content: center;

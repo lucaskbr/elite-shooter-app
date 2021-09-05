@@ -30,6 +30,8 @@ const shootingActivitiesEndpoint = {
     }),
 
   findById: (id) => eliteShooterAPI.get(`/shooting-activities/${id}`),
+
+  deleteById: (id) => eliteShooterAPI.delete(`/shooting-activities/${id}`),
 };
 
 export { shootingActivitiesEndpoint };

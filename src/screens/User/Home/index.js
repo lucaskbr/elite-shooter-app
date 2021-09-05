@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList, View, Text, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { IconOutline } from '@ant-design/icons-react-native';
 
 import { AuthContext } from '@contexts/auth/authContext';
 
@@ -18,11 +19,11 @@ import {
   VerticalBarChart,
   ChartSlide,
   Username,
-  ProfileInfo
+  ProfileInfo,
+  EmptyList
 } from '@components';
 
-import { chartsEndpoints } from '../../../services/eliteShooterApi/endpoints/chartsEndpoints';
-
+import { chartsEndpoints } from '@services/eliteShooterApi/endpoints/chartsEndpoints';
 const HomeScreen = (props) => {
   const { navigation } = props;
   
@@ -67,9 +68,44 @@ const HomeScreen = (props) => {
     }, [])
   );
 
+
+  const shouldDeleteShootingActivity = async (shootingActivityId) => {
+    console.log('shouldDeleteShootingActivity')
+    Alert.alert('Você realmente deseja deletar esta atividade?', '', [
+      { text: 'Sim', onPress: () => deleteShootingActivity(shootingActivityId) },
+      { text: 'Cancelar' },   
+    ]);
+  }
+
+  const deleteShootingActivity = async (shootingActivityId) => {
+    try {
+      await shootingActivitiesEndpoint.deleteById(shootingActivityId)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      shootingActivitiesEndpoint.findAll({
+        limit: 7,
+        populate: ['place'],
+      })
+      .then(response => setActivities(response.data))
+    }
+  }
+
+
   if (isLoading || !user) {
     return <IsLoading />;
   }
+
+  console.log(activities.length )
+
+  // if (activities && activities.length <= 0) {
+  //   return (
+  //     <ScreenContainer paddingHorizontal={10}>
+  //       <ProfileInfo username={username} />
+  //       <IconOutline name="file-search" color="#D0D0D0" size={200} />
+  //     </ScreenContainer>
+  //   )
+  // }
 
   return (
     <ScreenContainer paddingHorizontal={10}>
@@ -98,6 +134,7 @@ const HomeScreen = (props) => {
             </Text>
           </View>
         }
+        ListEmptyComponent={() => (<EmptyList text="Nenhuma atividade encontrada" />)}
         ItemSeparatorComponent={() => <Separator height={10} />}
         ListFooterComponent={
           <View
@@ -117,6 +154,7 @@ const HomeScreen = (props) => {
                 id: item.id,
               })
             }
+            onLongPress={() => shouldDeleteShootingActivity(item._id)}
           />
         )}
       />

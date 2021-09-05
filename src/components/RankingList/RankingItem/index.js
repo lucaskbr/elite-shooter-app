@@ -9,7 +9,7 @@ const RankingItem = (props) => {
   const { userInFocus, data } = props;
   const { user, score, position, index = 1 } = data;
 
-  const shouldFocus = userInFocus._id === user._id
+  const shouldFocus = userInFocus && userInFocus._id === user._id
 
   return (
     <S.RankingItem itsMe={shouldFocus}>
