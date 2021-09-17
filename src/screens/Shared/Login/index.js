@@ -65,7 +65,7 @@ const LoginScreen = (props) => {
               </InputGroup>
             )}
             name="username"
-            defaultValue="lucas"
+            defaultValue="xbeggar"
           />
           {errors.username && (
             <InputError text="O campo username é obrigatório" />

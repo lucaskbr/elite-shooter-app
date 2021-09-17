@@ -20,14 +20,10 @@ import {
   TextInput,
   Label,
   Button,
+  InputError,
 } from '@components';
 
-
-
-
 import { S } from './style';
-
-
 
 const ShootingRangesAddScreen = (props) => {
   const { navigation } = props;
@@ -91,58 +87,64 @@ const ShootingRangesAddScreen = (props) => {
         <Title text="Cadastrar nova baia de tiro" />
         <Separator height={20} />
         <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <InputGroup>
-                <Label text="Código ou nome:" />
-                <TextInput 
-                  type="text"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value} />
-              </InputGroup>
-            )}
-            name="code"
-            defaultValue="a"
-          />
-        <Separator height={10} />
-        <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur } }) => (
-              <InputGroup>
-                <Label text="Tipo:" />
-                <S.SelectContainer>
-                  <Picker
-                    style={PickerStyle}
-                    onBlur={onBlur}
-                    value={selectedType}
-                    selectedValue={selectedType}
-                    onValueChange={(itemValue) => {
-                      setSelectedType(itemValue)
-                      onChange(itemValue);
-                    }}
-                  >
-                    <Picker.Item label="Selecione um tipo" value="" />
-                    <Picker.Item label="Ar livre" value="outdoor" />
-                    <Picker.Item label="Ambiente fechado" value="indoor" />
-                  </Picker>
-                </S.SelectContainer>
-              </InputGroup>
-            )}
-            name="type"
-            defaultValue="a"
-          />
+          control={control}
+          rules={{
+            required: "Este campo é obrigatorio",
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <InputGroup>
+              <Label text="Código ou nome:" />
+              <TextInput 
+                type="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value} />
+            </InputGroup>
+          )}
+          name="code"
+          defaultValue="a"
+        />
+        {errors.code &&  (
+          <InputError text={errors.code.message} />
+        )}
         <Separator height={10} />
         <Controller
           control={control}
           rules={{
-            required: true,
+            required: "Este campo é obrigatorio",
+          }}
+          render={({ field: { onChange, onBlur } }) => (
+            <InputGroup>
+              <Label text="Tipo:" />
+              <S.SelectContainer>
+                <Picker
+                  style={PickerStyle}
+                  onBlur={onBlur}
+                  value={selectedType}
+                  selectedValue={selectedType}
+                  onValueChange={(itemValue) => {
+                    setSelectedType(itemValue)
+                    onChange(itemValue);
+                  }}
+                >
+                  <Picker.Item label="Selecione um tipo" value="" />
+                  <Picker.Item label="Ar livre" value="outdoor" />
+                  <Picker.Item label="Ambiente fechado" value="indoor" />
+                </Picker>
+              </S.SelectContainer>
+            </InputGroup>
+          )}
+          name="type"
+          // defaultValue="a"
+        />
+        {errors.type &&  (
+          <InputError text={errors.type.message} />
+        )}
+        <Separator height={10} />
+        <Controller
+          control={control}
+          rules={{
+            required: "Este campo é obrigatorio",
           }}
           render={({ field: { onChange, onBlur } }) => (
             <InputGroup>
@@ -167,8 +169,11 @@ const ShootingRangesAddScreen = (props) => {
             </InputGroup>
           )}
           name="sensorEquipmentId"
-          defaultValue="a"
+          // defaultValue="a"
         />
+        {errors.sensorEquipmentId &&  (
+          <InputError text={errors.sensorEquipmentId.message} />
+        )}
         <Separator height={20} />
         <Button text="Cadastrar" type="success" onPress={handleSubmit(onSubmit)} />
         <Separator height={10} />

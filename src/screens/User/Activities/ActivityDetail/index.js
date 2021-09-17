@@ -22,7 +22,6 @@ const ActivityDetailScreen = (props) => {
   const { route, navigation } = props;
 
   const { id } = route.params;
-  const { goBack } = navigation;
 
   useEffect(() => {
     (async () => {
@@ -30,7 +29,6 @@ const ActivityDetailScreen = (props) => {
         shootingActivitiesEndpoint
           .findById(id)
           .then((result) => result.data)
-          .catch((e) => {}),
       ])
         .then((values) => {
           console.log(values)

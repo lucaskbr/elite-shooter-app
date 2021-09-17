@@ -151,7 +151,7 @@ const HomeScreen = (props) => {
             shootingActivity={item}
             onPress={() =>
               navigation.navigate('ActivityDetail', {
-                id: item.id,
+                id: item._id,
               })
             }
             onLongPress={() => shouldDeleteShootingActivity(item._id)}

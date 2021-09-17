@@ -39,6 +39,12 @@ const SensorEquipmentsAddScreen = (props) => {
   const [selectedType, setSelectedType] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleErrorMsg = {
+    400: 'Algum campo é invalido',
+    409: 'O sensor já esta registrada',
+    500: 'Desculpe ocorreu um erro',
+  }
+
   const createSensorEquipment = async (sensorEquipment) => {
     try {
       await sensorEquipmentsEndpoints.create({
@@ -47,7 +53,9 @@ const SensorEquipmentsAddScreen = (props) => {
       });
       Alert.alert('O equipamento sensor foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop() }]);
     } catch (err) {
-      console.log(err);
+      console.log(err)
+      const { status } = err.response
+      Alert.alert('Desculpe', handleErrorMsg[status],  [{ text: 'OK' }]);
     } finally {
       setIsLoading(false);
     }
@@ -65,28 +73,28 @@ const SensorEquipmentsAddScreen = (props) => {
         <Title text="Cadastrar novo sensor" />
         <Separator height={20} />
         <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <InputGroup>
-                <Label text="Código ou nome:" />
-                <TextInput
-                  type="text"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value} />
-              </InputGroup>
-            )}
-            name="code"
-            defaultValue="a"
-          />
+          control={control}
+          rules={{
+            required: "Este campo é obrigatorio",
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <InputGroup>
+              <Label text="Código ou nome:" />
+              <TextInput
+                type="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value} />
+            </InputGroup>
+          )}
+          name="code"
+          defaultValue="a"
+        />
         <Separator height={10} />
         <Controller
           control={control}
           rules={{
-            required: true,
+            required: "Este campo é obrigatorio",
           }}
           render={({ field: { onChange, onBlur } }) => (
             <InputGroup>

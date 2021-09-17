@@ -34,8 +34,9 @@ const GunsAddScreen = (props) => {
   const [selectedType, setSelectedType] = useState('');
 
   const handleErrorMsg = {
+    400: 'Algum campo é invalido',
     409: 'Arma já esta registrada',
-    default: 'Desculpe ocorreu um erro',
+    500: 'Desculpe ocorreu um erro',
   }
 
   const createGun = async (gun) => {
@@ -43,64 +44,69 @@ const GunsAddScreen = (props) => {
      await gunsEndpoints.create({ placeId, ...gun });
      Alert.alert('A arma foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
     } catch (err) {
+      console.log(err)
       const { status } = err.response
       Alert.alert('Desculpe', handleErrorMsg[status],  [{ text: 'OK' }]);
     }
   }
 
   const onSubmit = (data) => createGun(data);
-  // TODO: Improve error messages
+
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={10}>
       <S.AddGun>
         <Title text="Cadastrar nova arma" />
         <Separator height={20} />
         <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <InputGroup>
-                <Label text="Marca:" />
-                <TextInput
-                  type="text"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              </InputGroup>
-            )}
-            name="brand"
-            defaultValue="a"
-          />
-          {errors.brand && <InputError text="Erro" />}
-        <Separator height={10} />
-        <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <InputGroup>
-                <Label text="Modelo:" />
-                <TextInput
-                  type="text"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              </InputGroup>
-            )}
-            name="model"
-            defaultValue="a"
-          />
-          {errors.model && <InputError text="Erro" />}
+          control={control}
+          rules={{
+            required: "Este campo é obrigatorio",
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <InputGroup>
+              <Label text="Marca:" />
+              <TextInput
+                type="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            </InputGroup>
+          )}
+          name="brand"
+          defaultValue="a"
+        />
+        {errors.brand &&  (
+          <InputError text={errors.brand.message} />
+        )}
         <Separator height={10} />
         <Controller
           control={control}
           rules={{
-            required: true,
+            required: "Este campo é obrigatorio",
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <InputGroup>
+              <Label text="Modelo:" />
+              <TextInput
+                type="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            </InputGroup>
+          )}
+          name="model"
+          defaultValue="a"
+        />
+        {errors.model &&  (
+          <InputError text={errors.model.message} />
+        )}
+        <Separator height={10} />
+        <Controller
+          control={control}
+          rules={{
+            required: "Este campo é obrigatorio",
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <InputGroup>
@@ -116,12 +122,14 @@ const GunsAddScreen = (props) => {
           name="numberOfSerie"
           defaultValue="a"
         />
-        {errors.numberOfSerie && <InputError text="Erro" />}
+        {errors.numberOfSerie &&  (
+          <InputError text={errors.numberOfSerie.message} />
+        )}
         <Separator height={10} />
         <Controller
           control={control}
           rules={{
-           required: true,
+            required: "Este campo é obrigatorio",
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <InputGroup>
@@ -130,12 +138,13 @@ const GunsAddScreen = (props) => {
                 <Picker
                   style={PickerStyle}
                   onBlur={onBlur}
-                  value={selectedType}
+                  // value={selectedType}
                   selectedValue={selectedType}
                   onValueChange={(itemValue) => {
                     setSelectedType(itemValue)
                     onChange(itemValue);
                   }}
+                  value={value}
                 >
                   <Picker.Item label="Selecione um tipo" value="" />
                   <Picker.Item label="Revolver" value="revolver" />
@@ -147,9 +156,10 @@ const GunsAddScreen = (props) => {
             </InputGroup>
           )}
           name="type"
-          defaultValue="a"
         />
-        {errors.type && <InputError text="Erro" />}
+        {errors.type &&  (
+          <InputError text={errors.type.message} />
+        )}
         <Separator height={20} />
         <Button text="Cadastrar" type="success" onPress={handleSubmit(onSubmit)} />
         <Separator height={10} />
