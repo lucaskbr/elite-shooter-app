@@ -96,13 +96,13 @@ const ListAllActivitiesScreen = (props) => {
           />
         }
         data={activities}
-        keyExtractor={(item, index) => `${item.id}${index}`}
+        keyExtractor={(item, index) => `${item._id}`}
         renderItem={({ item }) => (
           <ActivityCard
             shootingActivity={item}
             onPress={() =>
               navigation.navigate('ActivityDetail', {
-                id: item.id,
+                id: item._id,
               })
             }
           />

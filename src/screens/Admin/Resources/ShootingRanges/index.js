@@ -61,7 +61,7 @@ const ResourcesShootingRangesScreen = (props) => {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={<HeaderList title="Baias de tiro" />}
         data={shootingRanges}
-        keyExtractor={(item, index) => `${item.id}${index}`}
+        keyExtractor={(item, index) => `${item._id}`}
         ItemSeparatorComponent={() => <Separator height={10} />}
         ListEmptyComponent={(<EmptyList>Nenhuma baia de tiro encontrada</EmptyList>)}
         renderItem={({ item }) => (

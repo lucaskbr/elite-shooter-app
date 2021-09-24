@@ -6,6 +6,7 @@ import { IconOutline } from '@ant-design/icons-react-native';
 import { AuthContext } from '@contexts/auth/authContext';
 
 import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoints';
+import { chartsEndpoints } from '@services/eliteShooterApi/endpoints/chartsEndpoints';
 import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/shootingActivities';
 
 import {
@@ -23,7 +24,7 @@ import {
   EmptyList
 } from '@components';
 
-import { chartsEndpoints } from '@services/eliteShooterApi/endpoints/chartsEndpoints';
+
 const HomeScreen = (props) => {
   const { navigation } = props;
   
@@ -33,8 +34,8 @@ const HomeScreen = (props) => {
   const [user, setUser] = useState({});
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [shotsDiference, setShotsDiference] = useState([]);
-  const [accurateRegions, setAccurateRegions] = useState([]);
+  const [shotsDiference, setShotsDiference] = useState({});
+  const [accurateRegions, setAccurateRegions] = useState({});
 
   useFocusEffect(
     useCallback(() => {
@@ -61,7 +62,6 @@ const HomeScreen = (props) => {
             setShotsDiference(values[2].data);
             setAccurateRegions(values[3].data);
             setIsLoading(false);
-            // console.log(values[2].data)
           })
           .catch(() => setIsLoading(false));
       })();
@@ -91,21 +91,9 @@ const HomeScreen = (props) => {
     }
   }
 
-
   if (isLoading || !user) {
     return <IsLoading />;
   }
-
-  console.log(activities.length )
-
-  // if (activities && activities.length <= 0) {
-  //   return (
-  //     <ScreenContainer paddingHorizontal={10}>
-  //       <ProfileInfo username={username} />
-  //       <IconOutline name="file-search" color="#D0D0D0" size={200} />
-  //     </ScreenContainer>
-  //   )
-  // }
 
   return (
     <ScreenContainer paddingHorizontal={10}>
@@ -145,7 +133,7 @@ const HomeScreen = (props) => {
           />
         }
         data={activities}
-        keyExtractor={(item) => `${item.id}`}
+        keyExtractor={(item) => `${item._id}`}
         renderItem={({ item }) => (
           <ActivityCard
             shootingActivity={item}
@@ -154,7 +142,7 @@ const HomeScreen = (props) => {
                 id: item._id,
               })
             }
-            onLongPress={() => shouldDeleteShootingActivity(item._id)}
+            // onLongPress={() => shouldDeleteShootingActivity(item._id)}
           />
         )}
       />

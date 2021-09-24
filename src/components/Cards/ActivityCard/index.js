@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
 import { S } from './style';
+import { translate } from '../../../utils/translate';
 
 const ActivityCard = (props) => {
   const { shootingActivity, ...rest } = props;
@@ -12,7 +13,7 @@ const ActivityCard = (props) => {
   return (
     <S.ActivityCard {...rest}>
       <View>
-        <S.Title>{modality}</S.Title>
+        <S.Title>{translate(modality)}</S.Title>
         <S.Date>
           <S.DateLabel>Data: </S.DateLabel>
           {date}

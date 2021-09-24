@@ -13,7 +13,7 @@ const RankingList = (props) => {
   return (
     <S.RankingList
       data={data}
-      keyExtractor={(item, index) => `${item.id}${index}`}
+      keyExtractor={(item, index) => `${item._id}`}
       ListHeaderComponent={RankingHeader}
       // stickyHeaderIndices={[0]}
       ItemSeparatorComponent={() => <RankingSeparator />}

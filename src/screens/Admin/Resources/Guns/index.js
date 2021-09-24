@@ -79,7 +79,7 @@ const ResourcesGunsScreen = (props) => {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={<HeaderList title="Armas do local" />}
         data={guns}
-        keyExtractor={(item, index) => `${item.id}${index}`}
+        keyExtractor={(item, index) => `${item._id}`}
         ItemSeparatorComponent={() => <Separator height={10} />}
         ListEmptyComponent={(<EmptyList>Nenhuma arma encontrada</EmptyList>)}
         renderItem={({ item }) => (

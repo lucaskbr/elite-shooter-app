@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import HighchartsReactNative from '@highcharts/highcharts-react-native/src/HighchartsReactNative';
 
 const VerticalBarChart = (props) => {
-
-  const { data } = props;
+  const { shotsDiference } = props;
+  const { data } = shotsDiference;
 
   return (
     <HighchartsReactNative

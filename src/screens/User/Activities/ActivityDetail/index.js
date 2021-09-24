@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/shootingActivities';
+import { chartsEndpoints } from '@services/eliteShooterApi/endpoints/chartsEndpoints';
 
 import {
   Separator,
@@ -14,9 +15,13 @@ import {
 } from '@components';
 
 import { S } from './style';
+import _ from 'lodash';
+import { translate } from '../../../../utils/translate';
 
 const ActivityDetailScreen = (props) => {
   const [activity, setActivity] = useState({});
+  const [shotsDiference, setShotsDiference] = useState([]);
+  const [accurateRegions, setAccurateRegions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const { route, navigation } = props;
@@ -27,12 +32,23 @@ const ActivityDetailScreen = (props) => {
     (async () => {
       Promise.all([
         shootingActivitiesEndpoint
-          .findById(id)
-          .then((result) => result.data)
+          .findById(id),
+
+          chartsEndpoints.shotsDiference({
+          shootingActivityId: id,
+          limit: 1
+        }),
+
+        chartsEndpoints.accurateRegions({
+          shootingActivityId: id,
+          limit: 1
+        }),
       ])
         .then((values) => {
-          console.log(values)
-          setActivity(values[0]);
+          console.log(values[2].data)
+          setActivity(values[0].data);
+          setShotsDiference(values[1].data);
+          setAccurateRegions(values[2].data);
           setIsLoading(false);
         })
         .catch(() => setIsLoading(false));
@@ -50,7 +66,7 @@ const ActivityDetailScreen = (props) => {
       style={{ justifyContent: 'center' }}
     >
       <S.Header>
-        <S.Modality>{activity.modality}</S.Modality>
+        <S.Modality>{translate(_.get(activity, 'modality'))}</S.Modality>
         <Separator height={1} marginVertical={10} />
 
         <View
@@ -61,14 +77,14 @@ const ActivityDetailScreen = (props) => {
             alignItems: 'center',
           }}
         >
-          <S.Date>{activity.date}</S.Date>
-          <S.Place>{activity.place.name}</S.Place>
+          <S.Date>{_.get(activity, 'date')}</S.Date>
+          <S.Place>{_.get(activity, 'place.name')}</S.Place>
         </View>
       </S.Header>
 
       <Separator height={1} backgroundColor="#DCDCE6" marginVertical={20} />
 
-      {/* <ChartSlide /> */}
+      <ChartSlide shotsDiference={shotsDiference} accurateRegions={accurateRegions} />
 
       <Separator height={1} marginVertical={20} />
 
@@ -76,23 +92,43 @@ const ActivityDetailScreen = (props) => {
         <S.Results>
           <Title text="Dados da atividade" />
           <Separator height={10} />
-          <ResultText label="Total de disparos" result={activity.date} />
-          <ResultText label="Acertos" result="FALTA" color="#48C78E" />
-          <ResultText label="Erros" result="FALTA" color="#F14668" />
+          <ResultText
+            label="Total de disparos"
+            result={_.get(activity, 'statistics.totalShots')}
+          />
+          <ResultText
+            label="Acertos"
+            result={_.get(activity, 'statistics.hits')}
+            color="#48C78E"
+          />
+          <ResultText
+            label="Erros"
+            result={_.get(activity, 'statistics.missing')}
+            color="#F14668"
+          />
 
-          <ResultText label="Velocidade do vento" result="FALTA" />
-          <ResultText label="Tempo médio entre disparos" result="FALTA" />
+          {_.get(activity, 'statistics.windSpeed') &&
+            <ResultText
+              label="Velocidade do vento"
+              result={_.get(activity, 'shootingRange.windSpeed')}
+            />
+          }
+          
+          <ResultText
+            label="Média de pontos dos disparos"
+            result={_.get(activity, 'statistics.pointsAverage')}
+          />
           <ResultText
             label="Tipo do local"
-            result={activity.shootingRange.type}
+            result={_.get(activity, 'shootingRange.type')}
           />
           <ResultText
             label="Baia de treino"
-            result={activity.shootingRange.code}
+            result={_.get(activity, 'shootingRange.code')}
           />
           <ResultText
             label="Arma utilizada"
-            result={`${activity.gun.type} - ${activity.gun.brand} ${activity.gun.model}`}
+            result={`${_.get(activity, 'gun.type')} - ${_.get(activity, 'gun.brand')} ${_.get(activity, 'gun.model')}`}
           />
         </S.Results>
       </View>

@@ -104,7 +104,7 @@ const ProfileScreen = (props) => {
               </View>
             }
             data={myGuns}
-            keyExtractor={(item, index) => `${item.id}${index}`}
+            keyExtractor={(item, index) => `${item._id}`}
             renderItem={({ item }) => (
               <GunCard
                 brandModel={item.brandModel}

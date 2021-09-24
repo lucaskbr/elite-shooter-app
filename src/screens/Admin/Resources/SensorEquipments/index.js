@@ -65,7 +65,7 @@ const ResourcesSensorEquipmentsScreen = (props) => {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={<HeaderList title="Sensores do local" />}
         data={sensorEquipments}
-        keyExtractor={(item, index) => `${item.id}${index}`}
+        keyExtractor={(item, index) => `${item._id}`}
         ItemSeparatorComponent={() => <Separator height={10} />}
         ListEmptyComponent={(<EmptyList>Nenhum sensor encontrado</EmptyList>)}
         renderItem={({ item }) => (

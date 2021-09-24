@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FlatList, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints';
+import { placeGunsEndpoints } from '@services/eliteShooterApi/endpoints/placeGunsEndpoints';
 
 import {
   ScreenContainer,
@@ -12,8 +14,6 @@ import {
   EmptyList,
   Button,
 } from '@components';
-import { placeGunsEndpoints } from '@services/eliteShooterApi/endpoints/placeGunsEndpoints';
-
 
 const ListGunsToUseScreen = (props) => {
   const { route, navigation } = props;
@@ -23,20 +23,38 @@ const ListGunsToUseScreen = (props) => {
   const [placeGuns, setPlaceGuns] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      Promise.all([
-        gunsEndpoints.findAll({}),
-        placeGunsEndpoints.findById({ id: params.placeId })
-      ])
-      .then(((values) => {
-        console.log(values[0].data)
-        setMyGuns(values[0].data);
-        setPlaceGuns(values[1].data);
-        setIsLoading(false);
-      }))
-    })();
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        Promise.all([
+          gunsEndpoints.findAll({}),
+          placeGunsEndpoints.findById({ id: params.placeId })
+        ])
+        .then(((values) => {
+          console.log(values[0].data)
+          setMyGuns(values[0].data);
+          setPlaceGuns(values[1].data);
+          setIsLoading(false);
+        }))
+      })();
+    }, [])
+  );
+
+  // useEffect(() => {
+  //   (async () => {
+  //     Promise.all([
+  //       gunsEndpoints.findAll({}),
+  //       placeGunsEndpoints.findById({ id: params.placeId })
+  //     ])
+  //     .then(((values) => {
+  //       console.log(values[0].data)
+  //       setMyGuns(values[0].data);
+  //       setPlaceGuns(values[1].data);
+  //       setIsLoading(false);
+  //     }))
+  //   })();
+  // }, []);
 
   // TODO: Loading
 
@@ -61,7 +79,7 @@ const ListGunsToUseScreen = (props) => {
             </View>
           }
           data={myGuns}
-          keyExtractor={(item, index) => `${item._id}${index}`}
+          keyExtractor={(item, index) => `${item._id}`}
           ListEmptyComponent={(
             <>
               <EmptyList text="Você não tem nenhuma arma cadastrada" />
@@ -96,7 +114,7 @@ const ListGunsToUseScreen = (props) => {
             </View>
           }
           data={placeGuns}
-          keyExtractor={(item, index) => `${item._id}${index}`}
+          keyExtractor={(item, index) => `${item._id}`}
           ListEmptyComponent={(<EmptyList text="O clube não possui nenhuma arma cadastrada" />)}
           ItemSeparatorComponent={() => <Separator height={10} />}
           renderItem={({ item }) => (

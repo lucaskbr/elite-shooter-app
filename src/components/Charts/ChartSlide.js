@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, useWindowDimensions } from 'react-native';
 
 import Carousel from 'react-native-snap-carousel';
@@ -19,7 +19,7 @@ const ChartSlide = (props) => {
     if (index == 0) {
       return (
         <ChartCard height={200} title="Regiões com mais acertos">
-          <PieChart data={accurateRegions} />
+          <PieChart accurateRegions={accurateRegions} />
         </ChartCard>
       );
     }
@@ -31,7 +31,7 @@ const ChartSlide = (props) => {
           title="Disparos: Acertos x Erros"
           subtitle="Treino"
         >
-          <VerticalBarChart data={shotsDiference} />
+          <VerticalBarChart shotsDiference={shotsDiference} />
         </ChartCard>
       );
     }
@@ -53,7 +53,7 @@ const ChartSlide = (props) => {
     );
   };
 
-  if (!shotsDiference || !accurateRegions || !shotsDiference.hasData || !accurateRegions.hasData) {
+  if (!accurateRegions || !accurateRegions.hasData || !shotsDiference || !shotsDiference.hasData) {
     return <></>
   }
 
