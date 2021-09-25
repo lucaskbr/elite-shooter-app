@@ -4,7 +4,6 @@ import { ProfileScreen } from './Profile';
 import { SettingsScreen } from './Settings';
 import { PairDeviceScreen } from './PairDevice';
 import { ListGunsToUseScreen, AddGunScreen } from './Guns';
-import { ActivityDetailScreen, ListAllActivitiesScreen } from './Activities';
 import { ModalityScreen } from './Modality';
 
 const User = {
@@ -15,8 +14,6 @@ const User = {
   PairDeviceScreen,
   ListGunsToUseScreen,
   AddGunScreen,
-  ActivityDetailScreen,
-  ListAllActivitiesScreen,
   ModalityScreen,
 };
 

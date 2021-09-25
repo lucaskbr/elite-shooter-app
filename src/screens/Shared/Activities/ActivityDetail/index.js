@@ -31,10 +31,9 @@ const ActivityDetailScreen = (props) => {
   useEffect(() => {
     (async () => {
       Promise.all([
-        shootingActivitiesEndpoint
-          .findById(id),
+        shootingActivitiesEndpoint.findById(id),
 
-          chartsEndpoints.shotsDiference({
+        chartsEndpoints.shotsDiference({
           shootingActivityId: id,
           limit: 1
         }),
@@ -45,13 +44,15 @@ const ActivityDetailScreen = (props) => {
         }),
       ])
         .then((values) => {
-          console.log(values[2].data)
           setActivity(values[0].data);
           setShotsDiference(values[1].data);
           setAccurateRegions(values[2].data);
           setIsLoading(false);
         })
-        .catch(() => setIsLoading(false));
+        .catch((e) => {
+          console.log(e);
+          setIsLoading(false)
+        });
     })();
   }, []);
 

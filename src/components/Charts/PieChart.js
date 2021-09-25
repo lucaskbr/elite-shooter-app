@@ -6,11 +6,6 @@ const PieChart = (props) => {
   const { accurateRegions } = props;
   const { data, occurrencesScoreCount } = accurateRegions;
 
-  console.log('________________________________')
-
-  console.log(accurateRegions)
-  console.log(_.get(occurrencesScoreCount, '9', 0))
-
   return (
     <HighchartsReactNative
       styles={{

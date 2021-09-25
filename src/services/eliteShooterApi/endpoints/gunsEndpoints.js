@@ -23,10 +23,6 @@ const gunsEndpoints = {
   }),
 
   delete: (id) => eliteShooterAPI.delete(`/guns/${id}`),
-
-  
-  
-
 };
 
 export { gunsEndpoints };

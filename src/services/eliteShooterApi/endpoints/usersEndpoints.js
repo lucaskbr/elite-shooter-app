@@ -35,8 +35,6 @@ const usersEndpoints = {
     confirmPassword,
     gender
   })
-
-
 };
 
 export { usersEndpoints };

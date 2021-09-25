@@ -28,11 +28,11 @@ const StackNavigation = (props) => {
       <Stack.Screen name="AddGun" component={User.AddGunScreen} />
       <Stack.Screen
         name="ListAllActivities"
-        component={User.ListAllActivitiesScreen}
+        component={Shared.ListAllActivitiesScreen}
       />
       <Stack.Screen
         name="ActivityDetail"
-        component={User.ActivityDetailScreen}
+        component={Shared.ActivityDetailScreen}
       />
       <Stack.Screen name="Modality" component={User.ModalityScreen} />
     </>
@@ -45,21 +45,35 @@ const StackNavigation = (props) => {
         name="Resources"
         component={ResourcesTab}
       />
+
       <Stack.Screen
         name="ShootingRangesDetails"
         component={Admin.ShootingRangesDetailsScreen}
       />
+
       <Stack.Screen
         name="ShootingRangesAdd"
         component={Admin.ShootingRangesAddScreen}
       />
+
       <Stack.Screen
         name="SensorEquipmentsAdd"
         component={Admin.SensorEquipmentsAddScreen}
       />
-            <Stack.Screen
+
+      <Stack.Screen
         name="GunsAdd"
         component={Admin.GunsAddScreen}
+      />
+
+      <Stack.Screen
+        name="ListAllActivities"
+        component={Shared.ListAllActivitiesScreen}
+      />
+      
+      <Stack.Screen
+        name="ActivityDetail"
+        component={Shared.ActivityDetailScreen}
       />
     </>
   );

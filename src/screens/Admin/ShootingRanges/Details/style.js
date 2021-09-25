@@ -3,32 +3,34 @@ import styled from 'styled-components/native';
 const Header = styled.View`
   justify-content: center;
   align-items: center;
-  height: 30%;
 `;
 
 const Body = styled.View`
   justify-content: center;
-  height: 40%;
 `;
 
 const Footer = styled.View`
   justify-content: center;
   align-items: center;
-  height: 30%;
 `;
 
 const ShootingRange = styled.Text`
   font-family: 'Exo2_900Black_Italic';
   color: #ff0066;
   font-size: 25px;
-  text-transform: capitalize;
 `;
 
 const Type = styled.Text`
   font-family: 'Exo2_500Medium';
   color: #cacaca;
   font-size: 20px;
-  text-transform: capitalize;
+  text-transform: lowercase;
+`;
+
+const QRCodeView = styled.View`
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Statistics = styled.Text`
@@ -45,6 +47,13 @@ const SensorEquipment = styled.Text`
   text-transform: capitalize;
 `;
 
+const CurrentUser = styled.Text`
+  font-family: 'Exo2_900Black_Italic';
+  color: #1E4B78;
+  font-size: 25px;
+  text-transform: capitalize;
+`;
+
 
 const S = {
   Header,
@@ -53,7 +62,9 @@ const S = {
   ShootingRange,
   Type,
   Statistics,
-  SensorEquipment
+  SensorEquipment,
+  CurrentUser,
+  QRCodeView,
 };
 
 export { S };

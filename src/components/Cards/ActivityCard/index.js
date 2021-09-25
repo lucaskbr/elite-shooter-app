@@ -5,13 +5,14 @@ import { View } from 'react-native';
 
 import { S } from './style';
 import { translate } from '../../../utils/translate';
+import _ from 'lodash';
 
 const ActivityCard = (props) => {
-  const { shootingActivity, ...rest } = props;
+  const { shootingActivity, disabled = false, ...rest } = props;
   const { modality, place, date } = shootingActivity;
 
   return (
-    <S.ActivityCard {...rest}>
+    <S.ActivityCard disabled={disabled} {...rest}>
       <View>
         <S.Title>{translate(modality)}</S.Title>
         <S.Date>
@@ -20,7 +21,7 @@ const ActivityCard = (props) => {
         </S.Date>
       </View>
       <View>
-        <S.Place>{place.name}</S.Place>
+        <S.Place>{_.get(place, 'name')}</S.Place>
       </View>
     </S.ActivityCard>
   );

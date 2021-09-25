@@ -11,8 +11,9 @@ const shootingActivitiesEndpoint = {
     shootingRangeId,
     year,
     month,
+    ignoreOwner,
     limit,
-    populate,
+    fieldsToRetrieve,
   }) => eliteShooterAPI.get('/shooting-activities', {
       params: {
         score,
@@ -24,8 +25,9 @@ const shootingActivitiesEndpoint = {
         shootingRangeId,
         year,
         month,
+        ignoreOwner,
         limit,
-        populate,
+        fieldsToRetrieve,
       }
     }),
 

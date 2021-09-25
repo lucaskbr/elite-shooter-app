@@ -1,13 +1,13 @@
 import styled from 'styled-components/native';
 
 const ActivityCard = styled.TouchableOpacity`
-  background: #ffffff;
+  background: ${props => props.disabled ? '#f2f2f2' : '#ffff' };
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  elevation: 2;
+  elevation: ${props => props.disabled ? 0 : 2 };
   padding: 15px;
   border: 1px solid transparent;
   border-radius: 4px;

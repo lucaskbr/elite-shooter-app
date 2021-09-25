@@ -65,7 +65,6 @@ const HomeScreen = (props) => {
     setOnlineShootingRanges(previousState => new Set([...previousState].filter(x => x !== id)))
   }
 
-
   operations.subscribeShootingRangeActive((err, shootingRangeId) => {
     if (err) return
 
@@ -76,7 +75,7 @@ const HomeScreen = (props) => {
 
   operations.subscribeDisconnect((err, shootingRangeId) => {
     if (err) return
-    console.log('disconnect');
+
     removeOnlineShootingRanges(shootingRangeId);
   });
 
@@ -144,11 +143,6 @@ const HomeScreen = (props) => {
         )}
       />
       <Separator height={20} />
-      {/* {
-        onlineShootingRanges.map(e => (
-          <Text>{e}</Text>
-        ))
-      } */}
     </ScreenContainer>
   );
 };

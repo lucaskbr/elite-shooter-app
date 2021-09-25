@@ -55,7 +55,7 @@ const LoginScreen = (props) => {
                 <Label text="username:" />
                 <TextInput
                   type="text"
-                  placeholder="galaxyus123"
+                  autoCapitalize='none'
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -65,7 +65,7 @@ const LoginScreen = (props) => {
               </InputGroup>
             )}
             name="username"
-            defaultValue="test"
+            defaultValue="admin"
           />
           {errors.username && (
             <InputError text="O campo username é obrigatório" />
@@ -80,6 +80,7 @@ const LoginScreen = (props) => {
               <InputGroup>
                 <Label text="senha:" />
                 <TextInput
+                  autoCapitalize='none'
                   type="password"
                   onBlur={onBlur}
                   onChangeText={onChange}

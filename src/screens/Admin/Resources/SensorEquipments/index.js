@@ -17,6 +17,7 @@ import {
   SensorEquipmentCard,
   EmptyList
 } from '@components';
+import _ from 'lodash';
 
 const ResourcesSensorEquipmentsScreen = (props) => {
 
@@ -27,30 +28,29 @@ const ResourcesSensorEquipmentsScreen = (props) => {
   const [sensorEquipments, setSensorEquipments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getAllSensorEquipments = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await sensorEquipmentsEndpoints.findAll({
-        placeId: currentPlace
-      });
-      setSensorEquipments(data);
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
   useFocusEffect(
     useCallback(() => {
-      currentPlace && getAllSensorEquipments();
+      if (!currentPlace) return;
+
+      Promise.all([
+        sensorEquipmentsEndpoints.findAll({
+          placeId: currentPlace
+        })
+      ])
+      .then(values => {
+        setSensorEquipments(_.get(values, '[0].data'));
+        setIsLoading(false);
+      })
+      .catch(e => {
+        console.log(e)
+        setIsLoading(false);
+      })
     }, []),
   );
 
   if (isLoading) {
     return <></>
   }
-
 
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={10}>
@@ -70,7 +70,6 @@ const ResourcesSensorEquipmentsScreen = (props) => {
         ListEmptyComponent={(<EmptyList>Nenhum sensor encontrado</EmptyList>)}
         renderItem={({ item }) => (
           <SensorEquipmentCard
-           // onPress={() => navigation.navigate('Modality')}
             sensorEquipment={item}
           />
         )}
