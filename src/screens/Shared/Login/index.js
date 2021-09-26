@@ -39,12 +39,6 @@ const LoginScreen = (props) => {
       <S.Login>
         <S.SignIn>
           <S.Logo source={logoPath} />
-{/* 
-          <TextInput
-
-                  autoFocus={true}
-                /> */}
-
           <Controller
             control={control}
             rules={{
@@ -65,7 +59,7 @@ const LoginScreen = (props) => {
               </InputGroup>
             )}
             name="username"
-            defaultValue="admin"
+            defaultValue="lucas"
           />
           {errors.username && (
             <InputError text="O campo username é obrigatório" />

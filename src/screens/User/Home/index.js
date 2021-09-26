@@ -37,6 +37,7 @@ const HomeScreen = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [shotsDiference, setShotsDiference] = useState({});
   const [accurateRegions, setAccurateRegions] = useState({});
+  const [scoreHistory, setScoreHistory] = useState({});
 
   useFocusEffect(
     useCallback(() => {
@@ -55,6 +56,10 @@ const HomeScreen = (props) => {
             ownerId: userId,
             limit: 7
           }),
+          chartsEndpoints.scoreHistory({
+            ownerId: userId,
+            limit: 1
+          }),
         ])
           .then((values) => {
             setUser(values[0].data);
@@ -62,6 +67,7 @@ const HomeScreen = (props) => {
             setActivities(values[1].data);
             setShotsDiference(values[2].data);
             setAccurateRegions(values[3].data);
+            setScoreHistory(values[4].data);
             setIsLoading(false);
           })
           .catch(() => setIsLoading(false));
@@ -101,7 +107,7 @@ const HomeScreen = (props) => {
     <ScreenContainer paddingHorizontal={10}>
       <ProfileInfo username={username} />
 
-      <ChartSlide shotsDiference={shotsDiference} accurateRegions={accurateRegions} />
+      <ChartSlide scoreHistory={scoreHistory} shotsDiference={shotsDiference} accurateRegions={accurateRegions} />
 
       <Separator height={20} />
 

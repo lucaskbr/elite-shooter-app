@@ -22,8 +22,9 @@ import { S } from './style';
 
 const ActivityDetailScreen = (props) => {
   const [activity, setActivity] = useState({});
-  const [shotsDiference, setShotsDiference] = useState([]);
-  const [accurateRegions, setAccurateRegions] = useState([]);
+  const [shotsDiference, setShotsDiference] = useState({});
+  const [accurateRegions, setAccurateRegions] = useState({});
+  const [scoreHistory, setScoreHistory] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const { route, navigation } = props;
@@ -44,11 +45,18 @@ const ActivityDetailScreen = (props) => {
           shootingActivityId: id,
           limit: 1
         }),
+
+        chartsEndpoints.scoreHistory({
+          shootingActivityId: id,
+          limit: 1
+        }),
+
       ])
         .then((values) => {
           setActivity(values[0].data);
           setShotsDiference(values[1].data);
           setAccurateRegions(values[2].data);
+          setScoreHistory(values[3].data);
           setIsLoading(false);
 
           console.log(id)
@@ -91,7 +99,7 @@ const ActivityDetailScreen = (props) => {
 
       <Separator height={1} backgroundColor="#DCDCE6" marginVertical={20} />
 
-      <ChartSlide shotsDiference={shotsDiference} accurateRegions={accurateRegions} />
+      <ChartSlide shotsDiference={shotsDiference} accurateRegions={accurateRegions} scoreHistory={scoreHistory} />
 
       <Separator height={1} marginVertical={20} />
 

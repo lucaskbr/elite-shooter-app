@@ -18,6 +18,16 @@ const chartsEndpoints = {
       limit,
     }
   }),
+
+  scoreHistory: ({ ownerId, shootingActivityId, limit }) => eliteShooterAPI.get('/charts', {
+    params: {
+      chartType: 'scoreHistory',
+      ownerId,
+      shootingActivityId,
+      limit,
+    }
+  }),
+
 };
 
 export { chartsEndpoints };
