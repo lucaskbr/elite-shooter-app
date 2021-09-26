@@ -21,9 +21,11 @@ export default function useAuth() {
       const { _id, token, role } = data;
 
       eliteShooterAPI.defaults.headers.Authorization = `Bearer ${token}`;
+
       setUserId(_id);
       setIsAdmin(role === 'admin');
       setAuthenticated(true);
+
     } catch (err) {
       Alert.alert('Ocorreu um erro ao realizar o login', '', [{ text: 'OK' }]);
     }

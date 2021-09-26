@@ -54,7 +54,6 @@ const ShootingRangesDetailsScreen = (props) => {
     usersEndpoints
     .findById({ id: _.get(lastShootingActivity, 'owner')})
     .then(value => {
-      console.log(value.data)
       setCurrentUser(value.data)
     })
     .catch(e => console.log(e))
@@ -108,9 +107,6 @@ const ShootingRangesDetailsScreen = (props) => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <S.Body>
-          
-    
-
           <S.SensorEquipment>Sensor no local:</S.SensorEquipment>
           <Separator height={10} />
           <SensorEquipmentCard

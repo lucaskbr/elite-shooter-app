@@ -22,6 +22,7 @@ import {
   ShootingRangeCard,
   Username,
 } from '@components';
+import { socketIoState } from '../../../services/socketio';
 
 const HomeScreen = (props) => {
   const { route, navigation } = props;
@@ -33,7 +34,6 @@ const HomeScreen = (props) => {
 
   const [onlineShootingRanges, setOnlineShootingRanges] = useState(new Set());
 
-  // const onlineShootingRanges = new Set();
 
   useFocusEffect(
     useCallback(() => {
@@ -43,18 +43,45 @@ const HomeScreen = (props) => {
   );
 
   useEffect(() => {
+
+    setOnlineShootingRanges(socketIoState.onlineShootingRangesInitial);
+
     const shootingRangesIds = shootingRanges.map(shootingRange => shootingRange._id) || [];
     operations.emitDashboardStart(shootingRangesIds);
 
+    operations.subscribeShootingRangeActive((err, shootingRangeId) => {
+      if (err) return
+  
+      console.log(shootingRangeId)
+      addOnlineShootingRanges(shootingRangeId);
+    });
+  
+  
+    operations.subscribeDisconnect((err, shootingRangeId) => {
+      if (err) return
+  
+      removeOnlineShootingRanges(shootingRangeId);
+    });
   }, []);
 
-  // useEffect(() => {
-  //   operations.subscribeShootingRangeActive((err, data) => {
-  //     if (err) return
+  useEffect(() => {
+    const shootingRangesIds = shootingRanges.map(shootingRange => shootingRange._id) || [];
+    operations.emitDashboardStart(shootingRangesIds);
 
-  //     setOnlineShootingRanges(data);
-  //   });
-  // }, [socket]);
+    operations.subscribeShootingRangeActive((err, shootingRangeId) => {
+      if (err) return
+  
+      console.log(shootingRangeId)
+      addOnlineShootingRanges(shootingRangeId);
+    });
+  
+  
+    operations.subscribeDisconnect((err, shootingRangeId) => {
+      if (err) return
+  
+      removeOnlineShootingRanges(shootingRangeId);
+    });
+  }, [socket]);
 
 
   const addOnlineShootingRanges = id =>{
@@ -65,26 +92,9 @@ const HomeScreen = (props) => {
     setOnlineShootingRanges(previousState => new Set([...previousState].filter(x => x !== id)))
   }
 
-  operations.subscribeShootingRangeActive((err, shootingRangeId) => {
-    if (err) return
-
-    console.log(shootingRangeId)
-    addOnlineShootingRanges(shootingRangeId);
-  });
-
-
-  operations.subscribeDisconnect((err, shootingRangeId) => {
-    if (err) return
-
-    removeOnlineShootingRanges(shootingRangeId);
-  });
-
-
-
   if (isLoading || !shootingRanges) {
     return <IsLoading />;
   }
-
 
   console.log()
   return (

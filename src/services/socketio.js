@@ -1,14 +1,15 @@
 import { io } from 'socket.io-client';
 
 // need http
-const socket = io.connect('http://192.168.18.81:3000', {
+const socket = io.connect('http://192.168.18.85:3000', {
   transports: ['websocket'],
 });
 
+const onlineShootingRangesInitial = new Set()
+console.warn('reload')
+
 socket.on('connect', () => {
-  // call the server-side function 'adduser' and send one parameter (value of prompt)
-  console.log('conecta');
-  console.log(socket.connected)
+  console.log('connect');
 });
 
 socket.io.on("reconnection_attempt", () => {
@@ -28,6 +29,13 @@ socket.on('connect_error', (err) => {
 socket.on("disconnect", (reason) => {
   console.log('reason ->')
   console.log(reason)
+});
+
+socket.on('shootingRange:active', ({ shootingRangeId }) => {
+  // revert to classic upgrade
+  console.log('shootingRangeId =', shootingRangeId);
+  onlineShootingRangesInitial.add(shootingRangeId)
+  console.warn('onlineShootingRangesInitial', onlineShootingRangesInitial)
 });
 
 const emitDashboardStart = (shootingRanges) => {
@@ -79,6 +87,10 @@ const subscribeDisconnect = (callback) => {
   socket.on('socket:disconnect', ({ shootingRangeId }) => callback(null, shootingRangeId))
 }
 
+const socketIoState = {
+  onlineShootingRangesInitial
+}
+
 const operations = {
   emitDashboardStart,
   emitShootingActivityStart,
@@ -89,4 +101,4 @@ const operations = {
   subscribeDisconnect,
 }
 
-export { socket, operations };
+export { socket, operations, socketIoState };
