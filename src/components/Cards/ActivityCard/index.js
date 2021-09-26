@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
 import { S } from './style';
-import { translate } from '../../../utils/translate';
+import { translate } from '@utils/translate';
 import _ from 'lodash';
 
 const ActivityCard = (props) => {

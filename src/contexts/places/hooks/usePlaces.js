@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Alert, Keyboard } from 'react-native';
 import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
 import { placesEndpoint } from '@services/eliteShooterApi/endpoints/placesEndpoint';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const onError = (code) =>
   Alert.alert('Ocorreu um erro ao realizar o login', handleErrorMsg[code], [
@@ -15,17 +16,13 @@ export default function usePlaces() {
   const [shootingRanges, setShootingRanges] = useState([]);
 
   async function handlePlaces(params) {
-    try {
-      setIsLoading(true);
-      console.log('handleplaces')
-      const { data } = await placesEndpoint.findAll({});
-      console.log(data)
-      setPlaces(data);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    placesEndpoint.findAll({})
+    .then(response => setPlaces(response.data))
+    .catch((err) => {
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+    })
   }
 
   async function handleShootingRanges(params) {
@@ -34,7 +31,8 @@ export default function usePlaces() {
       const { data } = await shootingRangesEndpoints.findAll(params);
       setShootingRanges(data);
     } catch (err) {
-      console.log(err);
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       setIsLoading(false);
     }

@@ -21,6 +21,7 @@ import {
 } from '@components';
 
 import { S } from './style';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const SensorEquipmentsAddScreen = (props) => {
   const { navigation } = props;
@@ -53,9 +54,8 @@ const SensorEquipmentsAddScreen = (props) => {
       });
       Alert.alert('O equipamento sensor foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop() }]);
     } catch (err) {
-      console.log(err)
       const { status } = err.response
-      Alert.alert('Desculpe', handleErrorMsg[status],  [{ text: 'OK' }]);
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       setIsLoading(false);
     }
@@ -110,9 +110,9 @@ const SensorEquipmentsAddScreen = (props) => {
                     onChange(itemValue);
                   }}
                 >
-                  <Picker.Item label="Selecione um tipo" value="" />
-                  <Picker.Item label="Arduino" value="arduino" />
-                  <Picker.Item label="Node MCU" value="node mcu" />
+                  <Picker.Item key="none" label="Selecione um tipo" value="" />
+                  <Picker.Item key="arduino" label="Arduino" value="arduino" />
+                  <Picker.Item key="node mcu" label="Node MCU" value="node mcu" />
                 </Picker>
               </S.SelectContainer>
             </InputGroup>

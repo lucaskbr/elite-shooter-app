@@ -20,6 +20,7 @@ import {
 
 import { S } from './style';
 import { Alert } from 'react-native';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const AddGunScreen = (props) => {
   const { navigation } = props;
@@ -33,20 +34,13 @@ const AddGunScreen = (props) => {
 
   const [selectedType, setSelectedType] = useState('');
 
-  const handleErrorMsg = {
-    409: 'Arma já esta registrada',
-    default: 'Desculpe ocorreu um erro',
-  }
-
   const createGun = async (gun) => {
     try {
      await gunsEndpoints.create(gun);
      Alert.alert('A arma foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
     } catch (err) {
-      console.log(err)
       const { status } = err.response
-      
-      Alert.alert('Desculpe', handleErrorMsg[status],  [{ text: 'OK' }]);
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     }
   }
 
@@ -139,11 +133,11 @@ const AddGunScreen = (props) => {
                     onChange(itemValue);
                   }}
                 >
-                  <Picker.Item label="Selecione um tipo" value="" />
-                  <Picker.Item label="Revolver" value="revolver" />
-                  <Picker.Item label="Pistola" value="pistol" />
-                  <Picker.Item label="Espingarda" value="shotgun" />
-                  <Picker.Item label="Fuzil" value="rifle" />
+                  <Picker.Item key="none" label="Selecione um tipo" value="" />
+                  <Picker.Item key="revolver" label="Revolver" value="revolver" />
+                  <Picker.Item key="pistol" label="Pistola" value="pistol" />
+                  <Picker.Item key="shotgun" label="Espingarda" value="shotgun" />
+                  <Picker.Item key="rifle "label="Fuzil" value="rifle" />
                 </Picker>
               </S.SelectContainer>
             </InputGroup>

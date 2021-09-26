@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
+import _ from 'lodash';
 
 import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/shootingActivities';
 import { chartsEndpoints } from '@services/eliteShooterApi/endpoints/chartsEndpoints';
+
+import { translate } from '@utils/translate';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 import {
   Separator,
@@ -15,8 +19,6 @@ import {
 } from '@components';
 
 import { S } from './style';
-import _ from 'lodash';
-import { translate } from '../../../../utils/translate';
 
 const ActivityDetailScreen = (props) => {
   const [activity, setActivity] = useState({});
@@ -48,9 +50,13 @@ const ActivityDetailScreen = (props) => {
           setShotsDiference(values[1].data);
           setAccurateRegions(values[2].data);
           setIsLoading(false);
+
+          console.log(id)
+
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((err) => {
+          const { status } = err.response
+          Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
           setIsLoading(false)
         });
     })();

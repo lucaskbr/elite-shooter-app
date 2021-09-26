@@ -23,6 +23,7 @@ import {
   ProfileInfo,
   EmptyList
 } from '@components';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 
 const HomeScreen = (props) => {
@@ -81,7 +82,8 @@ const HomeScreen = (props) => {
     try {
       await shootingActivitiesEndpoint.deleteById(shootingActivityId)
     } catch (err) {
-      console.log(err)
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       shootingActivitiesEndpoint.findAll({
         limit: 7,

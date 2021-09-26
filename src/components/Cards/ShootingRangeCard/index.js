@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { S } from './style';
 
 const ShootingRangeCard = (props) => {
-  const { shootingRange, isOnline, ...rest } = props;
+  const { shootingRange, isOnline, showRealtimeStatus, ...rest } = props;
 
   return (
     <S.ShootingRangeCard {...rest}>
@@ -14,7 +14,10 @@ const ShootingRangeCard = (props) => {
       <View>
         <S.Place>{_.get(shootingRange, 'type')}</S.Place>
       </View>
-      {isOnline ? <S.Online>Online</S.Online> : <S.Offline>Offline</S.Offline>}
+      {showRealtimeStatus && (
+        isOnline ? <S.Online>Online</S.Online> : <S.Offline>Offline</S.Offline>
+      )}
+      
       
     </S.ShootingRangeCard>
   );

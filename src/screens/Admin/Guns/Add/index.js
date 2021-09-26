@@ -20,6 +20,7 @@ import {
 } from '@components';
 
 import { S } from './style';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const GunsAddScreen = (props) => {
   const { navigation, route } = props;
@@ -33,21 +34,19 @@ const GunsAddScreen = (props) => {
 
   const [selectedType, setSelectedType] = useState('');
 
-  const handleErrorMsg = {
-    400: 'Algum campo é invalido',
-    409: 'Arma já esta registrada',
-    500: 'Desculpe ocorreu um erro',
-  }
 
   const createGun = async (gun) => {
-    try {
-     await gunsEndpoints.create({ placeId, ...gun });
-     Alert.alert('A arma foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
-    } catch (err) {
-      console.log(err)
+    gunsEndpoints.create({ placeId, ...gun })
+    .then(() => {
+      Alert.alert('A arma foi cadastrada com sucesso!', '', [{
+        text: 'OK',
+        onPress: () => navigation.pop(),
+      }])
+    })
+    .catch((err) => {
       const { status } = err.response
-      Alert.alert('Desculpe', handleErrorMsg[status],  [{ text: 'OK' }]);
-    }
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+    })
   }
 
   const onSubmit = (data) => createGun(data);
@@ -106,7 +105,7 @@ const GunsAddScreen = (props) => {
         <Controller
           control={control}
           rules={{
-            required: "Este campo é obrigatorio",
+            required: false,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <InputGroup>
@@ -120,7 +119,7 @@ const GunsAddScreen = (props) => {
             </InputGroup>
           )}
           name="numberOfSerie"
-          defaultValue="a"
+          defaultValue=""
         />
         {errors.numberOfSerie &&  (
           <InputError text={errors.numberOfSerie.message} />
@@ -138,7 +137,6 @@ const GunsAddScreen = (props) => {
                 <Picker
                   style={PickerStyle}
                   onBlur={onBlur}
-                  // value={selectedType}
                   selectedValue={selectedType}
                   onValueChange={(itemValue) => {
                     setSelectedType(itemValue)
@@ -146,11 +144,11 @@ const GunsAddScreen = (props) => {
                   }}
                   value={value}
                 >
-                  <Picker.Item label="Selecione um tipo" value="" />
-                  <Picker.Item label="Revolver" value="revolver" />
-                  <Picker.Item label="Pistola" value="pistol" />
-                  <Picker.Item label="Espingarda" value="shotgun" />
-                  <Picker.Item label="Fuzil" value="rifle" />
+                  <Picker.Item key="none" label="Selecione um tipo" value="" />
+                  <Picker.Item key="revolver" label="Revolver" value="revolver" />
+                  <Picker.Item key="pistol" label="Pistola" value="pistol" />
+                  <Picker.Item key="shotgun" label="Espingarda" value="shotgun" />
+                  <Picker.Item key="rifle "label="Fuzil" value="rifle" />
                 </Picker>
               </S.SelectContainer>
             </InputGroup>

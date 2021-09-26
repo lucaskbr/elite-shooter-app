@@ -52,11 +52,11 @@ const ShootingRangesEditScreen = (props) => {
               }}
               selectedValue="2021"
             >
-              <Picker.Item label="Selecione um tipo" value="" />
-              <Picker.Item label="Revolver" value="Revolver" />
-              <Picker.Item label="Pistola" value="Pistola" />
-              <Picker.Item label="Espingarda" value="Espingarda" />
-              <Picker.Item label="Fuzil" value="Fuzil" />
+            <Picker.Item key="none" label="Selecione um tipo" value="" />
+            <Picker.Item key="revolver" label="Revolver" value="revolver" />
+            <Picker.Item key="pistol" label="Pistola" value="pistol" />
+            <Picker.Item key="shotgun" label="Espingarda" value="shotgun" />
+            <Picker.Item key="rifle "label="Fuzil" value="rifle" />
             </Picker>
           </S.SelectContainer>
         </InputGroup>

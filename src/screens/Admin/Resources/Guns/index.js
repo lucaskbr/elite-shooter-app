@@ -16,6 +16,7 @@ import {
   IsLoading,
   EmptyList
 } from '@components';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const ResourcesGunsScreen = (props) => {
 
@@ -31,7 +32,8 @@ const ResourcesGunsScreen = (props) => {
       const { data } = await gunsEndpoints.findAll({ placeId: currentPlace });
       setGuns(data);
     } catch (err) {
-      console.log(err)
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       setIsLoading(false);
     }
@@ -50,7 +52,8 @@ const ResourcesGunsScreen = (props) => {
     try {
       await gunsEndpoints.delete(gunId);
     } catch (err) {
-      console.log(err)
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       await findAllGuns();
     }

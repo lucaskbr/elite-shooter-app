@@ -6,6 +6,8 @@ import { AuthContext } from '@contexts/auth/authContext';
 import { rankingsEndpoints } from '@services/eliteShooterApi/endpoints/rankingsEndpoints';
 
 import { TopThree, ScreenContainer, RankingList } from '@components';
+import { Alert } from 'react-native';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const RankingScreen = (props) => {
   // const { route } = props;
@@ -32,7 +34,8 @@ const RankingScreen = (props) => {
       setUserInFocus(data.userInFocus);
       setIsLoading(false);
     } catch (err) {
-      console.log(err)
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     }
   }
 

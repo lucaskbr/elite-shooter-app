@@ -7,7 +7,8 @@ import { Button, Separator, InputGroup, Label, TextInput, InputError } from '@co
 
 import { S } from './style';
 import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoints';
-import { KeyboardAvoidingView, Text } from 'react-native';
+import { Alert, KeyboardAvoidingView, Text } from 'react-native';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const ProfileModal = (props) => {
   const { user, isVisible, onChange } = props;
@@ -23,7 +24,8 @@ const ProfileModal = (props) => {
       await usersEndpoints.updateById({ id: user._id, ...data })
       onChange && onChange({ status: 'success' })
    } catch (err) {
-    console.log(err)
+    const { status } = err.response
+    Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     onChange && onChange({ status: 'fail' })
    }
   }

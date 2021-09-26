@@ -24,6 +24,7 @@ import {
 } from '@components';
 
 import { S } from './style';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const ShootingRangesAddScreen = (props) => {
   const { navigation } = props;
@@ -49,7 +50,8 @@ const ShootingRangesAddScreen = (props) => {
       });
       setSensorsEquipments(data);
     } catch (err) {
-      console.log(err);
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +65,8 @@ const ShootingRangesAddScreen = (props) => {
       });
       Alert.alert('A baia de tiro foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
     } catch (err) {
-      console.log(err);
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       setIsLoading(false);
     }
@@ -127,9 +130,9 @@ const ShootingRangesAddScreen = (props) => {
                     onChange(itemValue);
                   }}
                 >
-                  <Picker.Item label="Selecione um tipo" value="" />
-                  <Picker.Item label="Ar livre" value="outdoor" />
-                  <Picker.Item label="Ambiente fechado" value="indoor" />
+                  <Picker.Item key="none" label="Selecione um tipo" value="" />
+                  <Picker.Item key="outdoor" label="Ar livre" value="outdoor" />
+                  <Picker.Item key="indoor" label="Ambiente fechado" value="indoor" />
                 </Picker>
               </S.SelectContainer>
             </InputGroup>
@@ -162,7 +165,7 @@ const ShootingRangesAddScreen = (props) => {
                 >
                   <Picker.Item label="Selecione um sensor" value="" />
                   {sensorsEquipments.map(sensor => (
-                    <Picker.Item label={sensor.code} value={sensor._id} />
+                    <Picker.Item key={sensor._id} label={sensor.code} value={sensor._id} />
                   ))}
                 </Picker>
               </S.SelectContainer>

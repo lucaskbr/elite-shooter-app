@@ -18,7 +18,9 @@ import {
 import { PickerStyle } from '@containers/PickerStyle';
 
 import { S } from './style';
-import { usersEndpoints } from '../../../services/eliteShooterApi/endpoints/usersEndpoints';
+import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoints';
+import { Alert } from 'react-native';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const SignUpScreen = (props) => {
   const { navigation } = props;
@@ -40,9 +42,9 @@ const SignUpScreen = (props) => {
       const { data } = await usersEndpoints.create(user);
       console.log(data);
       await handleLogin(data)
-
     } catch (err) {
-      console.log(err);
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     }
   }
 

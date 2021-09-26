@@ -4,6 +4,7 @@ import { eliteShooterAPI } from '@services/eliteShooterApi/api';
 
 import { authEndpoints } from '@services/eliteShooterApi/endpoints/authEndpoints';
 import { Alert, Keyboard } from 'react-native';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -12,11 +13,10 @@ export default function useAuth() {
   const [userId, setUserId] = useState('');
 
   async function handleLogin(params) {
-    Keyboard.dismiss();
-    const { username, password } = params;
-    setLoading(true);
     try {
-      console.log(params)
+      Keyboard.dismiss();
+      const { username, password } = params;
+      setLoading(true);
       const { data } = await authEndpoints.signin({ username, password });
       const { _id, token, role } = data;
 
@@ -27,9 +27,11 @@ export default function useAuth() {
       setAuthenticated(true);
 
     } catch (err) {
-      Alert.alert('Ocorreu um erro ao realizar o login', '', [{ text: 'OK' }]);
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   function handleLogout() {

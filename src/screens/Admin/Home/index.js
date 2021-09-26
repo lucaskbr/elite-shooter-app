@@ -143,6 +143,7 @@ const HomeScreen = (props) => {
         renderItem={({ item }) => (
           <ShootingRangeCard
             shootingRange={item}
+            showRealtimeStatus={true}
             isOnline={onlineShootingRanges.has(item._id)}
             onPress={() =>
               navigation.navigate('ShootingRangesDetails', {

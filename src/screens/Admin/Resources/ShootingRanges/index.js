@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 
 import { ParamsContext } from '@contexts/params/ParamsContext';
 
@@ -17,6 +17,7 @@ import {
   ShootingRangeCard,
   EmptyList
 } from '@components';
+import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const ResourcesShootingRangesScreen = (props) => {
 
@@ -32,7 +33,8 @@ const ResourcesShootingRangesScreen = (props) => {
       const { data } = await shootingRangesEndpoints.findAll({ placeId: currentPlace });
       setShootingRanges(data);
     } catch (err) {
-      console.log(err)
+      const { status } = err.response
+      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +53,7 @@ const ResourcesShootingRangesScreen = (props) => {
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={10}>
       <TopActionButton
-        title="Cadastrar nova baia"
+        title="Cadastrar nova baia de tiro"
         buttonText="Cadastrar"
         type="success"
         onPress={() => navigation.navigate('ShootingRangesAdd', { placeId: currentPlace })}
@@ -66,6 +68,7 @@ const ResourcesShootingRangesScreen = (props) => {
         ListEmptyComponent={(<EmptyList>Nenhuma baia de tiro encontrada</EmptyList>)}
         renderItem={({ item }) => (
           <ShootingRangeCard
+            showRealtimeStatus={false}
             shootingRange={item}
           />
         )}

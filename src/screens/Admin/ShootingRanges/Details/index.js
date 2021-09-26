@@ -23,7 +23,7 @@ import {
 } from '@components';
 
 import { S } from './style';
-import { translate } from '../../../../utils/translate';
+import { translate } from '@utils/translate';
 
 const ShootingRangesDetailsScreen = (props) => {
   const { route, navigation } = props;
