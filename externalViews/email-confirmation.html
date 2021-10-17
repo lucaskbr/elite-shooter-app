@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Email confirmado</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<style>
+  body {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins';
+  }
+
+  #result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+
+</style>
+<script>
+  const baseUrl = `https://api-elite-shooter.com.br`;
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const queryParams = Object.fromEntries(urlSearchParams.entries());
+
+  const errorPage = () => {
+    document.getElementsByTagName("body")[0].style = `background: #C33E3E`;
+    document.getElementById("result").innerHTML = `
+      <i class="fas fa-times" style="font-size:200px;color:white;"></i>
+      <h1 id="text">Ocorreu um erro ao confirmar seu email</h1>
+    `;
+  }
+
+  const successPage = () => {
+    document.getElementsByTagName("body")[0].style = `background: #04AA6B`;
+    document.getElementById("result").innerHTML = `
+    <i class="fas fa-check-circle" style="font-size:200px;color:white;"></i>
+    <h1 id="text">Seu email foi confirmado com sucesso!</h1>
+    `;
+  }
+
+  window.onload = () => {
+    if (!queryParams || !queryParams.token) {
+      errorPage();
+      return;
+    }
+
+    const { token } = queryParams;
+    fetch(`${baseUrl}/auth/confirm-email/${token}`)
+      .then((response) => {
+        if (response.ok) {
+          successPage();
+        } else {
+          errorPage();
+        }
+      })
+      .catch(e => {
+        errorPage();
+      })  
+  }
+
+</script>
+
+</head>
+<body>
+  <section id="result" />
+</body>
+</html>

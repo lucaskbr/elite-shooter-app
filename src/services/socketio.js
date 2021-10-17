@@ -1,7 +1,8 @@
 import { io } from 'socket.io-client';
+import { BASE_URL } from '@env';
 
 // need http
-const socket = io.connect('http://192.168.18.89:3000', {
+const socket = io.connect(BASE_URL, {
   transports: ['websocket'],
 });
 

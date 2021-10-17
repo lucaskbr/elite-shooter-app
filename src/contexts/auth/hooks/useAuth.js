@@ -27,7 +27,8 @@ export default function useAuth() {
       setAuthenticated(true);
 
     } catch (err) {
-      const { status } = err.response
+      console.log(err)
+      const { status } = err.response && err.response
       Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
     } finally {
       setLoading(false);
