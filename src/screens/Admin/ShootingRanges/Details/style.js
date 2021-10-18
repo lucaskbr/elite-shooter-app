@@ -28,9 +28,18 @@ const Type = styled.Text`
 `;
 
 const QRCodeView = styled.View`
+  position: relative;
   width: 100%;
   align-items: center;
   justify-content: center;
+`;
+
+const PdfIcon = styled.TouchableOpacity`
+  position: absolute;
+  left: 70%;
+  background: #FF0066;
+  padding: 8px;
+  border-radius: 50px;
 `;
 
 const Statistics = styled.Text`
@@ -65,6 +74,7 @@ const S = {
   SensorEquipment,
   CurrentUser,
   QRCodeView,
+  PdfIcon,
 };
 
 export { S };

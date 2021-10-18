@@ -34,6 +34,7 @@ const LoginScreen = (props) => {
   const onSubmit = (data) => handleLogin(data);
   // TODO: Remove default value from inputs
 
+
   return (
     <ScreenContainer paddingHorizontal={15}>
       <S.Login>
@@ -59,7 +60,7 @@ const LoginScreen = (props) => {
               </InputGroup>
             )}
             name="username"
-            defaultValue="lucas"
+            defaultValue="admin"
           />
           {errors.username && (
             <InputError text="O campo username é obrigatório" />
@@ -92,7 +93,7 @@ const LoginScreen = (props) => {
         </S.SignIn>
         <S.SingUp>
           <S.SingUpLink onPress={() => navigate('SingUp')}>
-            Registre-se
+            Registre-sees
           </S.SingUpLink>
         </S.SingUp>
       </S.Login>

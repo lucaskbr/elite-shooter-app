@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ScrollView } from 'react-native';
+
+import * as Print from 'expo-print';
+import * as FileSystem from 'expo-file-system';
+import * as IntentLauncher from 'expo-intent-launcher';
+
 import _ from 'lodash';
 
 import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
@@ -7,6 +12,7 @@ import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/
 import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoints';
 
 import QRCode from 'react-native-qrcode-svg';
+import { IconOutline } from '@ant-design/icons-react-native';
 
 import {
   Separator,
@@ -24,6 +30,7 @@ import {
 
 import { S } from './style';
 import { translate } from '@utils/translate';
+import { qrcodesEndpoints } from '../../../../services/eliteShooterApi/endpoints/qrcodesEndpoints';
 
 const ShootingRangesDetailsScreen = (props) => {
   const { route, navigation } = props;
@@ -57,6 +64,33 @@ const ShootingRangesDetailsScreen = (props) => {
       setCurrentUser(value.data)
     })
     .catch(e => console.log(e))
+  }
+
+  const generateQRCodeHtml = (shootingRangeId) => {
+    return qrcodesEndpoints.generate({ shootingRangeId })
+    .then(result => result.data)
+    .catch(e => console.log(e))
+  }
+
+  const generateQRCodePdf = async () => {
+    console.log('generateQRCodePdf')
+
+    const data = await generateQRCodeHtml(shootingRange._id);
+
+    if (!data) {
+      return;
+    }
+
+    const result = await Print.printToFileAsync({
+      html: data.html,
+    })
+
+    const contentURI = await FileSystem.getContentUriAsync(result.uri);
+    IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+      data: contentURI,
+      flags: 1,
+      type: 'application/pdf'
+   });
   }
 
   useEffect(() => {
@@ -102,6 +136,9 @@ const ShootingRangesDetailsScreen = (props) => {
             value={qrcodeValue}
           />
         </S.QRCodeView>
+        <S.PdfIcon onPress={generateQRCodePdf}>
+          <IconOutline name="file-pdf" color="#fff" size={30} />
+        </S.PdfIcon>
         <Separator height={30} />
       </S.Header>
 
