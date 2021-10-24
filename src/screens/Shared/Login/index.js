@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import { AuthContext } from '@contexts/auth/authContext';
+import Toast from 'react-native-toast-message';
 
 import logoPath from '@assets/logo.png';
 
@@ -16,11 +17,13 @@ import {
 } from '@components';
 
 import { S } from './style';
+import _ from 'lodash';
 
 const LoginScreen = (props) => {
-  const { navigation } = props;
+  const { route, navigation } = props;
   const { navigate } = navigation;
-  // call the route to get user info and set in state
+
+  console.log(route.params)
 
   const {
     control,
@@ -34,6 +37,17 @@ const LoginScreen = (props) => {
   const onSubmit = (data) => handleLogin(data);
   // TODO: Remove default value from inputs
 
+  useEffect(() => {
+    (async () => {
+
+      if (_.get(route, 'params.signupSuccess', false)) {
+        Toast.show({
+          text1: 'Cadastro concluído com sucesso ✅',
+          text2: 'Por favor confirme seu cadastro pelo e-mail'
+        });
+      }
+    })()
+  }, [route.params]);
 
   return (
     <ScreenContainer paddingHorizontal={15}>
@@ -81,6 +95,7 @@ const LoginScreen = (props) => {
                   onChangeText={onChange}
                   value={value}
                   ref={ref}
+                  secureTextEntry={true}
                 />
               </InputGroup>
             )}
@@ -93,10 +108,11 @@ const LoginScreen = (props) => {
         </S.SignIn>
         <S.SingUp>
           <S.SingUpLink onPress={() => navigate('SingUp')}>
-            Registre-sees
+            Registre-se
           </S.SingUpLink>
         </S.SingUp>
       </S.Login>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </ScreenContainer>
   );
 };

@@ -6,6 +6,27 @@ const authEndpoints = {
       username,
       password,
     }),
+
+  signup: ({
+    firstname,
+    lastname,
+    username,
+    email,
+    confirmEmail,
+    password,
+    confirmPassword,
+    gender,
+  }) =>
+    eliteShooterAPI.post('/auth/signup', {
+      firstname,
+      lastname,
+      username,
+      email,
+      confirmEmail,
+      password,
+      confirmPassword,
+      gender,
+    }),
 };
 
 export { authEndpoints };

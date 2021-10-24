@@ -28,12 +28,13 @@ const GunsAddScreen = (props) => {
 
   const {
     control,
+    trigger,
     handleSubmit,
     formState: { errors },
+    setFocus,
   } = useForm();
 
   const [selectedType, setSelectedType] = useState('');
-
 
   const createGun = async (gun) => {
     gunsEndpoints.create({ placeId, ...gun })
@@ -61,19 +62,23 @@ const GunsAddScreen = (props) => {
           rules={{
             required: "Este campo é obrigatorio",
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur, value, ref } }) => (
             <InputGroup>
               <Label text="Marca:" />
               <TextInput
                 type="text"
                 onBlur={onBlur}
                 onChangeText={onChange}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["brand"]).then(() => setFocus("model"))}
                 value={value}
+                ref={ref}
               />
             </InputGroup>
           )}
           name="brand"
-          defaultValue="a"
+          defaultValue=""
         />
         {errors.brand &&  (
           <InputError text={errors.brand.message} />
@@ -84,19 +89,23 @@ const GunsAddScreen = (props) => {
           rules={{
             required: "Este campo é obrigatorio",
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur, value, ref } }) => (
             <InputGroup>
               <Label text="Modelo:" />
               <TextInput
                 type="text"
                 onBlur={onBlur}
                 onChangeText={onChange}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["model"]).then(() => setFocus("numberOfSerie"))}
                 value={value}
+                ref={ref}
               />
             </InputGroup>
           )}
           name="model"
-          defaultValue="a"
+          defaultValue=""
         />
         {errors.model &&  (
           <InputError text={errors.model.message} />
@@ -107,14 +116,16 @@ const GunsAddScreen = (props) => {
           rules={{
             required: false,
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur, value, ref } }) => (
             <InputGroup>
               <Label text="Número de serie:" />
               <TextInput
                 type="text"
                 onBlur={onBlur}
                 onChangeText={onChange}
+                onSubmitEditing={() => trigger(["numberOfSerie"])}
                 value={value}
+                ref={ref}
               />
             </InputGroup>
           )}

@@ -1,11 +1,30 @@
 import styled from 'styled-components/native';
 
-const Username = styled.Text`
-  margin-left: 15;
+const Dashboard = styled.View`
+  width: 100%;
+`;
+
+const DashboardRow = styled.View`
+  width: 100%;
+  flex-direction: row;
+`;
+
+const DashboardItem = styled.View`
+  flex: 0.5;
+  width: 100%;
+  margin: 4px;
+`;
+
+const Ps = styled.Text`
+  font-size: 12px;
+  font-family: 'Exo2_300Light';
 `;
 
 const S = {
-  Username,
+  Dashboard,
+  DashboardRow,
+  DashboardItem,
+  Ps
 };
 
 export { S };

@@ -59,6 +59,7 @@ const ShootingRangesAddScreen = (props) => {
 
   const createShootingRange = async (shootingRange) => {
     try {
+      console.log(shootingRange)
       await shootingRangesEndpoints.create({
        ...shootingRange,
         placeId: currentPlace

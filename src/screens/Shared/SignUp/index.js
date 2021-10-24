@@ -1,8 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useForm, Controller } from 'react-hook-form';
 
-import { AuthContext } from '@contexts/auth/authContext';
+import { PickerStyle } from '@containers/PickerStyle';
+
+import { httpErrorMessages } from '@utils/httpErrorMessages';
+import { authEndpoints } from '@services/eliteShooterApi/endpoints/authEndpoints';
+
 
 import {
   ScreenContainer,
@@ -15,16 +20,10 @@ import {
   InputError,
 } from '@components';
 
-import { PickerStyle } from '@containers/PickerStyle';
-
 import { S } from './style';
-import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoints';
-import { Alert } from 'react-native';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const SignUpScreen = (props) => {
   const { navigation } = props;
-  const { goBack } = navigation;
 
   const {
     control,
@@ -35,13 +34,12 @@ const SignUpScreen = (props) => {
     setFocus,
   } = useForm();
 
-  const { handleLogin } = useContext(AuthContext);
-
   const createUser = async (user) => {
     try {
-      const { data } = await usersEndpoints.create(user);
-      console.log(data);
-      await handleLogin(data)
+      await authEndpoints.signup(user);
+      navigation.navigate('Login', {
+        signupSuccess: true
+      })
     } catch (err) {
       const { status } = err.response
       Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
@@ -68,13 +66,14 @@ const SignUpScreen = (props) => {
                 onChangeText={onChange}
                 value={value}
                 returnKeyType="next"
-                onSubmitEditing={()=> trigger(["firstname"]) && setFocus("lastname")}
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["firstname"]).then(() => setFocus("lastname"))}
                 ref={ref}
               />
             </InputGroup>
           )}
           name="firstname"
-          defaultValue=""
+          defaultValue="lucas"
         />
         {errors.firstname &&  (
           <InputError text={errors.firstname.message} />
@@ -93,13 +92,14 @@ const SignUpScreen = (props) => {
                 onChangeText={onChange}
                 value={value}
                 returnKeyType="next"
-                onSubmitEditing={()=> trigger(["lastname"]) && setFocus("username")}
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["lastname"]).then(() => setFocus("username"))}
                 ref={ref}
               />
             </InputGroup>
           )}
           name="lastname"
-          defaultValue=""
+          defaultValue="lucas"
         />
         {errors.lastname && (
           <InputError text={errors.lastname.message} />
@@ -119,13 +119,14 @@ const SignUpScreen = (props) => {
                 onChangeText={onChange}
                 value={value}
                 returnKeyType="next"
-                onSubmitEditing={()=> trigger(["username"]) &&  setFocus("email")}
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["username"]).then(() => setFocus("email"))}
                 ref={ref}
               />
             </InputGroup>
           )}
           name="username"
-          defaultValue=""
+          defaultValue="lucas"
         />
         {errors.username && (
           <InputError text={errors.username.message} />
@@ -149,13 +150,14 @@ const SignUpScreen = (props) => {
                 onChangeText={onChange}
                 value={value}
                 returnKeyType="next"
-                onSubmitEditing={()=> trigger(["email"]) && setFocus("confirmEmail")}
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["email"]).then(() => setFocus("confirmEmail"))}
                 ref={ref}
               />
             </InputGroup>
           )}
           name="email"
-          defaultValue=""
+          defaultValue="lucas@gmail.com"
         />
         {errors.email && (
           <InputError text={errors.email.message} />
@@ -189,13 +191,14 @@ const SignUpScreen = (props) => {
                 onChangeText={onChange}
                 value={value}
                 returnKeyType="next"
-                onSubmitEditing={()=> trigger(["confirmEmail"]) && setFocus("password")}
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["confirmEmail"]).then(() => setFocus("password"))}
                 ref={ref}
               />
             </InputGroup>
           )}
           name="confirmEmail"
-          defaultValue=""
+          defaultValue="lucas@gmail.com"
         />
         {errors.confirmEmail && (
           <InputError text={errors.confirmEmail.message} />
@@ -215,13 +218,14 @@ const SignUpScreen = (props) => {
                 onChangeText={onChange}
                 value={value}
                 returnKeyType="next"
-                onSubmitEditing={()=> trigger(["password"]) && setFocus("confirmPassword")}
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["password"]).then(() => setFocus("confirmPassword"))}
                 ref={ref}
               />
             </InputGroup>
           )}
           name="password"
-          defaultValue=""
+          defaultValue="123"
         />
         {errors.password && (
           <InputError text={errors.password.message} />
@@ -249,13 +253,14 @@ const SignUpScreen = (props) => {
                 onChangeText={onChange}
                 value={value}
                 returnKeyType="next"
-                onSubmitEditing={()=> trigger(["confirmPassword"])}
+                blurOnSubmit={false}
+                onSubmitEditing={()=> trigger(["confirmPassword"]).then(() => setFocus(''))}
                 ref={ref}
               />
             </InputGroup>
           )}
           name="confirmPassword"
-          defaultValue=""
+          defaultValue="123"
         />
         {errors.confirmPassword && (
           <InputError text={errors.confirmPassword.message} />

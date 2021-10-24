@@ -1,116 +1,143 @@
-import React, { useState, useEffect } from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useCallback, useContext, useState }  from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { View, Switch, StyleSheet, FlatList } from "react-native";
+
+import { AuthContext } from '@contexts/auth/authContext';
+
 import {
-  Button,
-  GunCard,
-  IsLoading,
+  ScreenContainer,
+  ActivityCard,
+  Title,
   ProfilePic,
   Separator,
-  Title,
+  IsLoading,
+  ChartCard,
+  VerticalBarChart,
+  ChartSlide,
+  ShootingRangeCard,
   Username,
+  CountCard,
+  PlaceCard,
+  ProfileInfo,
 } from '@components';
 
-import { ProfileModal } from './ProfileModal';
+import { S } from './style';
+import { placesEndpoint } from '@services/eliteShooterApi/endpoints/placesEndpoint';
 
 const ProfileScreen = (props) => {
-  const { navigation } = props;
-  const { navigate } = navigation;
+  const { route, navigation } = props;
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { handleLogout } = useContext(AuthContext);
+
   const [isLoading, setIsLoading] = useState(true);
-  const [myGuns, setMyGuns] = useState([]);
+  const [places, setPlaces] = useState([]);
 
-  useEffect(() => {
-    Promise.all([fetch('/api/guns/users').then((res) => res.json())]).then(
-      (values) => {
-        setMyGuns(values[0]);
-        setIsLoading(false);
-      },
-    );
-  }, []);
+  const updatePlaceIsActive = async (id, isActive) => {
+    await placesEndpoint.updateById(id, { isActive })
+    .then(() => {})
+    .catch(() => {})
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      placesEndpoint.findAll()
+      .then(response => {
+        setPlaces(response.data)
+        setIsLoading(false)
+      })
+      .catch(e => setIsLoading(false))
+
+    }, []),
+  );
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
-    <IsLoading condition={isLoading}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#fff',
-          paddingHorizontal: 15,
-          paddingVertical: 15,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <View
-          style={{
-            paddingHorizontal: 15,
-            paddingVertical: 15,
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
-          <ProfilePic username={'admin'} />
-          <Username text="username" />
-        </View>
+    <ScreenContainer paddingHorizontal={10} paddingVertical={20} >
+      <ProfileInfo username="Admin" logout={true} handleLogout={handleLogout} />
 
-        <Button
-          text="Ver mais"
-          type="invisible"
-          onPress={() => setIsModalVisible(true)}
-        />
+      <S.Dashboard>
+        <S.DashboardRow>
+          <S.DashboardItem>
+            <CountCard
+              number="50"
+              title="Disparos"
+              gradientArray={['#1e8972', '#2ab295', '#36DAB8']}
+            />
+          </S.DashboardItem>
+          <S.DashboardItem>
+            <CountCard
+              number="10"
+              title="Atividades de tiro"
+              gradientArray={['#8e405d', '#d1648c', '#FF79AC']}
+            />
+          </S.DashboardItem>
+        </S.DashboardRow>
+        <S.DashboardRow>
+          <S.DashboardItem>
+            <CountCard
+              number="2"
+              title="Novas armas"
+              gradientArray={['#006175', '#00a1c1', '#00D3FE']}
+            />
+          </S.DashboardItem>
+          <S.DashboardItem>
+            <CountCard
+              number="10"
+              title="Novos usuários"
+              gradientArray={['#75341e', '#b7512f', '#FE7443']}
+            />
+          </S.DashboardItem>
+        </S.DashboardRow>
+      </S.Dashboard>
+      <Separator height={20} />
 
-        <View style={{ flex: 1, marginTop: 20, width: '100%' }}>
-          <FlatList
-            contentContainerStyle={{ padding: 1 }}
-            showsVerticalScrollIndicator={false}
-            ListHeaderComponent={
-              <View
-                style={{
-                  width: '100%',
-                  marginBottom: 10,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Title text="Minhas armas" />
-              </View>
-            }
-            ItemSeparatorComponent={() => <Separator height={10} />}
-            ListFooterComponent={
-              <View
-                style={{
-                  width: '100%',
-                  marginTop: 20,
-                }}
-              >
-                <Button
-                  text="Adicionar mais"
-                  onPress={() => navigate('AddGun')}
-                />
-              </View>
-            }
-            data={myGuns}
-            keyExtractor={(item, index) => `${item._id}`}
-            renderItem={({ item }) => (
-              <GunCard
-                gun={item}
-              />
-            )}
-          />
-        </View>
+      <FlatList
+        contentContainerStyle={{ padding: 1 }}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View
+            style={{
+              width: '100%',
+              marginBottom: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Title text="Locais" />
+          </View>
+        }
+        ListEmptyComponent={() => (<EmptyList text="Nenhuma atividade encontrada" />)}
+        ItemSeparatorComponent={() => <Separator height={10} />}
+        ListFooterComponent={
+          <View
+            style={{
+              width: '100%',
+              marginTop: 20,
+              marginBottom: 20,
+              marginLeft: 10,
+            }}>
+              <S.Ps>Ps: Para aplicar as mudanças na interface, deslogue e logue novamente</S.Ps>
+            </View>
+        }
+        data={places}
+        keyExtractor={(item) => `${item._id}`}
+        renderItem={({ item }) => (
+         <PlaceCard
+            place={item}
+            switchOnValueChange={updatePlaceIsActive}
+         />
+        
+        )}
+      />
 
-        <ProfileModal
-          onChange={(data) => {
-            setIsModalVisible(false);
-          }}
-          isVisible={isModalVisible}
-        />
-      </View>
-    </IsLoading>
+  
+    </ScreenContainer>
   );
 };
+
 
 export { ProfileScreen };

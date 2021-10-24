@@ -1,4 +1,4 @@
-import { ActivityCard, GunCard, SensorEquipmentCard, ShootingRangeCard } from './Cards';
+import { ActivityCard, GunCard, SensorEquipmentCard, ShootingRangeCard, CountCard, PlaceCard } from './Cards';
 import { Button } from './Button';
 import { InputGroup } from './InputGroup';
 import { Label } from './Label';
@@ -17,6 +17,7 @@ import { Username } from './Username';
 import { InputError } from './InputError';
 import { EmptyList } from './EmptyList';
 import { ProfileInfo } from './ProfileInfo';
+import { NoPlaceForUser } from './NoPlaceForUser';
 
 export {
   ActivityCard,
@@ -42,5 +43,8 @@ export {
   ShootingRangeCard,
   SensorEquipmentCard,
   EmptyList,
-  ProfileInfo
+  ProfileInfo,
+  CountCard,
+  PlaceCard,
+  NoPlaceForUser
 };

@@ -16,6 +16,7 @@ import {
   TextInput,
   Label,
   Button,
+  InputError,
 } from '@components';
 
 import { S } from './style';
@@ -28,8 +29,10 @@ const AddGunScreen = (props) => {
 
   const {
     control,
+    trigger,
     handleSubmit,
     formState: { errors },
+    setFocus,
   } = useForm();
 
   const [selectedType, setSelectedType] = useState('');
@@ -52,72 +55,88 @@ const AddGunScreen = (props) => {
         <Title text="Cadastrar nova arma" />
         <Separator height={20} />
         <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <InputGroup>
-                <Label text="Marca:" />
-                <TextInput
-                  type="text"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              </InputGroup>
-            )}
-            name="brand"
-            defaultValue="a"
-          />
-          {errors.brand && <InputError text="Erro" />}
-        <Separator height={10} />
-        <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <InputGroup>
-                <Label text="Modelo:" />
-                <TextInput
-                  type="text"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              </InputGroup>
-            )}
-            name="model"
-            defaultValue="a"
-          />
-          {errors.model && <InputError text="Erro" />}
+          control={control}
+          rules={{
+            required: "Este campo é obrigatorio",
+          }}
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <InputGroup>
+              <Label text="Marca:" />
+              <TextInput
+                type="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["brand"]).then(() => setFocus("model"))}
+                value={value}
+                ref={ref}
+              />
+            </InputGroup>
+          )}
+          name="brand"
+          defaultValue=""
+        />
+        {errors.brand && (
+          <InputError text={errors.brand.message} />
+        )}
         <Separator height={10} />
         <Controller
           control={control}
           rules={{
-            required: true,
+            required: "Este campo é obrigatorio",
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <InputGroup>
+              <Label text="Modelo:" />
+              <TextInput
+                type="text"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => trigger(["model"]).then(() => setFocus("numberOfSerie"))}
+                value={value}
+                ref={ref}
+              />
+            </InputGroup>
+          )}
+          name="model"
+          defaultValue=""
+        />
+        {errors.model && (
+          <InputError text={errors.model.message} />
+        )}
+        <Separator height={10} />
+        <Controller
+          control={control}
+          rules={{
+            required: "Este campo é obrigatorio",
+          }}
+          render={({ field: { onChange, onBlur, value, ref } }) => (
             <InputGroup>
               <Label text="Número de serie:" />
               <TextInput
                 type="text"
                 onBlur={onBlur}
                 onChangeText={onChange}
+                onSubmitEditing={() => trigger(["numberOfSerie"])}
                 value={value}
+                ref={ref}
               />
             </InputGroup>
           )}
           name="numberOfSerie"
-          defaultValue="a"
+          defaultValue=""
         />
-        {errors.numberOfSerie && <InputError text="Erro" />}
+        {errors.numberOfSerie && (
+          <InputError text={errors.numberOfSerie.message} />
+        )}
         <Separator height={10} />
         <Controller
           control={control}
           rules={{
-           required: true,
+            required: "Este campo é obrigatorio",
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <InputGroup>
@@ -145,7 +164,9 @@ const AddGunScreen = (props) => {
           name="type"
           defaultValue="a"
         />
-        {errors.type && <InputError text="Erro" />}
+        {errors.type && (
+          <InputError text={errors.brand.type} />
+        )}
         <Separator height={20} />
         <Button type="success" text="Cadastrar" onPress={handleSubmit(onSubmit)} />
         <Separator height={5} />

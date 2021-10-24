@@ -4,6 +4,9 @@ import { PlacesProvider, PlacesContext } from '@contexts/places/PlacesContext';
 
 import { Admin } from '@screens/Admin';
 
+import { View, Text } from "react-native";
+import { NoPlaceForUser } from '../../components';
+
 const Tab = createMaterialTopTabNavigator();
 
 const HandleScreesToShow = () => {
@@ -11,12 +14,16 @@ const HandleScreesToShow = () => {
 
   useEffect(() => {
     (async () => {
-      await handlePlaces();
+      await handlePlaces({ isActive: true });
     })();
   }, []);
 
-  if (isLoading || !places.length) {
+  if (isLoading) {
     return <></>;
+  }
+
+  if (!places.length) {
+    return <NoPlaceForUser />
   }
 
   return (
