@@ -1,12 +1,12 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { CountUp } from 'use-count-up'
 
-import {LinearGradient} from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { S } from './style';
 
 const CountCard = (props) => {
-  const { number, title, gradientArray, ...rest } = props;
+  const { number = 0, title, gradientArray, ...rest } = props;
 
   return (
     <LinearGradient
@@ -23,7 +23,7 @@ const CountCard = (props) => {
       }}
     >
       <S.Number>
-        {number}
+        <CountUp isCounting end={number} duration={6} />
       </S.Number>
       <S.Title>
         {title}
@@ -32,12 +32,5 @@ const CountCard = (props) => {
     </LinearGradient>
   );
 };
-
-CountCard.propTypes = {
-  children: PropTypes.node.isRequired,
-  height: PropTypes.number.isRequired,
-};
-
-CountCard.defaultProps = {};
 
 export { CountCard };

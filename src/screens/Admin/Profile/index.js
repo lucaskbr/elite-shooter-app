@@ -23,6 +23,8 @@ import {
 
 import { S } from './style';
 import { placesEndpoint } from '@services/eliteShooterApi/endpoints/placesEndpoint';
+import { dashboardsEndpoints } from '../../../services/eliteShooterApi/endpoints/dashboardsEndpoints';
+import _ from 'lodash';
 
 const ProfileScreen = (props) => {
   const { route, navigation } = props;
@@ -31,6 +33,7 @@ const ProfileScreen = (props) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [places, setPlaces] = useState([]);
+  const [dashboard, setDashboard] = useState({});
 
   const updatePlaceIsActive = async (id, isActive) => {
     await placesEndpoint.updateById(id, { isActive })
@@ -43,10 +46,15 @@ const ProfileScreen = (props) => {
       placesEndpoint.findAll()
       .then(response => {
         setPlaces(response.data)
-        setIsLoading(false)
+        const placeIds = response.data.map(place => place._id)
+        dashboardsEndpoints.findAll({ places: placeIds })
+          .then(response => {
+            setDashboard(response.data)
+            setIsLoading(false)
+          })
+          .catch(e => setIsLoading(false))
       })
       .catch(e => setIsLoading(false))
-
     }, []),
   );
 
@@ -62,20 +70,20 @@ const ProfileScreen = (props) => {
         <S.DashboardRow>
           <S.DashboardItem>
             <CountCard
-              number="50"
+              number={_.get(dashboard, 'shotsCount', 0)}
               title="Disparos"
               gradientArray={['#1e8972', '#2ab295', '#36DAB8']}
             />
           </S.DashboardItem>
           <S.DashboardItem>
             <CountCard
-              number="10"
+              number={_.get(dashboard, 'shootingActivitiesCount', 0)}
               title="Atividades de tiro"
               gradientArray={['#8e405d', '#d1648c', '#FF79AC']}
             />
           </S.DashboardItem>
         </S.DashboardRow>
-        <S.DashboardRow>
+        {/* <S.DashboardRow>
           <S.DashboardItem>
             <CountCard
               number="2"
@@ -90,7 +98,7 @@ const ProfileScreen = (props) => {
               gradientArray={['#75341e', '#b7512f', '#FE7443']}
             />
           </S.DashboardItem>
-        </S.DashboardRow>
+        </S.DashboardRow> */}
       </S.Dashboard>
       <Separator height={20} />
 

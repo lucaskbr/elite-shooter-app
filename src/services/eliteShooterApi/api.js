@@ -5,7 +5,7 @@ const baseURL = BASE_URL;
 
 const eliteShooterAPI = axios.create({
   baseURL,
-  // paramsSerializer: params => Qs.stringify(params, {arrayFormat: 'repeat'})
+  // paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' })
   // paramsSerializer: params => QueryString.stringify(params, { arrayFormat: 'repeat' })
 });
 
