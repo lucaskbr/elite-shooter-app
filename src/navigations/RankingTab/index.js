@@ -22,25 +22,25 @@ const RankingTab = () => (
       name="RankingAll"
       component={Shared.RankingScreen}
       options={{ tabBarLabel: 'Geral' }}
-      initialParams={{ id: 'all' }}
+      initialParams={{ period: 'all' }}
     />
     <Tab.Screen
       name="RankingYearly"
       component={Shared.RankingScreen}
       options={{ tabBarLabel: 'Anual' }}
-      initialParams={{ id: 'yearly' }}
+      initialParams={{ period: 'yearly' }}
     />
     <Tab.Screen
       name="RankingMonthly"
       component={Shared.RankingScreen}
       options={{ tabBarLabel: 'Mensal' }}
-      initialParams={{ id: 'monthly' }}
+      initialParams={{ period: 'monthly' }}
     />
     <Tab.Screen
       name="RankingWeekly"
       component={Shared.RankingScreen}
       options={{ tabBarLabel: 'Semanal' }}
-      initialParams={{ id: 'weekly' }}
+      initialParams={{ period: 'weekly' }}
     />
   </Tab.Navigator>
 );

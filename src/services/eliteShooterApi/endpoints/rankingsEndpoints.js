@@ -1,8 +1,9 @@
 import { eliteShooterAPI } from '@services/eliteShooterApi/api';
 
 const rankingsEndpoints = {
-  findAll: ({ afterPosition, userIdToFocus, limit }) => eliteShooterAPI.get('/rankings', {
+  findAll: ({ period, afterPosition, userIdToFocus, limit }) => eliteShooterAPI.get('/rankings', {
     params: {
+      period,
       afterPosition,
       userIdToFocus,
       limit 

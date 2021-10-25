@@ -3,12 +3,14 @@ import styled from 'styled-components/native';
 const TopThreeItem = styled.View`
   justify-content: center;
   align-items: center;
+  position: relative;
+  width: 100%;
 `;
 
 const Crown = styled.Image`
   position: absolute;
   top: -40px;
-  left: -160px;
+  left: -3%;
   transform: rotate(-15deg);
   z-index: 1;
   resize-mode: contain;

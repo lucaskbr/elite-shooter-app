@@ -10,8 +10,8 @@ import { Alert } from 'react-native';
 import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const RankingScreen = (props) => {
-  // const { route } = props;
-  // const { id } = route.params;
+  const { route } = props;
+  const { period } = route.params;
 
   const { userId } = useContext(AuthContext);
 
@@ -24,7 +24,7 @@ const RankingScreen = (props) => {
 
   const findAllRankings = async () => {
     try {
-      const { data } = await rankingsEndpoints.findAll({ afterPosition: 0, userIdToFocus: userId })
+      const { data } = await rankingsEndpoints.findAll({ period, afterPosition: 0, userIdToFocus: userId })
 
       const top = data.positions.slice(0, 3)
       const all = data.positions
@@ -42,7 +42,6 @@ const RankingScreen = (props) => {
   useFocusEffect(
     useCallback(() => {
       findAllRankings()
-
       return () => {};
     }, []),
   );
