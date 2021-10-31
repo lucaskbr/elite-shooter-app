@@ -2,9 +2,11 @@ import { io } from 'socket.io-client';
 import { BASE_URL } from '@env';
 
 // need http
-const socket = io.connect(BASE_URL, {
+const socket = io.connect('http://192.168.18.101:3000', {
   transports: ['websocket'],
 });
+
+console.log('socket')
 
 const onlineShootingRangesInitial = new Set()
 
@@ -64,7 +66,7 @@ const subscribeShootingActivityShotResult = (callback) => {
   }
 
   console.log('shootingActivity:shot:result')
-  socket.on('shootingActivity:shot:result', ({ value }) => callback(null, value))
+  socket.on('shootingActivity:shot:result', (shot) => callback(null, shot))
 }
 
 const subscribeShootingRangeActive = (callback) => {

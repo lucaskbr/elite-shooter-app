@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 const ModalContainer = styled.View`
   flex: 0.5;
   background-color: #fff;
-  border-radius: 10;
+  border-radius: 10px;
   justify-content: center;
   padding: 10px;
   justify-content: space-between;

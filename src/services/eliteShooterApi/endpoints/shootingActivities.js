@@ -1,4 +1,5 @@
 import { eliteShooterAPI } from '@services/eliteShooterApi/api';
+import Qs from 'qs';
 
 const shootingActivitiesEndpoint = {
   findAll: ({
@@ -28,7 +29,8 @@ const shootingActivitiesEndpoint = {
         ignoreOwner,
         limit,
         fieldsToRetrieve,
-      }
+      },
+      paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' })
     }),
 
   findById: (id) => eliteShooterAPI.get(`/shooting-activities/${id}`),

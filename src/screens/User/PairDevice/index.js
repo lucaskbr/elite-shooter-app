@@ -75,8 +75,7 @@ const PairDeviceScreen = (props) => {
             onPress={() => setShouldScan((prevState) => !prevState)}
             // TODO: Remove this
             // onPress={() => navigation.navigate('ListGunsToUse', {
-            //   placeId: '614e857bb16c9cfbebd749e2',
-            //   shootingRangeId: '614e857bb16c9cfbebd74a02'
+            //   sensorEquipmentId: '61789dbe285269bea9507221',
             // })}
           />
         </ViewContainer>

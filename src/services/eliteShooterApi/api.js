@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from '@env';
 
-const baseURL = BASE_URL;
+const baseURL = 'http://192.168.18.101:3000';
 
 const eliteShooterAPI = axios.create({
   baseURL,

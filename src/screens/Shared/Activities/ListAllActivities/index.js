@@ -23,6 +23,7 @@ const ListAllActivitiesScreen = (props) => {
 
   const fetchShootingActivities = async () => {
     setIsLoading(true);
+    console.log(queryParams)
     Promise.all([
       shootingActivitiesEndpoint
         .findAll({
@@ -30,9 +31,10 @@ const ListAllActivitiesScreen = (props) => {
           populate: ['place'],
           modality: queryParams.modality,
           month: queryParams.month,
+          year: queryParams.year,
         })
         .then((result) => result.data)
-        .catch((e) => []),
+        .catch((e) => {console.log(e); return []} ),
     ])
       .then((values) => {
         setActivities(values[0]);

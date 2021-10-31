@@ -7,7 +7,24 @@ import { AuthContext } from '@contexts/auth/authContext';
 
 import { operations } from '@services/socketio';
 
-import targetPath from '@assets/target.png';
+import blankTargetPath from '@assets/targets/blank.png';
+
+import sevenBotLeftTargetPath from '@assets/targets/7-bot-left.png';
+import sevenBotRightTargetPath from '@assets/targets/7-bot-right.png';
+import sevenTopLeftTargetPath from '@assets/targets/7-top-left.png';
+import sevenTopRightTargetPath from '@assets/targets/7-top-right.png';
+
+import eightBotLeftTargetPath from '@assets/targets/8-bot-left.png';
+import eightBotRightTargetPath from '@assets/targets/8-bot-right.png';
+import eightTopLeftTargetPath from '@assets/targets/8-top-left.png';
+import eightTopRightTargetPath from '@assets/targets/8-top-right.png';
+
+import nineBotLeftTargetPath from '@assets/targets/9-bot-left.png';
+import nineBotRightTargetPath from '@assets/targets/9-bot-right.png';
+import nineTopLeftTargetPath from '@assets/targets/9-top-left.png';
+import nineTopRightTargetPath from '@assets/targets/9-top-right.png';
+
+import centerTargetPath from '@assets/targets/center.png';
 
 import {
   Button,
@@ -25,9 +42,9 @@ const AimScreen = (props) => {
   const { route, navigation } = props;
   const { params } = route;
 
-
   const { userId } = useContext(AuthContext);
 
+  const [currentTarget, setCurrentTarget] = useState(blankTargetPath);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSessionActive, setIsSessionActive] = useState(true);
@@ -41,7 +58,25 @@ const AimScreen = (props) => {
     averageTimeBetweenShots: 0
   });
 
+  const targets = {
+    'blank': blankTargetPath,
+    '7-bot-left': sevenBotLeftTargetPath,
+    '7-bot-right': sevenBotRightTargetPath,
+    '7-top-left': sevenTopLeftTargetPath,
+    '7-top-right': sevenTopRightTargetPath,
+    '8-bot-left': eightBotLeftTargetPath,
+    '8-bot-right': eightBotRightTargetPath,
+    '8-top-left': eightTopLeftTargetPath,
+    '8-top-right': eightTopRightTargetPath,
+    '9-bot-left': nineBotLeftTargetPath,
+    '9-bot-right': nineBotRightTargetPath,
+    '9-top-left': nineTopLeftTargetPath,
+    '9-top-right': nineTopRightTargetPath,
+    'center': centerTargetPath,
+  }
+
   useEffect(() => {
+
     operations.subscribeShootingActivityStarted((err, shootingActivityId) => {
       if (err) {
         console.log(err)
@@ -51,26 +86,21 @@ const AimScreen = (props) => {
       setShootingActivityId(shootingActivityId);
     });
   
-    operations.subscribeShootingActivityShotResult((err, value) => {
+    operations.subscribeShootingActivityShotResult((err, shot) => {
       if (err) {
         console.log(err)
         return;
       };
+
+      console.log(shot)
+
+      mapShotToTarget(shot);
   
       setShootingSession((prevState) => ({
         ...prevState,
         hits: prevState.hits + 1,
         total: prevState.total + 1,
       }));
-
-      console.log('value')
-      console.log(value)
-
-      // Toast.show({
-      //   text1: 'Novo tiro detectado',
-      //   text2: `O tiro teve a pontuação de: ${value}`
-      // });
-  
     });
 
     setTimeout(() => {
@@ -111,6 +141,20 @@ const AimScreen = (props) => {
     [navigation, isSessionActive, shootingActivityId]
   );
 
+  const mapShotToTarget = (shot) => {
+    if (!shot || !shot.value || !shot.vertical || !shot.horizontal) {
+      return setCurrentTarget(targets['blank'])
+    }
+
+    if (shot.value === 10) {
+      return setCurrentTarget(targets[`center`])
+    }
+
+    console.log(targets[`${shot.value}-${shot.vertical}-${shot.horizontal}`])
+
+    setCurrentTarget(targets[`${shot.value}-${shot.vertical}-${shot.horizontal}`])
+  }
+
   const shotMistake = () => setShootingSession(prevState => ({
       ...prevState,
       total: prevState.total + 1,
@@ -136,7 +180,7 @@ const AimScreen = (props) => {
         <S.ShotsTitle>Disparos</S.ShotsTitle>
         <S.ShotsCount>{`#${shootingSession.total}`}</S.ShotsCount>
         <Separator height={10} />
-        <S.Target resizeMode="contain" source={targetPath} />
+        {currentTarget && (<S.Target resizeMode="contain" source={currentTarget || blankTargetPath} />)}
       </S.TargetInfo>
       <S.Results>
         <Title text="Dados do treino" />
