@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableHighlight } from 'react-native';
 import Modal from 'react-native-modal';
 import Checkbox from 'expo-checkbox';

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Alert, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { ParamsContext } from '@contexts/params/ParamsContext';
 
@@ -8,16 +8,14 @@ import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/sho
 
 import { HeaderList, TopActionButton } from '@containers';
 
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
+
 import {
   ScreenContainer,
-  Title,
   Separator,
-  GunCard,
-  IsLoading,
   ShootingRangeCard,
   EmptyList
 } from '@components';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const ResourcesShootingRangesScreen = (props) => {
 
@@ -33,8 +31,7 @@ const ResourcesShootingRangesScreen = (props) => {
       const { data } = await shootingRangesEndpoints.findAll({ placeId: currentPlace });
       setShootingRanges(data);
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +62,7 @@ const ResourcesShootingRangesScreen = (props) => {
         data={shootingRanges}
         keyExtractor={(item, index) => `${item._id}`}
         ItemSeparatorComponent={() => <Separator height={10} />}
-        ListEmptyComponent={(<EmptyList>Nenhuma baia de tiro encontrada</EmptyList>)}
+        ListEmptyComponent={(<EmptyList text="Nenhuma baia de tiro encontrada" />)}
         renderItem={({ item }) => (
           <ShootingRangeCard
             showRealtimeStatus={false}

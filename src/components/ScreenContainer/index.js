@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StatusBar } from 'react-native';
 
@@ -43,7 +43,5 @@ ScreenContainer.defaultProps = {
   statusBarColor: '#FFF',
   barStyle: 'default',
 };
-
-ScreenContainer.defaultProps = {};
 
 export { ScreenContainer };

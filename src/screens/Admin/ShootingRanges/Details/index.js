@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ScrollView } from 'react-native';
+import { View, FlatList, ScrollView } from 'react-native';
+import _ from 'lodash';
 
 import * as Print from 'expo-print';
 import * as FileSystem from 'expo-file-system';
 import * as IntentLauncher from 'expo-intent-launcher';
 
-import _ from 'lodash';
+
 
 import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
 import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/shootingActivities';
@@ -14,11 +15,12 @@ import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoin
 import QRCode from 'react-native-qrcode-svg';
 import { IconOutline } from '@ant-design/icons-react-native';
 
+import { translate } from '@utils/translate';
+import { qrcodesEndpoints } from '@services/eliteShooterApi/endpoints/qrcodesEndpoints';
+
 import {
   Separator,
   Title,
-  ResultText,
-  ChartSlide,
   ScreenContainer,
   Button,
   IsLoading,
@@ -29,8 +31,6 @@ import {
 } from '@components';
 
 import { S } from './style';
-import { translate } from '@utils/translate';
-import { qrcodesEndpoints } from '../../../../services/eliteShooterApi/endpoints/qrcodesEndpoints';
 
 const ShootingRangesDetailsScreen = (props) => {
   const { route, navigation } = props;
@@ -63,18 +63,16 @@ const ShootingRangesDetailsScreen = (props) => {
     .then(value => {
       setCurrentUser(value.data)
     })
-    .catch(e => console.log(e))
+    .catch(e => {})
   }
 
   const generateQRCodeHtml = (shootingRangeId) => {
     return qrcodesEndpoints.generate({ shootingRangeId })
     .then(result => result.data)
-    .catch(e => console.log(e))
+    .catch(e => {})
   }
 
   const generateQRCodePdf = async () => {
-    console.log('generateQRCodePdf')
-
     const data = await generateQRCodeHtml(shootingRange._id);
 
     if (!data) {

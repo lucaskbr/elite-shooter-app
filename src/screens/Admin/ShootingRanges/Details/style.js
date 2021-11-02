@@ -63,7 +63,6 @@ const CurrentUser = styled.Text`
   text-transform: capitalize;
 `;
 
-
 const S = {
   Header,
   Body,

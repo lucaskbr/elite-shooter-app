@@ -1,34 +1,27 @@
 import React, { useCallback, useContext, useState }  from 'react';
+import _ from 'lodash';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, Switch, StyleSheet, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 
 import { AuthContext } from '@contexts/auth/authContext';
 
+import { placesEndpoint } from '@services/eliteShooterApi/endpoints/placesEndpoint';
+import { dashboardsEndpoints } from '@services/eliteShooterApi/endpoints/dashboardsEndpoints';
+
 import {
   ScreenContainer,
-  ActivityCard,
   Title,
-  ProfilePic,
   Separator,
   IsLoading,
-  ChartCard,
-  VerticalBarChart,
-  ChartSlide,
-  ShootingRangeCard,
-  Username,
   CountCard,
   PlaceCard,
+  EmptyList,
   ProfileInfo,
 } from '@components';
 
 import { S } from './style';
-import { placesEndpoint } from '@services/eliteShooterApi/endpoints/placesEndpoint';
-import { dashboardsEndpoints } from '../../../services/eliteShooterApi/endpoints/dashboardsEndpoints';
-import _ from 'lodash';
 
 const ProfileScreen = (props) => {
-  const { route, navigation } = props;
-
   const { handleLogout } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -49,12 +42,12 @@ const ProfileScreen = (props) => {
         const placeIds = response.data.map(place => place._id)
         dashboardsEndpoints.findAll({ places: placeIds })
           .then(response => {
-            setDashboard(response.data)
-            setIsLoading(false)
+            setDashboard(response.data);
+            setIsLoading(false);
           })
-          .catch(e => setIsLoading(false))
+          .catch(err => setIsLoading(false))
       })
-      .catch(e => setIsLoading(false))
+      .catch(err => setIsLoading(false))
     }, []),
   );
 
@@ -65,7 +58,6 @@ const ProfileScreen = (props) => {
   return (
     <ScreenContainer paddingHorizontal={10} paddingVertical={20} >
       <ProfileInfo username="Admin" logout={true} handleLogout={handleLogout} />
-
       <S.Dashboard>
         <S.DashboardRow>
           <S.DashboardItem>
@@ -83,25 +75,8 @@ const ProfileScreen = (props) => {
             />
           </S.DashboardItem>
         </S.DashboardRow>
-        {/* <S.DashboardRow>
-          <S.DashboardItem>
-            <CountCard
-              number="2"
-              title="Novas armas"
-              gradientArray={['#006175', '#00a1c1', '#00D3FE']}
-            />
-          </S.DashboardItem>
-          <S.DashboardItem>
-            <CountCard
-              number="10"
-              title="Novos usuários"
-              gradientArray={['#75341e', '#b7512f', '#FE7443']}
-            />
-          </S.DashboardItem>
-        </S.DashboardRow> */}
       </S.Dashboard>
       <Separator height={20} />
-
       <FlatList
         contentContainerStyle={{ padding: 1 }}
         showsVerticalScrollIndicator={false}
@@ -138,14 +113,10 @@ const ProfileScreen = (props) => {
             place={item}
             switchOnValueChange={updatePlaceIsActive}
          />
-        
         )}
       />
-
-  
     </ScreenContainer>
   );
 };
-
 
 export { ProfileScreen };

@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
+import _ from 'lodash';
 import { useForm, Controller } from 'react-hook-form';
 
 import { AuthContext } from '@contexts/auth/authContext';
@@ -17,13 +18,11 @@ import {
 } from '@components';
 
 import { S } from './style';
-import _ from 'lodash';
+
 
 const LoginScreen = (props) => {
   const { route, navigation } = props;
   const { navigate } = navigation;
-
-  console.log(route.params)
 
   const {
     control,
@@ -35,7 +34,6 @@ const LoginScreen = (props) => {
   const { handleLogin } = useContext(AuthContext);
 
   const onSubmit = (data) => handleLogin(data);
-  // TODO: Remove default value from inputs
 
   useEffect(() => {
     (async () => {
@@ -74,7 +72,7 @@ const LoginScreen = (props) => {
               </InputGroup>
             )}
             name="username"
-            defaultValue="lucas"
+            defaultValue=""
           />
           {errors.username && (
             <InputError text="O campo username é obrigatório" />
@@ -100,7 +98,7 @@ const LoginScreen = (props) => {
               </InputGroup>
             )}
             name="password"
-            defaultValue="123456"
+            defaultValue=""
           />
           {errors.password && <InputError text="O campo senha é obrigatório" />}
           <Separator height={20} />

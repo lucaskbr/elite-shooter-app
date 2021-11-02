@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { FlatList, View, Text, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { IconOutline } from '@ant-design/icons-react-native';
 
 import { AuthContext } from '@contexts/auth/authContext';
 
@@ -9,22 +8,18 @@ import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoin
 import { chartsEndpoints } from '@services/eliteShooterApi/endpoints/chartsEndpoints';
 import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/shootingActivities';
 
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
+
 import {
   ScreenContainer,
   ActivityCard,
   Title,
-  ProfilePic,
   Separator,
   IsLoading,
-  ChartCard,
-  VerticalBarChart,
   ChartSlide,
-  Username,
   ProfileInfo,
   EmptyList
 } from '@components';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
-
 
 const HomeScreen = (props) => {
   const { navigation } = props;
@@ -77,7 +72,6 @@ const HomeScreen = (props) => {
 
 
   const shouldDeleteShootingActivity = async (shootingActivityId) => {
-    console.log('shouldDeleteShootingActivity')
     Alert.alert('Você realmente deseja deletar esta atividade?', '', [
       { text: 'Sim', onPress: () => deleteShootingActivity(shootingActivityId) },
       { text: 'Cancelar' },   
@@ -88,8 +82,7 @@ const HomeScreen = (props) => {
     try {
       await shootingActivitiesEndpoint.deleteById(shootingActivityId)
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     } finally {
       shootingActivitiesEndpoint.findAll({
         limit: 7,

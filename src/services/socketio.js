@@ -2,11 +2,9 @@ import { io } from 'socket.io-client';
 import { BASE_URL } from '@env';
 
 // need http
-const socket = io.connect('http://192.168.18.101:3000', {
+const socket = io.connect(BASE_URL, {
   transports: ['websocket'],
 });
-
-console.log('socket')
 
 const onlineShootingRangesInitial = new Set()
 
@@ -24,12 +22,10 @@ socket.io.on("reconnect", () => {
 
 socket.on('connect_error', (err) => {
   // revert to classic upgrade
-  console.log('deu pau');
   console.log(err);
 });
 
 socket.on("disconnect", (reason) => {
-  console.log('reason ->')
   console.log(reason)
 });
 

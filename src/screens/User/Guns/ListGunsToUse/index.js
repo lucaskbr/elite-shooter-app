@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FlatList, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -10,7 +10,6 @@ import {
   Title,
   Separator,
   GunCard,
-  IsLoading,
   EmptyList,
   Button,
 } from '@components';
@@ -28,11 +27,10 @@ const ListGunsToUseScreen = (props) => {
     useCallback(() => {
       (async () => {
         Promise.all([
-          gunsEndpoints.findAll({}),
-          placeGunsEndpoints.findById({ id: params.placeId })
+          gunsEndpoints.findAll({ isActive: true }),
+          placeGunsEndpoints.findById({ id: params.placeId, isActive: true })
         ])
         .then(((values) => {
-          console.log(values[0].data)
           setMyGuns(values[0].data);
           setPlaceGuns(values[1].data);
           setIsLoading(false);

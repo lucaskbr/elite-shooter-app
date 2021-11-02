@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 import { Controller, useForm } from 'react-hook-form';
@@ -6,6 +7,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints';
 
 import { PickerStyle } from '@containers/PickerStyle';
+
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
 
 import {
   ScreenContainer,
@@ -20,8 +23,6 @@ import {
 } from '@components';
 
 import { S } from './style';
-import { Alert } from 'react-native';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const AddGunScreen = (props) => {
   const { navigation } = props;
@@ -42,8 +43,7 @@ const AddGunScreen = (props) => {
      await gunsEndpoints.create(gun);
      Alert.alert('A arma foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     }
   }
 

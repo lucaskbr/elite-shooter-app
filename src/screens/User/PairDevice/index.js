@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { IconOutline } from '@ant-design/icons-react-native';
 import { useFocusEffect } from '@react-navigation/native';
@@ -30,7 +30,6 @@ const PairDeviceScreen = (props) => {
       })()
     }, [])
   );
-
 
   const handleBarCodeScanned = ({ type, data: json }) => {
     setScanned(true);

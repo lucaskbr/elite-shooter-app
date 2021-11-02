@@ -5,6 +5,7 @@ import { eliteShooterAPI } from '@services/eliteShooterApi/api';
 import { authEndpoints } from '@services/eliteShooterApi/endpoints/authEndpoints';
 import { Alert, Keyboard } from 'react-native';
 import { httpErrorMessages } from '@utils/httpErrorMessages';
+import { alertErrorFromHttpCall } from '../../../utils/alertErrorFromHttpCall';
 
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -27,9 +28,7 @@ export default function useAuth() {
       setAuthenticated(true);
 
     } catch (err) {
-      console.log(err)
-      const { status } = err.response && err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     } finally {
       setLoading(false);
     }

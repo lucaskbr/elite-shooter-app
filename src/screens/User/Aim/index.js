@@ -79,7 +79,6 @@ const AimScreen = (props) => {
 
     operations.subscribeShootingActivityStarted((err, shootingActivityId) => {
       if (err) {
-        console.log(err)
         return;
       };
       console.log('subscribeShootingActivityStarted')
@@ -88,11 +87,8 @@ const AimScreen = (props) => {
   
     operations.subscribeShootingActivityShotResult((err, shot) => {
       if (err) {
-        console.log(err)
         return;
       };
-
-      console.log(shot)
 
       mapShotToTarget(shot);
   
@@ -149,9 +145,7 @@ const AimScreen = (props) => {
     if (shot.value === 10) {
       return setCurrentTarget(targets[`center`])
     }
-
-    console.log(targets[`${shot.value}-${shot.vertical}-${shot.horizontal}`])
-
+    
     setCurrentTarget(targets[`${shot.value}-${shot.vertical}-${shot.horizontal}`])
   }
 

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useContext } from 'react';
+import _ from 'lodash';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { ParamsContext } from '@contexts/params/ParamsContext';
 
@@ -10,14 +11,11 @@ import { HeaderList, TopActionButton } from '@containers';
 
 import {
   ScreenContainer,
-  Title,
   Separator,
-  GunCard,
-  IsLoading,
   SensorEquipmentCard,
   EmptyList
 } from '@components';
-import _ from 'lodash';
+
 
 const ResourcesSensorEquipmentsScreen = (props) => {
 
@@ -42,7 +40,6 @@ const ResourcesSensorEquipmentsScreen = (props) => {
         setIsLoading(false);
       })
       .catch(e => {
-        console.log(e)
         setIsLoading(false);
       })
     }, []),
@@ -67,7 +64,7 @@ const ResourcesSensorEquipmentsScreen = (props) => {
         data={sensorEquipments}
         keyExtractor={(item, index) => `${item._id}`}
         ItemSeparatorComponent={() => <Separator height={10} />}
-        ListEmptyComponent={(<EmptyList>Nenhum sensor encontrado</EmptyList>)}
+        ListEmptyComponent={(<EmptyList text="Nenhum sensor encontrado" />)}
         renderItem={({ item }) => (
           <SensorEquipmentCard
             sensorEquipment={item}

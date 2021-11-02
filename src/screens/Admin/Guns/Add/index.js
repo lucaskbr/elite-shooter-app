@@ -7,11 +7,13 @@ import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints
 
 import { PickerStyle } from '@containers/PickerStyle';
 
+
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
+
 import {
   ScreenContainer,
   Title,
   Separator,
-  GunCard,
   InputGroup,
   TextInput,
   Label,
@@ -20,7 +22,6 @@ import {
 } from '@components';
 
 import { S } from './style';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const GunsAddScreen = (props) => {
   const { navigation, route } = props;
@@ -44,10 +45,7 @@ const GunsAddScreen = (props) => {
         onPress: () => navigation.pop(),
       }])
     })
-    .catch((err) => {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
-    })
+    .catch((err) => alertErrorFromHttpCall(err))
   }
 
   const onSubmit = (data) => createGun(data);

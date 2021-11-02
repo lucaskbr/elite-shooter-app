@@ -29,6 +29,7 @@ const SelectContainer = styled.View`
   border: 1px solid #cacaca;
   width: 100%;
   height: 40px;
+  justify-content: center;
 `;
 
 const SelectLabel = styled.Text`

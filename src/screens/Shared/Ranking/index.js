@@ -1,21 +1,19 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { useIsFocused, useFocusEffect } from '@react-navigation/native';
+import React, { useState, useCallback, useContext } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { AuthContext } from '@contexts/auth/authContext';
 
 import { rankingsEndpoints } from '@services/eliteShooterApi/endpoints/rankingsEndpoints';
 
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
+
 import { TopThree, ScreenContainer, RankingList } from '@components';
-import { Alert } from 'react-native';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const RankingScreen = (props) => {
   const { route } = props;
   const { period } = route.params;
 
   const { userId } = useContext(AuthContext);
-
-  const isFocused = useIsFocused();
 
   const [isLoading, setIsLoading] = useState(true);
   const [userInFocus, setUserInFocus] = useState();
@@ -34,8 +32,7 @@ const RankingScreen = (props) => {
       setUserInFocus(data.userInFocus);
       setIsLoading(false);
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     }
   }
 

@@ -1,28 +1,23 @@
-import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import { PlacesContext } from '@contexts/places/PlacesContext';
 import { ParamsContext } from '@contexts/params/ParamsContext';
 
-import { operations, shootingRangesOnline, socket } from '@services/socketio';
+import { operations, socket } from '@services/socketio';
 
 import { TopActionButton } from '@containers';
 
+import { socketIoState } from '@services/socketio';
+
 import {
   ScreenContainer,
-  ActivityCard,
   Title,
-  ProfilePic,
   Separator,
   IsLoading,
-  ChartCard,
-  VerticalBarChart,
-  ChartSlide,
   ShootingRangeCard,
-  Username,
 } from '@components';
-import { socketIoState } from '../../../services/socketio';
 
 const HomeScreen = (props) => {
   const { route, navigation } = props;
@@ -34,7 +29,6 @@ const HomeScreen = (props) => {
 
   const [onlineShootingRanges, setOnlineShootingRanges] = useState(new Set());
 
-
   useFocusEffect(
     useCallback(() => {
       handleShootingRanges({ placeId });
@@ -43,7 +37,6 @@ const HomeScreen = (props) => {
   );
 
   useEffect(() => {
-
     setOnlineShootingRanges(socketIoState.onlineShootingRangesInitial);
 
     const shootingRangesIds = shootingRanges.map(shootingRange => shootingRange._id) || [];
@@ -52,10 +45,8 @@ const HomeScreen = (props) => {
     operations.subscribeShootingRangeActive((err, shootingRangeId) => {
       if (err) return
   
-      console.log(shootingRangeId)
       addOnlineShootingRanges(shootingRangeId);
     });
-  
   
     operations.subscribeDisconnect((err, shootingRangeId) => {
       if (err) return
@@ -74,7 +65,6 @@ const HomeScreen = (props) => {
       console.log(shootingRangeId)
       addOnlineShootingRanges(shootingRangeId);
     });
-  
   
     operations.subscribeDisconnect((err, shootingRangeId) => {
       if (err) return
@@ -96,7 +86,6 @@ const HomeScreen = (props) => {
     return <IsLoading />;
   }
 
-  console.log()
   return (
     <ScreenContainer paddingHorizontal={10}>
       <TopActionButton
@@ -110,9 +99,7 @@ const HomeScreen = (props) => {
           }
         )}
       />
-
       <Separator height={20} />
-
       <FlatList
         contentContainerStyle={{ padding: 1 }}
         showsVerticalScrollIndicator={false}

@@ -20,8 +20,6 @@ const ChartSlide = (props) => {
 
   useEffect(() => {
     (async () => {
-      console.log('australia', chartsToRender)
-
       const chartsWithData = []
 
       shotsDiference && shotsDiference.hasData && chartsWithData.push({

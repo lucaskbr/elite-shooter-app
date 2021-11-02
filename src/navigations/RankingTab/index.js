@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Shared } from '@screens/Shared';
 

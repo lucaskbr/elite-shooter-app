@@ -13,7 +13,6 @@ import {
   ScreenContainer,
   Title,
   Separator,
-  GunCard,
   InputGroup,
   TextInput,
   Label,
@@ -21,7 +20,7 @@ import {
 } from '@components';
 
 import { S } from './style';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
+import { alertErrorFromHttpCall } from '../../../../utils/alertErrorFromHttpCall';
 
 const SensorEquipmentsAddScreen = (props) => {
   const { navigation } = props;
@@ -33,18 +32,10 @@ const SensorEquipmentsAddScreen = (props) => {
     formState: { errors },
   } = useForm();
 
-  // TODO: better errrr msgs
-
   const { currentPlace } = React.useContext(ParamsContext);
 
   const [selectedType, setSelectedType] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleErrorMsg = {
-    400: 'Algum campo é invalido',
-    409: 'O sensor já esta registrada',
-    500: 'Desculpe ocorreu um erro',
-  }
 
   const createSensorEquipment = async (sensorEquipment) => {
     try {
@@ -54,8 +45,7 @@ const SensorEquipmentsAddScreen = (props) => {
       });
       Alert.alert('O equipamento sensor foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop() }]);
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     } finally {
       setIsLoading(false);
     }

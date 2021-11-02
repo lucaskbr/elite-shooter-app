@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import _ from 'lodash';
 import { FlatList, Alert } from 'react-native';
 
 import { ParamsContext } from '@contexts/params/ParamsContext';
@@ -8,15 +9,16 @@ import { gunsEndpoints } from '@services/eliteShooterApi/endpoints/gunsEndpoints
 
 import { HeaderList, TopActionButton } from '@containers';
 
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
+
 import {
   ScreenContainer,
-  Title,
   Separator,
   GunCard,
   IsLoading,
   EmptyList
 } from '@components';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
+
 
 const ResourcesGunsScreen = (props) => {
 
@@ -29,19 +31,16 @@ const ResourcesGunsScreen = (props) => {
   const findAllGuns = async () => {
     try {
       setIsLoading(true);
-      const { data } = await gunsEndpoints.findAll({ placeId: currentPlace });
+      const { data } = await gunsEndpoints.findAll({ placeId: currentPlace, isActive: true });
       setGuns(data);
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     } finally {
       setIsLoading(false);
     }
   }
 
   const shouldDeleteGun = async (gunId) => {
-    console.log('shouldDeleteGun')
-    console.log(gunId)
     Alert.alert('Você realmente deseja deletar esta arma?', '', [
       { text: 'Sim', onPress: () => deleteGun(gunId) },
       { text: 'Cancelar' },   
@@ -52,8 +51,7 @@ const ResourcesGunsScreen = (props) => {
     try {
       await gunsEndpoints.delete(gunId);
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     } finally {
       await findAllGuns();
     }
@@ -84,7 +82,7 @@ const ResourcesGunsScreen = (props) => {
         data={guns}
         keyExtractor={(item, index) => `${item._id}`}
         ItemSeparatorComponent={() => <Separator height={10} />}
-        ListEmptyComponent={(<EmptyList>Nenhuma arma encontrada</EmptyList>)}
+        ListEmptyComponent={(<EmptyList text="Nenhuma arma encontrada" />)}
         renderItem={({ item }) => (
           <GunCard
             gun={item}

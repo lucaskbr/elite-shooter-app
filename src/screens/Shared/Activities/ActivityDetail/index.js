@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import _ from 'lodash';
 
 import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/shootingActivities';
 import { chartsEndpoints } from '@services/eliteShooterApi/endpoints/chartsEndpoints';
 
 import { translate } from '@utils/translate';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
 
 import {
   Separator,
@@ -15,7 +15,6 @@ import {
   ChartSlide,
   ScreenContainer,
   Button,
-  IsLoading,
 } from '@components';
 
 import { S } from './style';
@@ -58,14 +57,10 @@ const ActivityDetailScreen = (props) => {
           setAccurateRegions(values[2].data);
           setScoreHistory(values[3].data);
           setIsLoading(false);
-
-          console.log(id)
-
         })
         .catch((err) => {
-          const { status } = err.response
-          Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
-          setIsLoading(false)
+          alertErrorFromHttpCall(err);
+          setIsLoading(false);
         });
     })();
   }, []);
@@ -135,7 +130,7 @@ const ActivityDetailScreen = (props) => {
           />
           <ResultText
             label="Tipo do local"
-            result={_.get(activity, 'shootingRange.type')}
+            result={translate(_.get(activity, 'shootingRange.type'))}
           />
           <ResultText
             label="Baia de treino"

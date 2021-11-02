@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { FlatList, View } from 'react-native';
+import React from 'react';
 import { Picker } from '@react-native-picker/picker';
 
 import {
@@ -12,8 +11,6 @@ import {
   Label,
   Button,
 } from '@components';
-
-// import userPicPath from '../../../assets/dash.png';
 
 import { S } from './style';
 

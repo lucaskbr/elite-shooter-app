@@ -38,7 +38,10 @@ const ProfileScreen = (props) => {
       (async () => {
         Promise.all([
           usersEndpoints.findById({ id: userId }),
-          gunsEndpoints.findAll({ ownerId: userId }),
+          gunsEndpoints.findAll({
+            ownerId: userId,
+            isActive: true
+          }),
         ]).then(
           (values) => {
             console.log(values)

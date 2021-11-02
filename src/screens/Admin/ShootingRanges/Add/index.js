@@ -11,11 +11,12 @@ import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/sho
 
 import { PickerStyle } from '@containers/PickerStyle';
 
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
+
 import {
   ScreenContainer,
   Title,
   Separator,
-  GunCard,
   InputGroup,
   TextInput,
   Label,
@@ -24,7 +25,6 @@ import {
 } from '@components';
 
 import { S } from './style';
-import { httpErrorMessages } from '@utils/httpErrorMessages';
 
 const ShootingRangesAddScreen = (props) => {
   const { navigation } = props;
@@ -50,8 +50,7 @@ const ShootingRangesAddScreen = (props) => {
       });
       setSensorsEquipments(data);
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     } finally {
       setIsLoading(false);
     }
@@ -59,15 +58,13 @@ const ShootingRangesAddScreen = (props) => {
 
   const createShootingRange = async (shootingRange) => {
     try {
-      console.log(shootingRange)
       await shootingRangesEndpoints.create({
        ...shootingRange,
         placeId: currentPlace
       });
       Alert.alert('A baia de tiro foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
     } finally {
       setIsLoading(false);
     }
@@ -106,7 +103,7 @@ const ShootingRangesAddScreen = (props) => {
             </InputGroup>
           )}
           name="code"
-          defaultValue="a"
+          defaultValue=""
         />
         {errors.code &&  (
           <InputError text={errors.code.message} />
@@ -173,7 +170,7 @@ const ShootingRangesAddScreen = (props) => {
             </InputGroup>
           )}
           name="sensorEquipmentId"
-          // defaultValue="a"
+          defaultValue=""
         />
         {errors.sensorEquipmentId &&  (
           <InputError text={errors.sensorEquipmentId.message} />

@@ -1,7 +1,6 @@
 import { eliteShooterAPI } from '@services/eliteShooterApi/api';
 
 const shootingRangesEndpoints = {
-
   create: ({ code, type, placeId, sensorEquipmentId }) => eliteShooterAPI.post('/shooting-ranges', {
     code,
     type,

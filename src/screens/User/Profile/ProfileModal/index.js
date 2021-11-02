@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { Alert, KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 import Modal from 'react-native-modal';
 import { useForm, Controller } from 'react-hook-form';
 
 import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoints';
 
-import { httpErrorMessages } from '@utils/httpErrorMessages';
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
 
 import { Button, Separator, InputGroup, Label, TextInput, InputError } from '@components';
 
@@ -22,16 +22,13 @@ const ProfileModal = (props) => {
 
   const updateUser = async (data) => {
    try {
-      await usersEndpoints.updateById({ id: user._id, ...data })
-      onChange && onChange({ status: 'success' })
-   } catch (err) {
-    const { status } = err.response
-    Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
-    onChange && onChange({ status: 'fail' })
-   }
+      await usersEndpoints.updateById({ id: user._id, ...data });
+      onChange && onChange({ status: 'success' });
+    } catch (err) {
+      alertErrorFromHttpCall(err);
+      onChange && onChange({ status: 'fail' });
+    }
   }
-
-  // TODO: fix error msgs
 
   const onSubmit = (data) => updateUser(data);
 

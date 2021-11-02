@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import _ from 'lodash';
 import { Alert } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { useForm, Controller } from 'react-hook-form';
 
-import { PickerStyle } from '@containers/PickerStyle';
-
-import { httpErrorMessages } from '@utils/httpErrorMessages';
 import { authEndpoints } from '@services/eliteShooterApi/endpoints/authEndpoints';
 
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
 
 import {
   ScreenContainer,
@@ -18,12 +16,17 @@ import {
   Label,
   Button,
   InputError,
+  IsLoading,
 } from '@components';
 
 import { S } from './style';
 
+
+
 const SignUpScreen = (props) => {
   const { navigation } = props;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     control,
@@ -36,17 +39,23 @@ const SignUpScreen = (props) => {
 
   const createUser = async (user) => {
     try {
+      setIsLoading(true);
       await authEndpoints.signup(user);
       navigation.navigate('Login', {
-        signupSuccess: true
+        signupSuccess: true,
       })
     } catch (err) {
-      const { status } = err.response
-      Alert.alert('Desculpe', httpErrorMessages[status],  [{ text: 'OK' }]);
+      alertErrorFromHttpCall(err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   const onSubmit = (data) => createUser(data);
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={10}>
@@ -73,7 +82,7 @@ const SignUpScreen = (props) => {
             </InputGroup>
           )}
           name="firstname"
-          defaultValue="lucas"
+          defaultValue=""
         />
         {errors.firstname &&  (
           <InputError text={errors.firstname.message} />
@@ -99,7 +108,7 @@ const SignUpScreen = (props) => {
             </InputGroup>
           )}
           name="lastname"
-          defaultValue="lucas"
+          defaultValue=""
         />
         {errors.lastname && (
           <InputError text={errors.lastname.message} />
@@ -126,7 +135,7 @@ const SignUpScreen = (props) => {
             </InputGroup>
           )}
           name="username"
-          defaultValue="lucas"
+          defaultValue=""
         />
         {errors.username && (
           <InputError text={errors.username.message} />
@@ -157,7 +166,7 @@ const SignUpScreen = (props) => {
             </InputGroup>
           )}
           name="email"
-          defaultValue="lucas@gmail.com"
+          defaultValue=""
         />
         {errors.email && (
           <InputError text={errors.email.message} />
@@ -198,7 +207,7 @@ const SignUpScreen = (props) => {
             </InputGroup>
           )}
           name="confirmEmail"
-          defaultValue="lucas@gmail.com"
+          defaultValue=""
         />
         {errors.confirmEmail && (
           <InputError text={errors.confirmEmail.message} />
@@ -225,7 +234,7 @@ const SignUpScreen = (props) => {
             </InputGroup>
           )}
           name="password"
-          defaultValue="123"
+          defaultValue=""
         />
         {errors.password && (
           <InputError text={errors.password.message} />
@@ -260,27 +269,10 @@ const SignUpScreen = (props) => {
             </InputGroup>
           )}
           name="confirmPassword"
-          defaultValue="123"
+          defaultValue=""
         />
         {errors.confirmPassword && (
           <InputError text={errors.confirmPassword.message} />
-        )}
-        <Separator height={10} />
-        <InputGroup>
-          <Label text="Gênero:" />
-          <S.SelectContainer>
-            <Picker
-              style={PickerStyle}
-              selectedValue=""
-            >
-              <Picker.Item label="Selecione um genero" value="" />
-              <Picker.Item label="Masculino" value="1" />
-              <Picker.Item label="Feminino" value="0" />
-            </Picker>
-          </S.SelectContainer>
-        </InputGroup>
-        {errors.gender && errors.gender.type === "required" && (
-          <InputError text="Este campo é obrigatorio" />
         )}
         <Separator height={20} />
         <Button type="success" text="Cadastrar" onPress={handleSubmit(onSubmit)} />
