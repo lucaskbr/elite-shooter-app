@@ -72,7 +72,7 @@ const LoginScreen = (props) => {
               </InputGroup>
             )}
             name="username"
-            defaultValue="admin"
+            defaultValue=""
           />
           {errors.username && (
             <InputError text="O campo username é obrigatório" />
@@ -98,7 +98,7 @@ const LoginScreen = (props) => {
               </InputGroup>
             )}
             name="password"
-            defaultValue="123456"
+            defaultValue=""
           />
           {errors.password && <InputError text="O campo senha é obrigatório" />}
           <Separator height={20} />
