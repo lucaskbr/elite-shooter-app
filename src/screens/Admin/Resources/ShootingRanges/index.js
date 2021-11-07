@@ -14,7 +14,8 @@ import {
   ScreenContainer,
   Separator,
   ShootingRangeCard,
-  EmptyList
+  EmptyList,
+  IsLoading
 } from '@components';
 
 const ResourcesShootingRangesScreen = (props) => {
@@ -23,7 +24,7 @@ const ResourcesShootingRangesScreen = (props) => {
   const { currentPlace } = useContext(ParamsContext);
 
   const [shootingRanges, setShootingRanges] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAllShootingRanges = async () => {
     try {
@@ -32,9 +33,8 @@ const ResourcesShootingRangesScreen = (props) => {
       setShootingRanges(data);
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
+    setIsLoading(false);
   }
 
   useFocusEffect(
@@ -44,7 +44,7 @@ const ResourcesShootingRangesScreen = (props) => {
   );
 
   if (isLoading) {
-    return <></>
+    return <IsLoading />;
   }
 
   return (

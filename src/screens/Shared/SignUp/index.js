@@ -46,9 +46,8 @@ const SignUpScreen = (props) => {
       })
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }
 
   const onSubmit = (data) => createUser(data);
@@ -230,6 +229,7 @@ const SignUpScreen = (props) => {
                 blurOnSubmit={false}
                 onSubmitEditing={() => trigger(["password"]).then(() => setFocus("confirmPassword"))}
                 ref={ref}
+                secureTextEntry={true}
               />
             </InputGroup>
           )}
@@ -265,6 +265,7 @@ const SignUpScreen = (props) => {
                 blurOnSubmit={false}
                 onSubmitEditing={()=> trigger(["confirmPassword"]).then(() => setFocus(''))}
                 ref={ref}
+                secureTextEntry={true}
               />
             </InputGroup>
           )}

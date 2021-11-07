@@ -3,7 +3,7 @@ import HighchartsReactNative from '@highcharts/highcharts-react-native/src/Highc
 
 const VerticalBarChart = (props) => {
   const { shotsDiference } = props;
-  const { data } = shotsDiference;
+  const { data = [] } = shotsDiference;
 
   return (
     <HighchartsReactNative

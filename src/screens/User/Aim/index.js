@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StackActions } from '@react-navigation/native';
+import { StackActions, useFocusEffect } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import { Alert } from 'react-native';
+import { Alert, BackHandler } from 'react-native';
 
 import { AuthContext } from '@contexts/auth/authContext';
 
@@ -49,10 +49,11 @@ const AimScreen = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSessionActive, setIsSessionActive] = useState(true);
   const [shootingActivityId, setShootingActivityId] = useState('');
+  const [leaveFromBtn, setLeaveFromBtn] = useState(false);
   const [shootingSession, setShootingSession] = useState({
     total: 0,
     hits: 0,
-    mistakes: 0,
+    mistakes: [],
     score: 0,
     windSpeed: 0,
     averageTimeBetweenShots: 0
@@ -96,6 +97,7 @@ const AimScreen = (props) => {
         ...prevState,
         hits: prevState.hits + 1,
         total: prevState.total + 1,
+        score:  prevState.score + shot.value,
       }));
     });
 
@@ -106,35 +108,48 @@ const AimScreen = (props) => {
 
   }, []);
 
-  useEffect(() => navigation.addListener('beforeRemove', (e) => {
-        if (!isSessionActive) {
-          return;
-        }
+  const endActivity = () => {
+    // Prompt the user before leaving the screen
+    Alert.alert(
+      'Deseja encerrar a sessão de tiro?',
+      `Se você encerrar a sessão de tiro agora não será possível retomar o estado que ela está agora. O registro ficará salvo para consultas futuras`,
+      [
+        { text: "Não encerrar", style: 'cancel', onPress: () => {} },
+        {
+          text: 'Encerrar',
+          style: 'destructive',
+          // If the user confirmed, then we dispatch the action we blocked earlier
+          // This will continue the action that had triggered the removal of the screen
+          onPress: () => {
+            operations.emitShootingActivityEnd({
+              shootingActivityId,
+              mistakes: shootingSession.mistakes,
+            });
+            setLeaveFromBtn(true);
+            navigation.popToTop();
+          },
+        },
+      ]
+    );
+  }
 
-        // Prevent default behavior of leaving the screen
-        e.preventDefault();
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        // if (isSelectionModeEnabled()) {
+        //   disableSelectionMode();
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+        return true;
+      };
 
-        // Prompt the user before leaving the screen
-        Alert.alert(
-          'Deseja encerrar a sessão de tiro?',
-          `Se você encerrar a sessão de tiro agora não será possível retomar o estado que ela está agora. O registro ficará salvo para consultas futuras`,
-          [
-            { text: "Não encerrar", style: 'cancel', onPress: () => {} },
-            {
-              text: 'Encerrar',
-              style: 'destructive',
-              // If the user confirmed, then we dispatch the action we blocked earlier
-              // This will continue the action that had triggered the removal of the screen
-              onPress: () => {
-                operations.emitShootingActivityEnd({ shootingActivityId });
-                navigation.dispatch(e.data.action);
-                navigation.dispatch(StackActions.popToTop());
-              },
-            },
-          ]
-        );
-      }),
-    [navigation, isSessionActive, shootingActivityId]
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
   );
 
   const mapShotToTarget = (shot) => {
@@ -152,16 +167,25 @@ const AimScreen = (props) => {
   const shotMistake = () => setShootingSession(prevState => ({
       ...prevState,
       total: prevState.total + 1,
-      mistakes: prevState.mistakes + 1
+      mistakes: [...prevState.mistakes, new Date()],
     }))
 
-  const undoAction = () => setShootingSession(prevState => ({
+  const undoAction = () => {
+    if (shootingSession.mistakes.length <= 0) {
+      return;
+    }
+
+    const newMistakes = shootingSession.mistakes.slice(0, -1);
+    const removeMistake = {
+      total: shootingSession.total - 1,
+      mistakes: newMistakes,
+    }
+
+    setShootingSession(prevState => ({
       ...prevState,
-      total: prevState.mistakes - 1 < 0 ? prevState.total : prevState.total - 1,
-      mistakes: prevState.mistakes - 1 < 0 ? 0 : prevState.mistakes - 1
+      ...removeMistake,
     }))
-
-    console.log(shootingActivityId)
+  }
 
   if (isLoading) {
     return <></>
@@ -169,7 +193,14 @@ const AimScreen = (props) => {
 
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={15}>
-      <S.Online>Online</S.Online>
+      <S.TopBar>
+        <S.EndActivity
+          onPress={endActivity}
+        >
+          Encerrar
+        </S.EndActivity>
+        <S.Online>Online</S.Online>
+      </S.TopBar>
       <S.TargetInfo>
         <S.ShotsTitle>Disparos</S.ShotsTitle>
         <S.ShotsCount>{`#${shootingSession.total}`}</S.ShotsCount>
@@ -180,9 +211,9 @@ const AimScreen = (props) => {
         <Title text="Dados do treino" />
         <Separator height={10} />
         <ResultText label="Acertos" result={shootingSession.hits} color="#48C78E" />
-        <ResultText label="Erros" result={shootingSession.mistakes} color="#F14668" />
+        <ResultText label="Erros" result={shootingSession.mistakes.length} color="#F14668" />
         <ResultText label="Pontuação" result={shootingSession.score} color="#F14668" />
-        <ResultText label="Velocidade do vento" result={`${shootingSession.windSpeed}ms`} />
+        {/* <ResultText label="Velocidade do vento" result={`${shootingSession.windSpeed}ms`} /> */}
         <ResultText label="Tempo médio entre disparos" result={`${shootingSession.averageTimeBetweenShots}s`} />
         <Separator marginVertical={10} />
         {/* <Button text="Errei" onPress={() => setIsModalVisible(true)} /> */}

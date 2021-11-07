@@ -29,9 +29,8 @@ export default function useAuth() {
 
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      setLoading(false);
-    }
+    } 
+    setLoading(false);
   }
 
   function handleLogout() {

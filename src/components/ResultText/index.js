@@ -14,11 +14,11 @@ const ResultText = (props) => {
   );
 };
 
-ResultText.propTypes = {
-  label: PropTypes.string.isRequired,
-  result: PropTypes.string.isRequired,
-};
+// ResultText.propTypes = {
+//   label: PropTypes.string.isRequired,
+//   result: PropTypes.string.isRequired,
+// };
 
-ResultText.defaultProps = {};
+// ResultText.defaultProps = {};
 
 export { ResultText };

@@ -7,7 +7,7 @@ import { rankingsEndpoints } from '@services/eliteShooterApi/endpoints/rankingsE
 
 import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
 
-import { TopThree, ScreenContainer, RankingList } from '@components';
+import { TopThree, ScreenContainer, RankingList, IsLoading } from '@components';
 
 const RankingScreen = (props) => {
   const { route } = props;
@@ -15,41 +15,45 @@ const RankingScreen = (props) => {
 
   const { userId } = useContext(AuthContext);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [userInFocus, setUserInFocus] = useState();
   const [topThree, setTopThree] = useState([]);
   const [ranking, setRanking] = useState([]);
 
   const findAllRankings = async () => {
     try {
-      const { data } = await rankingsEndpoints.findAll({ period, afterPosition: 0, userIdToFocus: userId })
+      setIsLoading(true);
+      const { data } = await rankingsEndpoints.findAll({
+        period,
+        afterPosition: 0,
+        userIdToFocus: userId,
+      });
 
-      const top = data.positions.slice(0, 3)
-      const all = data.positions
+      const top = data.positions.slice(0, 3);
+      const all = data.positions;
 
       setTopThree(top);
       setRanking(all);
       setUserInFocus(data.userInFocus);
-      setIsLoading(false);
     } catch (err) {
       alertErrorFromHttpCall(err);
     }
+    setIsLoading(false);
   }
 
   useFocusEffect(
     useCallback(() => {
       findAllRankings()
-      return () => {};
     }, []),
   );
 
-  if (isLoading || topThree <= 0) {
-    return <></>
+  if (isLoading) {
+    return <IsLoading />;
   }
 
   return (
     <ScreenContainer backgroundColor="#00264D" statusBarColor="#00264D">
-      <TopThree data={topThree} />
+      {topThree && topThree.length > 0 && <TopThree data={topThree} />} 
       <RankingList userInFocus={userInFocus} data={ranking} />
     </ScreenContainer>
   )

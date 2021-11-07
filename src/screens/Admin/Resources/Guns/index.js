@@ -21,12 +21,11 @@ import {
 
 
 const ResourcesGunsScreen = (props) => {
+  const [guns, setGuns] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { navigation } = props; 
   const { currentPlace } = useContext(ParamsContext);
-
-  const [guns, setGuns] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const findAllGuns = async () => {
     try {
@@ -35,9 +34,8 @@ const ResourcesGunsScreen = (props) => {
       setGuns(data);
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
+    setIsLoading(false);
   }
 
   const shouldDeleteGun = async (gunId) => {
@@ -49,12 +47,13 @@ const ResourcesGunsScreen = (props) => {
 
   const deleteGun = async (gunId) => {
     try {
+      setIsLoading(true);
       await gunsEndpoints.delete(gunId);
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      await findAllGuns();
     }
+    await findAllGuns();
+    setIsLoading(false);
   }
 
   useFocusEffect(
@@ -64,7 +63,7 @@ const ResourcesGunsScreen = (props) => {
   );
 
   if (isLoading) {
-    return <></>
+    return <IsLoading />;
   }
 
   return (
@@ -90,7 +89,6 @@ const ResourcesGunsScreen = (props) => {
           />
         )}
       />
-
     </ScreenContainer>
   );
 };

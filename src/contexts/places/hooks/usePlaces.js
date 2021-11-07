@@ -23,9 +23,8 @@ export default function usePlaces() {
       setShootingRanges(data);
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }
 
   return {

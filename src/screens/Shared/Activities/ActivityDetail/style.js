@@ -50,6 +50,12 @@ const Results = styled.View`
   align-items: flex-start;
 `;
 
+const PdfIcon = styled.TouchableOpacity`
+  background: #FF0066;
+  padding: 8px;
+  border-radius: 50px;
+`;
+
 const S = {
   Header,
   TargetInfo,
@@ -60,6 +66,7 @@ const S = {
   Results,
   Date,
   Modality,
+  PdfIcon
 };
 
 export { S };

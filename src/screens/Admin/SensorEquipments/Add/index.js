@@ -17,6 +17,7 @@ import {
   TextInput,
   Label,
   Button,
+  InputError,
 } from '@components';
 
 import { S } from './style';
@@ -46,9 +47,8 @@ const SensorEquipmentsAddScreen = (props) => {
       Alert.alert('O equipamento sensor foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop() }]);
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }
 
   const onSubmit = (data) => createSensorEquipment(data);
@@ -78,38 +78,11 @@ const SensorEquipmentsAddScreen = (props) => {
             </InputGroup>
           )}
           name="code"
-          defaultValue="a"
+          defaultValue=""
         />
-        <Separator height={10} />
-        <Controller
-          control={control}
-          rules={{
-            required: "Este campo é obrigatorio",
-          }}
-          render={({ field: { onChange, onBlur } }) => (
-            <InputGroup>
-              <Label text="Tipo:" />
-              <S.SelectContainer>
-                <Picker
-                  style={PickerStyle}
-                  onBlur={onBlur}
-                  value={selectedType}
-                  selectedValue={selectedType}
-                  onValueChange={(itemValue) => {
-                    setSelectedType(itemValue)
-                    onChange(itemValue);
-                  }}
-                >
-                  <Picker.Item key="none" label="Selecione um tipo" value="" />
-                  <Picker.Item key="arduino" label="Arduino" value="arduino" />
-                  <Picker.Item key="node mcu" label="Node MCU" value="node mcu" />
-                </Picker>
-              </S.SelectContainer>
-            </InputGroup>
-          )}
-          name="sensorEquipmentId"
-          defaultValue="a"
-        />
+        {errors.code &&  (
+          <InputError text={errors.code.message} />
+        )}
         <Separator height={20} />
         <Button text="Cadastrar" type="success" onPress={handleSubmit(onSubmit)} />
         <Separator height={10} />

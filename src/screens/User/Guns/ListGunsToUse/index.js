@@ -39,23 +39,6 @@ const ListGunsToUseScreen = (props) => {
     }, [])
   );
 
-  // useEffect(() => {
-  //   (async () => {
-  //     Promise.all([
-  //       gunsEndpoints.findAll({}),
-  //       placeGunsEndpoints.findById({ id: params.placeId })
-  //     ])
-  //     .then(((values) => {
-  //       console.log(values[0].data)
-  //       setMyGuns(values[0].data);
-  //       setPlaceGuns(values[1].data);
-  //       setIsLoading(false);
-  //     }))
-  //   })();
-  // }, []);
-
-  // TODO: Loading
-
   if (isLoading) {
     return <></>
   }

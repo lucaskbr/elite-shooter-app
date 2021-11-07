@@ -13,9 +13,9 @@ import {
   ScreenContainer,
   Separator,
   SensorEquipmentCard,
-  EmptyList
+  EmptyList,
+  IsLoading
 } from '@components';
-
 
 const ResourcesSensorEquipmentsScreen = (props) => {
 
@@ -24,7 +24,7 @@ const ResourcesSensorEquipmentsScreen = (props) => {
   const { currentPlace } = useContext(ParamsContext);
 
   const [sensorEquipments, setSensorEquipments] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -46,7 +46,7 @@ const ResourcesSensorEquipmentsScreen = (props) => {
   );
 
   if (isLoading) {
-    return <></>
+    return <IsLoading />;
   }
 
   return (

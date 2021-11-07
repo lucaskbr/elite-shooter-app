@@ -37,8 +37,6 @@ const ChartSlide = (props) => {
         data: scoreHistory.data
       })
 
-      console.log(chartsWithData.map(e => e.name))
-
       setChartsToRender(chartsWithData)
       
     })();

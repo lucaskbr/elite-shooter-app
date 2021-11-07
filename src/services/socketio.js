@@ -2,7 +2,7 @@ import { io } from 'socket.io-client';
 import { BASE_URL } from '@env';
 
 // need http
-const socket = io.connect(BASE_URL, {
+const socket = io.connect('http://192.168.18.106:3000', {
   transports: ['websocket'],
 });
 
@@ -31,20 +31,18 @@ socket.on("disconnect", (reason) => {
 
 const emitDashboardStart = (shootingRanges) => {
   console.log('dashboard:start')
-  console.log(shootingRanges)
   socket.emit('dashboard:start', shootingRanges);
 }
 
 const emitShootingActivityStart = (shootingActivity) => {
   console.log('shootingActivity:start')
-  console.log(shootingActivity)
   socket.emit('shootingActivity:start', shootingActivity);
 }
 
-const emitShootingActivityEnd = ({ shootingActivityId }) => {
+const emitShootingActivityEnd = ({ shootingActivityId, mistakes }) => {
   console.log('shootingActivityEnd')
-  console.log(shootingActivityId)
-  socket.emit('shootingActivity:end', { shootingActivityId });
+  console.log(mistakes)
+  socket.emit('shootingActivity:end', { shootingActivityId, mistakes });
 }
 
 const subscribeShootingActivityStarted = (callback) => {
@@ -58,7 +56,8 @@ const subscribeShootingActivityStarted = (callback) => {
 
 const subscribeShootingActivityShotResult = (callback) => {
   if (!socket) {
-    console.log('subscribe error', socket)
+    console.log('subscribe error', socket);
+    return callback(socker, null);;
   }
 
   console.log('shootingActivity:shot:result')
@@ -68,6 +67,7 @@ const subscribeShootingActivityShotResult = (callback) => {
 const subscribeShootingRangeActive = (callback) => {
   if (!socket) {
     console.log('subscribe error', socket)
+    return callback(socker, null);
   }
   console.log('shootingRange:active')
   socket.on('shootingRange:active', ({ shootingRangeId }) => callback(null, shootingRangeId))

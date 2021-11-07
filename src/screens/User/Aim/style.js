@@ -1,5 +1,14 @@
 import styled from 'styled-components/native';
 
+const TopBar = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const EndActivity = styled.Text`
+`;
+
 const Online = styled.Text`
   color: #42d2b2;
   text-align: right;
@@ -34,6 +43,8 @@ const Results = styled.View`
 `;
 
 const S = {
+  TopBar,
+  EndActivity,
   TargetInfo,
   ShotsTitle,
   Target,

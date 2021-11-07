@@ -36,43 +36,32 @@ const HomeScreen = (props) => {
     }, []),
   );
 
-  useEffect(() => {
-    setOnlineShootingRanges(socketIoState.onlineShootingRangesInitial);
-
-    const shootingRangesIds = shootingRanges.map(shootingRange => shootingRange._id) || [];
-    operations.emitDashboardStart(shootingRangesIds);
-
-    operations.subscribeShootingRangeActive((err, shootingRangeId) => {
-      if (err) return
+  useFocusEffect(
+    useCallback(() => {
+      const shootingRangesIds = shootingRanges.map(shootingRange => shootingRange._id) || [];
+      operations.emitDashboardStart(shootingRangesIds);
   
-      addOnlineShootingRanges(shootingRangeId);
-    });
+      operations.subscribeShootingRangeActive((err, shootingRangeId) => {
+        if (err) {
+          console.log(err)
+          return;
+        }
+    
+        addOnlineShootingRanges(shootingRangeId);
+      });
+    
+      operations.subscribeDisconnect((err, shootingRangeId) => {
+        if (err) {
+          console.log(err)
+          return;
+        }
+    
+        removeOnlineShootingRanges(shootingRangeId);
+      });
   
-    operations.subscribeDisconnect((err, shootingRangeId) => {
-      if (err) return
-  
-      removeOnlineShootingRanges(shootingRangeId);
-    });
-  }, []);
-
-  useEffect(() => {
-    const shootingRangesIds = shootingRanges.map(shootingRange => shootingRange._id) || [];
-    operations.emitDashboardStart(shootingRangesIds);
-
-    operations.subscribeShootingRangeActive((err, shootingRangeId) => {
-      if (err) return
-  
-      console.log(shootingRangeId)
-      addOnlineShootingRanges(shootingRangeId);
-    });
-  
-    operations.subscribeDisconnect((err, shootingRangeId) => {
-      if (err) return
-  
-      removeOnlineShootingRanges(shootingRangeId);
-    });
-  }, [socket]);
-
+      return () => {}
+    }, []),
+  );
 
   const addOnlineShootingRanges = id =>{
     setOnlineShootingRanges(previousState => new Set([...previousState, id]))
@@ -135,6 +124,7 @@ const HomeScreen = (props) => {
             onPress={() =>
               navigation.navigate('ShootingRangesDetails', {
                 id: item._id,
+                searchForCurrentShooter: onlineShootingRanges.has(item._id),
               })
             }
           />

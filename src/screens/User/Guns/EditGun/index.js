@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
@@ -20,13 +21,18 @@ import {
   Label,
   Button,
   InputError,
+  IsLoading,
 } from '@components';
 
 import { S } from './style';
 
-const AddGunScreen = (props) => {
-  const { navigation } = props;
-  const { goBack } = navigation;
+const EditGunScreen = (props) => {
+  const { route, navigation } = props;
+
+  const { id } = route.params;
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [gun, setGun] = useState(null);
 
   const {
     control,
@@ -38,21 +44,44 @@ const AddGunScreen = (props) => {
 
   const [selectedType, setSelectedType] = useState('');
 
-  const createGun = async (gun) => {
+  const updateGun = async (gun) => {
     try {
-     await gunsEndpoints.create(gun);
-     Alert.alert('A arma foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
+      setIsLoading(true);
+      await gunsEndpoints.updateById({ id, ...gun });
+      Alert.alert('A arma foi editada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
     } catch (err) {
+      console.log(err)
       alertErrorFromHttpCall(err);
     }
+    setIsLoading(false);
   }
 
-  const onSubmit = (data) => createGun(data);
+  const getGun = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await gunsEndpoints.findById({ id });
+      setGun(data);
+      setSelectedType(data.type);
+     } catch (err) {
+      alertErrorFromHttpCall(err);
+    }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    getGun()
+  }, [])
+
+  const onSubmit = (data) => updateGun(data);
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <ScreenContainer paddingVertical={15} paddingHorizontal={10}>
       <S.AddGun>
-        <Title text="Cadastrar nova arma" />
+        <Title text="Editar arma" />
         <Separator height={20} />
         <Controller
           control={control}
@@ -75,7 +104,7 @@ const AddGunScreen = (props) => {
             </InputGroup>
           )}
           name="brand"
-          defaultValue=""
+          defaultValue={_.get(gun, 'brand', '')}
         />
         {errors.brand && (
           <InputError text={errors.brand.message} />
@@ -102,7 +131,7 @@ const AddGunScreen = (props) => {
             </InputGroup>
           )}
           name="model"
-          defaultValue=""
+          defaultValue={_.get(gun, 'model', '')}
         />
         {errors.model && (
           <InputError text={errors.model.message} />
@@ -127,7 +156,7 @@ const AddGunScreen = (props) => {
             </InputGroup>
           )}
           name="numberOfSerie"
-          defaultValue=""
+          defaultValue={_.get(gun, 'numberOfSerie', '')}
         />
         {errors.numberOfSerie && (
           <InputError text={errors.numberOfSerie.message} />
@@ -162,18 +191,18 @@ const AddGunScreen = (props) => {
             </InputGroup>
           )}
           name="type"
-          defaultValue=""
+          defaultValue={_.get(gun, 'type', '')}
         />
         {errors.type && (
           <InputError text={errors.type.message} />
         )}
         <Separator height={20} />
-        <Button type="success" text="Cadastrar" onPress={handleSubmit(onSubmit)} />
+        <Button type="success" text="Editar" onPress={handleSubmit(onSubmit)} />
         <Separator height={5} />
-        <Button text="Voltar" onPress={() => goBack()} />
+        <Button text="Voltar" onPress={() => navigation.pop()} />
       </S.AddGun>
     </ScreenContainer>
   );
 };
 
-export { AddGunScreen };
+export { EditGunScreen };

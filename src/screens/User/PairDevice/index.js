@@ -47,7 +47,7 @@ const PairDeviceScreen = (props) => {
     }
 
     if (hasPermission === false) {
-      return 'Sem acesso a camera';
+      return 'Sem acesso a camera, por favor reinicie o app';
     }
   };
 
@@ -59,7 +59,7 @@ const PairDeviceScreen = (props) => {
           {handleMessageRequestPermission(hasPermission)}
         </S.Permission>
         <Separator height={20} />
-        <Button onPress={cameraPermissionReq} text="Requisitar acesso" />
+        {/* <Button onPress={cameraPermissionReq} text="Requisitar acesso" /> */}
       </S.PermissionContainer>
     );
   }
@@ -74,7 +74,7 @@ const PairDeviceScreen = (props) => {
             onPress={() => setShouldScan((prevState) => !prevState)}
             // TODO: Remove this
             // onPress={() => navigation.navigate('ListGunsToUse', {
-            //   sensorEquipmentId: '61789dbe285269bea9507221',
+            //   shootingRangeId: '617ef94473f69c49f805c86d',
             // })}
           />
         </ViewContainer>

@@ -5,8 +5,15 @@ import _ from 'lodash';
 import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/shootingActivities';
 import { chartsEndpoints } from '@services/eliteShooterApi/endpoints/chartsEndpoints';
 
+import * as Print from 'expo-print';
+import * as FileSystem from 'expo-file-system';
+import * as IntentLauncher from 'expo-intent-launcher';
+
 import { translate } from '@utils/translate';
 import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
+import { IconOutline } from '@ant-design/icons-react-native';
+
+import { docketsEndpoints } from '@services/eliteShooterApi/endpoints/docketsEndpoints';
 
 import {
   Separator,
@@ -29,6 +36,32 @@ const ActivityDetailScreen = (props) => {
   const { route, navigation } = props;
 
   const { id } = route.params;
+
+  const generateQRCodeHtml = (shootingActivityId) => {
+    return docketsEndpoints.generate({ shootingActivityId })
+    .then(result => result.data)
+    .catch(e => {})
+  }
+
+  const generateQRCodePdf = async () => {
+    const data = await generateQRCodeHtml(id);
+
+    if (!data) {
+      return;
+    }
+
+    const result = await Print.printToFileAsync({
+      html: data,
+      height: 400
+    })
+
+    const contentURI = await FileSystem.getContentUriAsync(result.uri);
+    IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+      data: contentURI,
+      flags: 1,
+      type: 'application/pdf'
+   });
+  }
 
   useEffect(() => {
     (async () => {
@@ -78,6 +111,14 @@ const ActivityDetailScreen = (props) => {
       <S.Header>
         <S.Modality>{translate(_.get(activity, 'modality'))}</S.Modality>
         <Separator height={1} marginVertical={10} />
+        {_.get(activity, 'modality', '') === 'competition' && (
+          <>
+            <S.PdfIcon onPress={generateQRCodePdf}>
+              <IconOutline name="file-pdf" color="#fff" size={30} />
+            </S.PdfIcon>
+            <Separator height={1} marginVertical={10} />
+          </>
+        )}
 
         <View
           style={{

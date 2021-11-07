@@ -37,13 +37,14 @@ const ShootingRangesAddScreen = (props) => {
 
   const { currentPlace } = useContext(ParamsContext);
 
-  const [sensorsEquipments, setSensorsEquipments] = useState();
+  const [sensorsEquipments, setSensorsEquipments] = useState([]);
   const [selectedType, setSelectedType] = useState('');
   const [selectedSensor, setSelectedSensor] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAllSensorEquipments = async () => {
     try {
+      setIsLoading(true);
       const { data } = await sensorEquipmentsEndpoints.findAll({
         assign: false,
         placeId: currentPlace
@@ -51,9 +52,8 @@ const ShootingRangesAddScreen = (props) => {
       setSensorsEquipments(data);
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }
 
   const createShootingRange = async (shootingRange) => {
@@ -65,9 +65,8 @@ const ShootingRangesAddScreen = (props) => {
       Alert.alert('A baia de tiro foi cadastrada com sucesso!', '', [{ text: 'OK', onPress: () => navigation.pop(), }]);
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }
 
   const onSubmit = (data) => createShootingRange(data);
@@ -136,7 +135,7 @@ const ShootingRangesAddScreen = (props) => {
             </InputGroup>
           )}
           name="type"
-          // defaultValue="a"
+          defaultValue=""
         />
         {errors.type &&  (
           <InputError text={errors.type.message} />

@@ -38,6 +38,13 @@ const PieChart = (props) => {
             name: 'Quantidade',
             data: [
               {
+                name: 'Região: 10',
+                y: _.get(occurrencesScoreCount, '10', 0),
+                color: '#E2CF56',
+                borderWidth: 7,
+                borderColor: '#fff',
+              },
+              {
                 name: 'Região: 9',
                 y: _.get(occurrencesScoreCount, '9', 0),
                 color: '#CF56E2',

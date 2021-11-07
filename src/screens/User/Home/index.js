@@ -83,13 +83,13 @@ const HomeScreen = (props) => {
       await shootingActivitiesEndpoint.deleteById(shootingActivityId)
     } catch (err) {
       alertErrorFromHttpCall(err);
-    } finally {
-      shootingActivitiesEndpoint.findAll({
-        limit: 7,
-        populate: ['place'],
-      })
-      .then(response => setActivities(response.data))
-    }
+    } 
+    shootingActivitiesEndpoint.findAll({
+      limit: 7,
+      populate: ['place'],
+    })
+    .then(response => setActivities(response.data))
+    .catch(() => {})
   }
 
   if (isLoading || !user) {

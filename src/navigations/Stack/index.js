@@ -26,6 +26,7 @@ const StackNavigation = (props) => {
       <Stack.Screen name="Aim" component={User.AimScreen} />
       <Stack.Screen name="ListGunsToUse" component={User.ListGunsToUseScreen} />
       <Stack.Screen name="AddGun" component={User.AddGunScreen} />
+      <Stack.Screen name="EditGun" component={User.EditGunScreen} />
       <Stack.Screen
         name="ListAllActivities"
         component={Shared.ListAllActivitiesScreen}

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList, View } from 'react-native';
+import { Alert, FlatList, View } from 'react-native';
 
 import { AuthContext } from '@contexts/auth/authContext';
 
@@ -16,10 +16,12 @@ import {
   Username,
   ProfileInfo,
   EmptyList,
+  IsLoading,
 } from '@components';
 
 import { ProfileModal } from './ProfileModal';
 import Toast from 'react-native-toast-message';
+import { alertErrorFromHttpCall } from '@utils/alertErrorFromHttpCall';
 
 const ProfileScreen = (props) => {
   const { navigation } = props;
@@ -33,6 +35,33 @@ const ProfileScreen = (props) => {
   const [user, setUser] = useState({});
   const [myGuns, setMyGuns] = useState([]);
 
+  const findAllGuns = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await gunsEndpoints.findAll({ isActive: true });
+      setMyGuns(data);
+    } catch (err) {
+      alertErrorFromHttpCall(err);
+    }
+    setIsLoading(false);
+  }
+
+  const shouldDeleteGun = async (gunId) => {
+    Alert.alert('Você realmente deseja deletar esta arma?', '', [
+      { text: 'Sim', onPress: () => deleteGun(gunId) },
+      { text: 'Cancelar' },   
+    ]);
+  }
+
+  const deleteGun = async (gunId) => {
+    try {
+      setIsLoading(true);
+      await gunsEndpoints.delete(gunId);
+    } catch (err) {
+      alertErrorFromHttpCall(err);
+    }
+    await findAllGuns();
+  }
   useFocusEffect(
     useCallback(() => {
       (async () => {
@@ -44,7 +73,6 @@ const ProfileScreen = (props) => {
           }),
         ]).then(
           (values) => {
-            console.log(values)
             setUser(values[0].data);
             setUsername(values[0].data.username);
             setMyGuns(values[1].data);
@@ -56,7 +84,7 @@ const ProfileScreen = (props) => {
   );
 
   if (isLoading) {
-    return <></>
+    return <IsLoading />;
   }
 
   return (
@@ -98,6 +126,7 @@ const ProfileScreen = (props) => {
                 style={{
                   width: '100%',
                   marginTop: 20,
+                  marginBottom: 20,
                 }}
               >
                 <Button
@@ -110,8 +139,11 @@ const ProfileScreen = (props) => {
             keyExtractor={(item, index) => `${item._id}`}
             renderItem={({ item }) => (
               <GunCard
-                brandModel={item.brandModel}
                 gun={item}
+                onPress={() => navigation.navigate('EditGun', {
+                  id: item._id
+                })}
+                onLongPress={() => shouldDeleteGun(item._id)}
               />
             )}
           />

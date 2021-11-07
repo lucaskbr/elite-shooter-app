@@ -2,7 +2,7 @@ import { AimScreen } from './Aim';
 import { HomeScreen } from './Home';
 import { ProfileScreen } from './Profile';
 import { PairDeviceScreen } from './PairDevice';
-import { ListGunsToUseScreen, AddGunScreen } from './Guns';
+import { ListGunsToUseScreen, AddGunScreen, EditGunScreen } from './Guns';
 import { ModalityScreen } from './Modality';
 
 const User = {
@@ -12,6 +12,7 @@ const User = {
   PairDeviceScreen,
   ListGunsToUseScreen,
   AddGunScreen,
+  EditGunScreen,
   ModalityScreen,
 };
 

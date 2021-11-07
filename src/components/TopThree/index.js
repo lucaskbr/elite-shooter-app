@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { S } from './style';
 import { TopThreeItem } from './TopThreeItem';
+
 
 const TopThree = (props) => {
   const { data } = props;
@@ -10,12 +12,12 @@ const TopThree = (props) => {
   return (
     <S.TopThree>
       <S.FirstRow>
-        <TopThreeItem isFirst data={data[0]} />
+        {_.get(data, '[0]') && <TopThreeItem isFirst data={data[0]} />}
       </S.FirstRow>
 
       <S.SecondRow>
-        <TopThreeItem data={data[1]} />
-        <TopThreeItem data={data[2]} />
+        {_.get(data, '[1]') && <TopThreeItem data={data[1]} />}
+        {_.get(data, '[2]') && <TopThreeItem data={data[2]} />} 
       </S.SecondRow>
     </S.TopThree>
   );

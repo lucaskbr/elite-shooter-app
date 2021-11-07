@@ -6,8 +6,6 @@ import * as Print from 'expo-print';
 import * as FileSystem from 'expo-file-system';
 import * as IntentLauncher from 'expo-intent-launcher';
 
-
-
 import { shootingRangesEndpoints } from '@services/eliteShooterApi/endpoints/shootingRanges';
 import { shootingActivitiesEndpoint } from '@services/eliteShooterApi/endpoints/shootingActivities';
 import { usersEndpoints } from '@services/eliteShooterApi/endpoints/usersEndpoints';
@@ -35,7 +33,7 @@ import { S } from './style';
 const ShootingRangesDetailsScreen = (props) => {
   const { route, navigation } = props;
 
-  const { id } = route.params;
+  const { id, searchForCurrentShooter } = route.params;
 
   const [shootingRange, setShootingRange] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
@@ -80,7 +78,7 @@ const ShootingRangesDetailsScreen = (props) => {
     }
 
     const result = await Print.printToFileAsync({
-      html: data.html,
+      html: data,
     })
 
     const contentURI = await FileSystem.getContentUriAsync(result.uri);
@@ -105,7 +103,7 @@ const ShootingRangesDetailsScreen = (props) => {
         setShootingRange(_.get(values, '[0].data'));
         handleQRCode(_.get(values, '[0].data'))
         setShootingActivities(_.get(values, '[1].data'));
-        getCurrentUserInShootingRange(_.get(values, '[1].data.[0]'))
+        searchForCurrentShooter && getCurrentUserInShootingRange(_.get(values, '[1].data.[0]'))
         setIsLoading(false);
       })
       .catch(e => {

@@ -112,7 +112,7 @@ const GunsAddScreen = (props) => {
         <Controller
           control={control}
           rules={{
-            required: false,
+            required: "Este campo é obrigatorio",
           }}
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <InputGroup>

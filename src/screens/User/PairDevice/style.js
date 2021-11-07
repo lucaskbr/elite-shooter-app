@@ -10,7 +10,7 @@ const PermissionContainer = styled.View`
 const Permission = styled.Text`
   font-family: 'Exo2_700Bold';
   text-align: center;
-  font-size: 25px;
+  font-size: 20px;
 `;
 
 const S = {
