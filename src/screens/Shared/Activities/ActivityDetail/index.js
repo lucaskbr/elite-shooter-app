@@ -37,11 +37,11 @@ const ActivityDetailScreen = (props) => {
 
   const { id } = route.params;
 
-  const generateQRCodeHtml = (shootingActivityId) => {
-    return docketsEndpoints.generate({ shootingActivityId })
-    .then(result => result.data)
-    .catch(e => {})
-  }
+  const generateQRCodeHtml = (shootingActivityId) =>
+    docketsEndpoints
+      .generate({ shootingActivityId })
+      .then((result) => result.data)
+      .catch((e) => {});
 
   const generateQRCodePdf = async () => {
     const data = await generateQRCodeHtml(id);
@@ -52,16 +52,16 @@ const ActivityDetailScreen = (props) => {
 
     const result = await Print.printToFileAsync({
       html: data,
-      height: 400
-    })
+      height: 400,
+    });
 
     const contentURI = await FileSystem.getContentUriAsync(result.uri);
     IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
       data: contentURI,
       flags: 1,
-      type: 'application/pdf'
-   });
-  }
+      type: 'application/pdf',
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -70,19 +70,18 @@ const ActivityDetailScreen = (props) => {
 
         chartsEndpoints.shotsDiference({
           shootingActivityId: id,
-          limit: 1
+          limit: 1,
         }),
 
         chartsEndpoints.accurateRegions({
           shootingActivityId: id,
-          limit: 1
+          limit: 1,
         }),
 
         chartsEndpoints.scoreHistory({
           shootingActivityId: id,
-          limit: 1
+          limit: 1,
         }),
-
       ])
         .then((values) => {
           setActivity(values[0].data);
@@ -99,7 +98,7 @@ const ActivityDetailScreen = (props) => {
   }, []);
 
   if (isLoading) {
-    return <></>
+    return <></>;
   }
 
   return (
@@ -135,7 +134,11 @@ const ActivityDetailScreen = (props) => {
 
       <Separator height={1} backgroundColor="#DCDCE6" marginVertical={20} />
 
-      <ChartSlide shotsDiference={shotsDiference} accurateRegions={accurateRegions} scoreHistory={scoreHistory} />
+      <ChartSlide
+        shotsDiference={shotsDiference}
+        accurateRegions={accurateRegions}
+        scoreHistory={scoreHistory}
+      />
 
       <Separator height={1} marginVertical={20} />
 
@@ -158,13 +161,13 @@ const ActivityDetailScreen = (props) => {
             color="#F14668"
           />
 
-          {_.get(activity, 'statistics.windSpeed') &&
+          {_.get(activity, 'score') && (
             <ResultText
-              label="Velocidade do vento"
-              result={_.get(activity, 'shootingRange.windSpeed')}
+              label="Total de pontos"
+              result={_.get(activity, 'score')}
             />
-          }
-          
+          )}
+
           <ResultText
             label="Média de pontos dos disparos"
             result={_.get(activity, 'statistics.pointsAverage')}
@@ -179,7 +182,10 @@ const ActivityDetailScreen = (props) => {
           />
           <ResultText
             label="Arma utilizada"
-            result={`${_.get(activity, 'gun.type')} - ${_.get(activity, 'gun.brand')} ${_.get(activity, 'gun.model')}`}
+            result={`${translate(_.get(activity, 'gun.type'))} - ${_.get(
+              activity,
+              'gun.brand',
+            )} ${_.get(activity, 'gun.model')}`}
           />
         </S.Results>
       </View>
