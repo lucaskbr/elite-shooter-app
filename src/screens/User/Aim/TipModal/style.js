@@ -22,7 +22,7 @@ const Title = styled.Text`
 
 const TipPic = styled.Image`
   border-width: 1px;
-  height: 150px;
+  height: 180px;
   width: 100%;
   margin: 0;
   padding: 0;

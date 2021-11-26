@@ -4,6 +4,7 @@ import Modal from 'react-native-modal';
 import tip1Path from '@assets/tip-01.jpeg';
 import tip2Path from '@assets/tip-02.jpeg';
 import tip3Path from '@assets/tip-03.jpeg';
+import tip4Path from '@assets/tip-04.jpeg';
 
 import { Button } from '@components';
 
@@ -13,7 +14,7 @@ const TipModal = (props) => {
   const { isVisible, onChange } = props;
 
   const handleImg = () => {
-    const result = Math.floor(Math.random() * 3);
+    const result = Math.floor(Math.random() * 4);
 
     if (result <= 0) {
       return tip1Path;
@@ -23,7 +24,11 @@ const TipModal = (props) => {
       return tip2Path;
     }
 
-    return tip3Path;
+    if (result === 2) {
+      return tip3Path;
+    }
+
+    return tip4Path;
   };
 
   return (
