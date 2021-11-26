@@ -10,7 +10,7 @@ import {
   Separator,
   IsLoading,
   Button,
-  EmptyList
+  EmptyList,
 } from '@components';
 
 import { FilterModal } from './FilterModal';
@@ -75,7 +75,7 @@ const ListAllActivitiesScreen = (props) => {
       <Separator height={20} />
 
       <FlatList
-        contentContainerStyle={{ padding: 1, height: '100%', flexGrow: 1 }}
+        contentContainerStyle={{ padding: 1, flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View
@@ -92,17 +92,17 @@ const ListAllActivitiesScreen = (props) => {
           </View>
         }
         ItemSeparatorComponent={() => <Separator height={10} />}
-        ListFooterComponent={(
+        ListFooterComponent={
           <>
             <Separator height={20} />
             <Button text="Voltar" onPress={navigation.goBack} />
           </>
-        )}
-        ListEmptyComponent={(
+        }
+        ListEmptyComponent={
           <S.EmptyData>
             <EmptyList text="Nenhuma atividade encontrada" />
           </S.EmptyData>
-        )}
+        }
         data={activities}
         keyExtractor={(item, index) => `${item._id}`}
         renderItem={({ item }) => (

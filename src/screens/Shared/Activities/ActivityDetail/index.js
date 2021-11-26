@@ -161,7 +161,7 @@ const ActivityDetailScreen = (props) => {
             color="#F14668"
           />
 
-          {_.get(activity, 'score') && (
+          {_.get(activity, 'score', 0) !== 0 && (
             <ResultText
               label="Total de pontos"
               result={_.get(activity, 'score')}
