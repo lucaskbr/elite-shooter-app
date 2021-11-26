@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
 import { IconOutline } from '@ant-design/icons-react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -12,13 +13,14 @@ import { S } from './style';
 
 const PairDeviceScreen = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
   const [scanned, setScanned] = useState(false);
   const [shouldScan, setShouldScan] = useState(false);
 
   const { navigation } = props;
 
   const cameraPermissionReq = async () => {
-    const { status } = await BarCodeScanner.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === 'granted');
   };
 
@@ -27,14 +29,14 @@ const PairDeviceScreen = (props) => {
       (async () => {
         await cameraPermissionReq();
         setScanned(false);
-      })()
-    }, [])
+      })();
+    }, []),
   );
 
   const handleBarCodeScanned = ({ type, data: json }) => {
     setScanned(true);
     // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    const data = JSON.parse(json)
+    const data = JSON.parse(json);
     // { placeId: 'placeID', shootingRangeId: 'shootingRangeId' }
 
     navigation.navigate('ListGunsToUse', data);
@@ -82,9 +84,10 @@ const PairDeviceScreen = (props) => {
 
       {shouldScan && (
         <>
-          <BarCodeScanner
-            barCodeTypes={['qr']}
-            type="back"
+          <Camera
+            barCodeScannerSettings={{
+              barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+            }}
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
             style={StyleSheet.absoluteFillObject}
           />
